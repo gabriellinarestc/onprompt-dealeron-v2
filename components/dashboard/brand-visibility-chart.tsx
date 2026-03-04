@@ -324,18 +324,15 @@ export function BrandVisibilityChart() {
         ) : (
           <div className="flex flex-col divide-y divide-border">
             {/* Header */}
-            <div className="flex items-center gap-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+            <div className="flex items-center gap-3 pb-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
               <span className="w-5 text-center">#</span>
               <span className="flex-1">Brand</span>
               <span className="w-14 text-center">Visibility</span>
-              {CHART_MODELS.filter((m) => activeModels.has(m)).map((key) => {
-                const Logo = MODEL_LOGOS[key]
-                return (
-                  <span key={key} className="w-8 text-center" title={MODEL_CONFIG[key].name} style={{ color: MODEL_CONFIG[key].hex }}>
-                    {Logo && <Logo size={13} />}
-                  </span>
-                )
-              })}
+              {CHART_MODELS.filter((m) => activeModels.has(m)).map((key) => (
+                <span key={key} className="w-16 text-center truncate" title={MODEL_CONFIG[key].name}>
+                  {MODEL_CONFIG[key].name}
+                </span>
+              ))}
               <span className="w-14 text-right">Total</span>
             </div>
 
@@ -401,7 +398,7 @@ export function BrandVisibilityChart() {
                   {CHART_MODELS.filter((m) => activeModels.has(m)).map((key) => {
                     const val = row.breakdown.find((b) => b.key === key)?.value ?? 0
                     return (
-                      <span key={key} className="w-8 text-center text-xs tabular-nums" style={{ color: val > 0 ? MODEL_CONFIG[key].hex : undefined }}>
+                      <span key={key} className="w-16 text-center text-xs tabular-nums" style={{ color: val > 0 ? MODEL_CONFIG[key].hex : undefined }}>
                         {val > 0 ? <span className="font-semibold">{val}</span> : <span className="text-muted-foreground/40">-</span>}
                       </span>
                     )
