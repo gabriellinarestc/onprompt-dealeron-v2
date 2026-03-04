@@ -29,7 +29,6 @@ import {
   ClaudeLogo,
   CopilotLogo,
   GeminiLogo,
-  AIOverviewLogo,
   PerplexityLogo,
 } from "./model-logos"
 
@@ -38,11 +37,10 @@ const MODEL_LOGOS: Record<string, React.ComponentType<{ size?: number }>> = {
   claude: ClaudeLogo,
   copilot: CopilotLogo,
   gemini: GeminiLogo,
-  aioverview: AIOverviewLogo,
   perplexity: PerplexityLogo,
 }
 
-const CHART_MODELS: ModelKey[] = ["chatgpt", "claude", "copilot", "gemini", "aioverview", "perplexity"]
+const CHART_MODELS: ModelKey[] = ["chatgpt", "claude", "copilot", "gemini", "perplexity"]
 
 // --- Brand data with type, visibility score, and realistic names ---
 
@@ -57,18 +55,17 @@ interface BrandEntry {
   claude: number
   copilot: number
   gemini: number
-  aioverview: number
   perplexity: number
 }
 
 const chartData: BrandEntry[] = [
-  { name: "DealerOn",       website: "dealeron.com",        type: "main",       visibility: 72, chatgpt: 12, claude: 8,  copilot: 1, gemini: 10, aioverview: 7,  perplexity: 3 },
-  { name: "Dealer Inspire", website: "dealerinspire.com",   type: "competitor", visibility: 68, chatgpt: 8,  claude: 5,  copilot: 0, gemini: 5,  aioverview: 4,  perplexity: 1 },
-  { name: "CDK Global",     website: "cdkglobal.com",       type: "competitor", visibility: 54, chatgpt: 7,  claude: 3,  copilot: 0, gemini: 2,  aioverview: 2,  perplexity: 1 },
-  { name: "Sincro",         website: "sincrodigital.com",   type: "partner",    visibility: 41, chatgpt: 5,  claude: 2,  copilot: 0, gemini: 2,  aioverview: 1,  perplexity: 0 },
-  { name: "Cars.com",       website: "cars.com",            type: "competitor", visibility: 63, chatgpt: 4,  claude: 4,  copilot: 1, gemini: 3,  aioverview: 3,  perplexity: 0 },
-  { name: "Shift Digital",  website: "shiftdigital.com",    type: "partner",    visibility: 35, chatgpt: 3,  claude: 1,  copilot: 0, gemini: 1,  aioverview: 1,  perplexity: 0 },
-  { name: "AutoTrader",     website: "autotrader.com",      type: "competitor", visibility: 58, chatgpt: 3,  claude: 2,  copilot: 0, gemini: 1,  aioverview: 2,  perplexity: 0 },
+  { name: "DealerOn",       website: "dealeron.com",        type: "main",       visibility: 72, chatgpt: 12, claude: 8,  copilot: 1, gemini: 10, perplexity: 3 },
+  { name: "Dealer Inspire", website: "dealerinspire.com",   type: "competitor", visibility: 68, chatgpt: 8,  claude: 5,  copilot: 0, gemini: 5,  perplexity: 1 },
+  { name: "CDK Global",     website: "cdkglobal.com",       type: "competitor", visibility: 54, chatgpt: 7,  claude: 3,  copilot: 0, gemini: 2,  perplexity: 1 },
+  { name: "Sincro",         website: "sincrodigital.com",   type: "partner",    visibility: 41, chatgpt: 5,  claude: 2,  copilot: 0, gemini: 2,  perplexity: 0 },
+  { name: "Cars.com",       website: "cars.com",            type: "competitor", visibility: 63, chatgpt: 4,  claude: 4,  copilot: 1, gemini: 3,  perplexity: 0 },
+  { name: "Shift Digital",  website: "shiftdigital.com",    type: "partner",    visibility: 35, chatgpt: 3,  claude: 1,  copilot: 0, gemini: 1,  perplexity: 0 },
+  { name: "AutoTrader",     website: "autotrader.com",      type: "competitor", visibility: 58, chatgpt: 3,  claude: 2,  copilot: 0, gemini: 1,  perplexity: 0 },
 ]
 
 function getVisibilityColor(score: number): string {
@@ -276,7 +273,7 @@ export function BrandVisibilityChart() {
       <CardContent>
         {view === "chart" ? (
           <div className="h-72">
-            <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
+            <ResponsiveContainer width="100%" height="100%">
               <BarChart data={filteredData} barCategoryGap="22%" barGap={2} margin={{ bottom: 16 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" vertical={false} />
                 <XAxis
