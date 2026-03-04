@@ -208,6 +208,41 @@ export function PromptsContent() {
     item.prompt.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
+  const handleExportCSV = useCallback(() => {
+    // Filter out prompts still being analyzed
+    const exportablePrompts = prompts.filter(p => !p.isAnalyzing)
+    
+    // CSV headers
+    const headers = ["Prompt", "Visibility Score", "Sentiment", "Volume", "Difficulty", "Brands"]
+    
+    // Convert prompts to CSV rows
+    const rows = exportablePrompts.map(item => [
+      `"${item.prompt.replace(/"/g, '""')}"`, // Escape quotes in prompt text
+      item.visibilityScore?.toString() ?? "",
+      item.sentiment?.toString() ?? "",
+      item.volume?.toString() ?? "",
+      item.difficulty?.toString() ?? "",
+      item.brands.map(b => brandNames[b] || b).join("; ")
+    ])
+    
+    // Combine headers and rows
+    const csvContent = [
+      headers.join(","),
+      ...rows.map(row => row.join(","))
+    ].join("\n")
+    
+    // Create blob and trigger download
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement("a")
+    link.setAttribute("href", url)
+    link.setAttribute("download", `prompts-export-${new Date().toISOString().split("T")[0]}.csv`)
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+  }, [prompts])
+
   return (
     <div className="flex flex-col gap-6">
       {/* Page Header */}
@@ -223,7 +258,7 @@ export function PromptsContent() {
             <Plus className="size-4" />
             Create Prompt
           </Button>
-          <Button variant="outline" className="gap-2">
+          <Button variant="outline" className="gap-2" onClick={handleExportCSV}>
             <Download className="size-4" />
             Export CSV
           </Button>
