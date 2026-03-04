@@ -3,7 +3,7 @@
 import { ThemeToggle } from "./theme-toggle"
 import { PeriodSelector } from "./period-selector"
 import { useModelFilter } from "./model-filter-context"
-import { MODEL_CONFIG, type ModelKey } from "@/lib/models"
+import { MODEL_CONFIG, type ModelKey, isModelLocked, LOCKED_MODELS } from "@/lib/models"
 import {
   ChatGPTLogo,
   ClaudeLogo,
@@ -15,7 +15,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Separator } from "@/components/ui/separator"
-import { Sparkles, ChevronDown, Check } from "lucide-react"
+import { Sparkles, ChevronDown, Check, Lock } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
 
@@ -64,14 +64,19 @@ export function DashboardHeader() {
               {allModels.map((key) => {
                 const config = MODEL_CONFIG[key]
                 const Logo = MODEL_LOGOS[key]
+                const locked = isModelLocked(key)
                 const checked = activeModels.has(key)
                 return (
                   <button
                     key={key}
-                    onClick={() => toggleModel(key)}
+                    onClick={() => !locked && toggleModel(key)}
                     className={cn(
                       "flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
-                      checked ? "bg-secondary" : "opacity-50 hover:opacity-75"
+                      locked
+                        ? "cursor-default opacity-40"
+                        : checked
+                          ? "bg-secondary"
+                          : "opacity-50 hover:opacity-75"
                     )}
                   >
                     <span
@@ -83,16 +88,20 @@ export function DashboardHeader() {
                     <span className="flex-1 text-left text-sm font-medium text-foreground">
                       {config.name}
                     </span>
-                    <span
-                      className="flex size-4.5 shrink-0 items-center justify-center rounded-md border transition-colors"
-                      style={
-                        checked
-                          ? { backgroundColor: config.hex, borderColor: config.hex, color: "#fff" }
-                          : { borderColor: "var(--border)" }
-                      }
-                    >
-                      {checked && <Check className="size-2.5 stroke-[3]" />}
-                    </span>
+                    {locked ? (
+                      <Lock className="size-3.5 shrink-0 text-muted-foreground" />
+                    ) : (
+                      <span
+                        className="flex size-4.5 shrink-0 items-center justify-center rounded-md border transition-colors"
+                        style={
+                          checked
+                            ? { backgroundColor: config.hex, borderColor: config.hex, color: "#fff" }
+                            : { borderColor: "var(--border)" }
+                        }
+                      >
+                        {checked && <Check className="size-2.5 stroke-[3]" />}
+                      </span>
+                    )}
                   </button>
                 )
               })}
@@ -100,9 +109,11 @@ export function DashboardHeader() {
 
             <Separator className="my-4" />
 
-            {/* Summary */}
+            {/* Upsell hint */}
             <div className="rounded-lg bg-muted px-3 py-2.5 text-xs leading-relaxed text-muted-foreground">
-              Tracking <strong className="text-foreground">{activeModels.size} of {allModels.length}</strong> AI models across all dashboard sections.
+              Tracking <strong className="text-foreground">{activeModels.size}</strong> models.{" "}
+              Unlock {LOCKED_MODELS.map(k => MODEL_CONFIG[k].name).join(", ")} to track all {allModels.length}.{" "}
+              <a href="#" className="text-primary hover:underline">Learn more</a>
             </div>
           </PopoverContent>
         </Popover>

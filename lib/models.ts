@@ -61,6 +61,13 @@ export const MODEL_CONFIG: Record<ModelKey, ModelConfig> = {
 
 export const MODELS = Object.values(MODEL_CONFIG)
 
+/** Models that require a paid plan to access */
+export const LOCKED_MODELS: ModelKey[] = ["claude", "gemini", "copilot"]
+
+export function isModelLocked(key: ModelKey): boolean {
+  return LOCKED_MODELS.includes(key)
+}
+
 /** Map a domain/name string to a ModelKey, or return null */
 export function resolveModelKey(value: string): ModelKey | null {
   const lower = value.toLowerCase()

@@ -12,7 +12,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { Checkbox } from "@/components/ui/checkbox"
-import { BarChart2, List, Filter, Crown } from "lucide-react"
+import { BarChart2, List, Filter, Crown, Lock } from "lucide-react"
 import { HelpTooltip } from "./help-tooltip"
 import {
   BarChart,
@@ -23,7 +23,7 @@ import {
   Tooltip as RechartsTooltip,
   ResponsiveContainer,
 } from "recharts"
-import { MODEL_CONFIG, type ModelKey } from "@/lib/models"
+import { MODEL_CONFIG, type ModelKey, LOCKED_MODELS } from "@/lib/models"
 import { useModelFilter } from "./model-filter-context"
 import {
   ChatGPTLogo,
@@ -411,6 +411,14 @@ export function BrandVisibilityChart() {
                 </div>
               )
             })}
+
+            {/* Locked models note */}
+            {LOCKED_MODELS.length > 0 && (
+              <div className="flex items-center justify-center gap-1.5 py-3 text-xs text-muted-foreground/60">
+                <Lock className="size-3" />
+                <span>{LOCKED_MODELS.length} additional models available with an upgraded plan</span>
+              </div>
+            )}
           </div>
         )}
       </CardContent>
