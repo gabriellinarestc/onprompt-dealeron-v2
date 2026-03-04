@@ -8,15 +8,17 @@ const tagVariants = cva(
     variants: {
       variant: {
         default: "bg-muted text-muted-foreground",
-        low: "bg-primary/8 text-primary/70",
-        moderate: "bg-primary/10 text-primary/75",
-        medium: "bg-primary/12 text-primary/80",
-        high: "bg-primary/15 text-primary/85",
-        critical: "bg-primary/18 text-primary/90",
-        success: "bg-emerald-500/10 text-emerald-600/80",
-        warning: "bg-amber-500/10 text-amber-600/80",
-        danger: "bg-red-500/10 text-red-600/80",
-        info: "bg-blue-500/10 text-blue-600/80",
+        // Difficulty levels with temperature-based colors (subtle backgrounds)
+        low: "bg-emerald-500/8 text-emerald-600",
+        moderate: "bg-teal-500/8 text-teal-600",
+        medium: "bg-amber-500/8 text-amber-600",
+        high: "bg-orange-500/8 text-orange-600",
+        critical: "bg-red-500/8 text-red-600",
+        // Semantic variants
+        success: "bg-emerald-500/8 text-emerald-600",
+        warning: "bg-amber-500/8 text-amber-600",
+        danger: "bg-red-500/8 text-red-600",
+        info: "bg-blue-500/8 text-blue-600",
       },
     },
     defaultVariants: {
