@@ -135,7 +135,7 @@ export function TopPrompts() {
             The most frequent prompts where your brand appears in AI model responses. Sentiment shows how positively your brand is described, visibility shows how often your brand appears for that prompt.
           </HelpTooltip>
         </div>
-        <Button variant="link" size="sm" asChild>
+        <Button variant="ghost" size="sm" asChild>
           <Link href="/prompts">
             View All
             <ArrowRight />

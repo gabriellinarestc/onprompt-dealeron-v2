@@ -38,7 +38,7 @@ export function ContentGaps() {
             Topics where users are asking AI models questions but your brand is not appearing in responses. Addressing these gaps can improve your visibility score.
           </HelpTooltip>
         </div>
-        <Button variant="link" size="sm" asChild>
+        <Button variant="ghost" size="sm" asChild>
           <Link href="/content-gaps">
             View All
             <ArrowRight />
