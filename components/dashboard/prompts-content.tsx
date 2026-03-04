@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/select"
 import { HelpTooltip } from "./help-tooltip"
 import { CreatePromptModal } from "./create-prompt-modal"
+import { DifficultyTag, getDifficultyLevel } from "@/components/ui/tag"
 
 // Color utilities
 function getScoreColor(value: number): string {
@@ -41,32 +42,6 @@ function getSentimentColor(value: number): string {
   if (value >= 60) return "oklch(0.65 0.17 115)"
   if (value >= 40) return "oklch(0.7 0.16 75)"
   return "oklch(0.55 0.22 25)"
-}
-
-// Difficulty level type and utilities
-type DifficultyLevel = "Low" | "Moderate" | "Medium" | "High" | "Very High"
-
-function getDifficultyLevel(value: number): DifficultyLevel {
-  if (value <= 20) return "Low"
-  if (value <= 40) return "Moderate"
-  if (value <= 60) return "Medium"
-  if (value <= 80) return "High"
-  return "Very High"
-}
-
-function getDifficultyConfig(level: DifficultyLevel): { bg: string; text: string } {
-  switch (level) {
-    case "Low":
-      return { bg: "oklch(0.92 0.10 155)", text: "oklch(0.35 0.15 155)" }
-    case "Moderate":
-      return { bg: "oklch(0.92 0.08 135)", text: "oklch(0.40 0.12 135)" }
-    case "Medium":
-      return { bg: "oklch(0.92 0.10 75)", text: "oklch(0.40 0.12 75)" }
-    case "High":
-      return { bg: "oklch(0.92 0.12 45)", text: "oklch(0.45 0.15 45)" }
-    case "Very High":
-      return { bg: "oklch(0.92 0.12 25)", text: "oklch(0.45 0.18 25)" }
-  }
 }
 
 // Volume range formatter
@@ -102,20 +77,6 @@ function SentimentBar({ value }: { value: number }) {
       </div>
       <span className="text-xs font-semibold tabular-nums" style={{ color }}>{value}</span>
     </div>
-  )
-}
-
-// Difficulty tag component
-function DifficultyTag({ value }: { value: number }) {
-  const level = getDifficultyLevel(value)
-  const config = getDifficultyConfig(level)
-  return (
-    <span
-      className="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium"
-      style={{ backgroundColor: config.bg, color: config.text }}
-    >
-      {level}
-    </span>
   )
 }
 
