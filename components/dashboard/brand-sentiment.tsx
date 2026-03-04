@@ -66,6 +66,7 @@ function CustomChartTooltip({ active, payload, label }: { active?: boolean; payl
 const currentScore = sentimentData[sentimentData.length - 1].score
 
 export function BrandSentiment() {
+  // Brand sentiment component
   return (
     <div className="grid gap-4 lg:grid-cols-2">
       <Card className="border-border bg-card">
