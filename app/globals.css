@@ -49,8 +49,6 @@
   --chart-tick: oklch(0.48 0.006 60);
   --chart-cursor: oklch(0.94 0.006 60 / 0.5);
   --chart-dot-stroke: oklch(1 0 0);
-  --button-primary: oklch(0.45 0.006 60);
-  --button-primary-foreground: oklch(0.98 0 0);
 }
 
 .dark {
@@ -98,8 +96,6 @@
   --chart-tick: oklch(0.62 0.004 60);
   --chart-cursor: oklch(0.22 0.005 50 / 0.5);
   --chart-dot-stroke: oklch(0.17 0.005 50);
-  --button-primary: oklch(0.75 0.004 60);
-  --button-primary-foreground: oklch(0.13 0.005 50);
 }
 
 @theme inline {
@@ -140,8 +136,6 @@
   --color-chart-tick: var(--chart-tick);
   --color-chart-cursor: var(--chart-cursor);
   --color-chart-dot-stroke: var(--chart-dot-stroke);
-  --color-button-primary: var(--button-primary);
-  --color-button-primary-foreground: var(--button-primary-foreground);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
