@@ -125,7 +125,8 @@ export function BrandSentiment() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-
+          <div className="h-[200px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={sentimentData} margin={{ top: 4, right: 4, bottom: 0, left: -12 }}>
                 <defs>
                   {/* Vertical gradient for the line stroke: maps Y position to temperature color */}
