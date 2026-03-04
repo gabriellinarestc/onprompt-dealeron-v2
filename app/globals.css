@@ -32,10 +32,10 @@
   /* AI Model brand colors */
   --model-chatgpt: #10a37f;
   --model-claude: #d97757;
-  --model-gemini: #4285f4;
+  --model-gemini: #7c4dff;
   --model-perplexity: #20b8cd;
   --model-copilot: #0078d4;
-  --model-aioverview: #e1306c;
+  --model-aioverview: #c850c0;
   --sidebar: oklch(0.98 0.004 60);
   --sidebar-foreground: oklch(0.47 0.006 60);
   --sidebar-primary: oklch(0.52 0.24 315);
@@ -80,8 +80,8 @@
   /* AI Model brand colors — same across themes */
   --model-chatgpt: #10a37f;
   --model-claude: #d97757;
-  --model-gemini: #4285f4;
-  --model-aioverview: #e1306c;
+  --model-gemini: #7c4dff;
+  --model-aioverview: #c850c0;
   --model-perplexity: #20b8cd;
   --model-copilot: #0078d4;
   --sidebar: oklch(0.11 0.005 50);

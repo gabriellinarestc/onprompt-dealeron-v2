@@ -22,8 +22,8 @@ type ModelLogoComponent = React.ComponentType<{ size?: number }>
 const MODEL_LOGO_MAP: Record<string, { Logo: ModelLogoComponent; color: string }> = {
   "chatgpt.com":          { Logo: ChatGPTLogo,    color: "#10a37f" },
   "claude.ai":            { Logo: ClaudeLogo,     color: "#d97757" },
-  "gemini.google.com":    { Logo: GeminiLogo,     color: "#4285f4" },
-  "google.com/search":    { Logo: AIOverviewLogo, color: "#e1306c" },
+  "gemini.google.com":    { Logo: GeminiLogo,     color: "#7c4dff" },
+  "google.com/search":    { Logo: AIOverviewLogo, color: "#c850c0" },
   "perplexity.ai":        { Logo: PerplexityLogo, color: "#20b8cd" },
   "copilot.microsoft.com":{ Logo: CopilotLogo,    color: "#0078d4" },
 }
