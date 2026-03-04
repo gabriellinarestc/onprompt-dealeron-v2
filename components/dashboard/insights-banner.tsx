@@ -31,14 +31,14 @@ export function InsightsBanner() {
           <p className="text-sm font-semibold text-foreground mb-2">
             Understanding Your AI Visibility
           </p>
-          <div className="flex flex-wrap gap-x-8 gap-y-2">
-            <div className="flex items-start gap-2 flex-1 min-w-[280px]">
+          <div className="flex gap-8">
+            <div className="flex items-start gap-2 flex-1">
               <TrendingUp className="size-3.5 mt-0.5 shrink-0 text-success" />
               <p className="text-xs text-muted-foreground leading-relaxed">
                 <span className="font-medium text-foreground">Visibility Score</span> measures how often AI models reference your brand when answering relevant prompts, weighted by model reach and relevance.
               </p>
             </div>
-            <div className="flex items-start gap-2 flex-1 min-w-[280px]">
+            <div className="flex items-start gap-2 flex-1">
               <FileText className="size-3.5 mt-0.5 shrink-0 text-primary" />
               <p className="text-xs text-muted-foreground leading-relaxed">
                 <span className="font-medium text-foreground">Content Coverage</span> tracks which topics AI models associate with your brand and identifies gaps where competitors are being recommended instead.
