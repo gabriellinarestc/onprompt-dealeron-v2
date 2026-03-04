@@ -4,103 +4,324 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(0.97 0.004 60);
-  --foreground: oklch(0.18 0.006 60);
+  /* ========================================
+     PRIMITIVE TOKENS - Warm Gray Scale
+     ======================================== */
+  --gray-50: oklch(0.985 0.002 60);
+  --gray-100: oklch(0.97 0.004 60);
+  --gray-200: oklch(0.94 0.006 60);
+  --gray-300: oklch(0.90 0.006 60);
+  --gray-400: oklch(0.70 0.006 60);
+  --gray-500: oklch(0.55 0.006 60);
+  --gray-600: oklch(0.48 0.006 60);
+  --gray-700: oklch(0.38 0.006 60);
+  --gray-800: oklch(0.25 0.006 60);
+  --gray-900: oklch(0.18 0.006 60);
+  --gray-950: oklch(0.13 0.005 50);
+
+  /* ========================================
+     SEMANTIC TOKENS
+     ======================================== */
+  --background: var(--gray-100);
+  --foreground: var(--gray-900);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.006 60);
+  --card-foreground: var(--gray-900);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.006 60);
+  --popover-foreground: var(--gray-900);
   --primary: oklch(0.52 0.24 315);
   --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.94 0.006 60);
-  --secondary-foreground: oklch(0.25 0.006 60);
-  --muted: oklch(0.94 0.006 60);
-  --muted-foreground: oklch(0.48 0.006 60);
-  --accent: oklch(0.94 0.006 60);
-  --accent-foreground: oklch(0.18 0.006 60);
+  --secondary: var(--gray-200);
+  --secondary-foreground: var(--gray-800);
+  --muted: var(--gray-200);
+  --muted-foreground: var(--gray-600);
+  --accent: var(--gray-200);
+  --accent-foreground: var(--gray-900);
   --destructive: oklch(0.55 0.22 25);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.90 0.006 60);
-  --input: oklch(0.90 0.006 60);
+  --border: var(--gray-300);
+  --input: var(--gray-300);
   --ring: oklch(0.52 0.24 315);
+  --success: oklch(0.55 0.19 155);
+  --warning: oklch(0.7 0.16 75);
+  --radius: 0.5rem;
+
+  /* ========================================
+     COMPONENT TOKENS - Button
+     ======================================== */
+  --button-bg: var(--gray-800);
+  --button-fg: var(--gray-50);
+  --button-hover-bg: var(--gray-700);
+  --button-secondary-bg: var(--gray-200);
+  --button-secondary-fg: var(--gray-800);
+  --button-secondary-hover-bg: var(--gray-300);
+  --button-ghost-fg: var(--gray-600);
+  --button-ghost-hover-bg: var(--gray-200);
+  --button-ghost-hover-fg: var(--gray-900);
+  --button-outline-border: var(--gray-300);
+  --button-outline-fg: var(--gray-800);
+  --button-outline-hover-bg: var(--gray-100);
+
+  /* ========================================
+     COMPONENT TOKENS - Input
+     ======================================== */
+  --input-bg: oklch(1 0 0);
+  --input-fg: var(--gray-900);
+  --input-border: var(--gray-300);
+  --input-placeholder: var(--gray-500);
+  --input-focus-ring: oklch(0.52 0.24 315);
+  --input-disabled-bg: var(--gray-100);
+  --input-disabled-fg: var(--gray-500);
+
+  /* ========================================
+     COMPONENT TOKENS - Card
+     ======================================== */
+  --card-bg: oklch(1 0 0);
+  --card-fg: var(--gray-900);
+  --card-border: var(--gray-300);
+  --card-header-fg: var(--gray-900);
+  --card-description-fg: var(--gray-600);
+
+  /* ========================================
+     COMPONENT TOKENS - Table
+     ======================================== */
+  --table-header-bg: var(--gray-100);
+  --table-header-fg: var(--gray-600);
+  --table-row-bg: oklch(1 0 0);
+  --table-row-hover-bg: var(--gray-50);
+  --table-border: var(--gray-200);
+  --table-cell-fg: var(--gray-900);
+
+  /* ========================================
+     COMPONENT TOKENS - Badge
+     ======================================== */
+  --badge-default-bg: var(--gray-200);
+  --badge-default-fg: var(--gray-800);
+  --badge-success-bg: oklch(0.92 0.08 155);
+  --badge-success-fg: oklch(0.35 0.15 155);
+  --badge-warning-bg: oklch(0.92 0.08 75);
+  --badge-warning-fg: oklch(0.45 0.14 75);
+  --badge-destructive-bg: oklch(0.92 0.08 25);
+  --badge-destructive-fg: oklch(0.45 0.18 25);
+
+  /* ========================================
+     COMPONENT TOKENS - Dropdown/Select
+     ======================================== */
+  --dropdown-bg: oklch(1 0 0);
+  --dropdown-fg: var(--gray-900);
+  --dropdown-border: var(--gray-300);
+  --dropdown-item-hover-bg: var(--gray-100);
+  --dropdown-item-selected-bg: var(--gray-200);
+  --dropdown-separator: var(--gray-200);
+
+  /* ========================================
+     COMPONENT TOKENS - Tooltip
+     ======================================== */
+  --tooltip-bg: var(--gray-900);
+  --tooltip-fg: var(--gray-50);
+
+  /* ========================================
+     DATA VIZ TOKENS
+     ======================================== */
   --chart-1: oklch(0.52 0.24 315);
   --chart-2: oklch(0.52 0.2 250);
   --chart-3: oklch(0.65 0.16 55);
   --chart-4: oklch(0.55 0.22 330);
   --chart-5: oklch(0.55 0.15 145);
-  --radius: 0.5rem;
-  /* AI Model brand colors */
+  --chart-grid: var(--gray-300);
+  --chart-tick: var(--gray-600);
+  --chart-cursor: oklch(0.94 0.006 60 / 0.5);
+  --chart-dot-stroke: oklch(1 0 0);
+
+  /* ========================================
+     AI MODEL BRAND COLORS
+     ======================================== */
   --model-chatgpt: #10a37f;
   --model-claude: #d97757;
   --model-gemini: #4285f4;
   --model-perplexity: #20b8cd;
   --model-copilot: #0078d4;
-  --sidebar: oklch(0.98 0.004 60);
-  --sidebar-foreground: oklch(0.47 0.006 60);
+
+  /* ========================================
+     SIDEBAR TOKENS
+     ======================================== */
+  --sidebar: var(--gray-50);
+  --sidebar-foreground: var(--gray-600);
   --sidebar-primary: oklch(0.52 0.24 315);
   --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.94 0.006 60);
-  --sidebar-accent-foreground: oklch(0.18 0.006 60);
-  --sidebar-border: oklch(0.90 0.006 60);
+  --sidebar-accent: var(--gray-200);
+  --sidebar-accent-foreground: var(--gray-900);
+  --sidebar-border: var(--gray-300);
   --sidebar-ring: oklch(0.52 0.24 315);
-  --success: oklch(0.55 0.19 155);
-  --warning: oklch(0.7 0.16 75);
-  --chart-grid: oklch(0.90 0.006 60);
-  --chart-tick: oklch(0.48 0.006 60);
-  --chart-cursor: oklch(0.94 0.006 60 / 0.5);
-  --chart-dot-stroke: oklch(1 0 0);
 }
 
 .dark {
-  --background: oklch(0.13 0.005 50);
-  --foreground: oklch(0.95 0.003 60);
-  --card: oklch(0.17 0.005 50);
-  --card-foreground: oklch(0.95 0.003 60);
-  --popover: oklch(0.17 0.005 50);
-  --popover-foreground: oklch(0.95 0.003 60);
+  /* ========================================
+     PRIMITIVE TOKENS - Dark Warm Gray Scale
+     ======================================== */
+  --gray-50: oklch(0.95 0.003 60);
+  --gray-100: oklch(0.88 0.003 60);
+  --gray-200: oklch(0.75 0.004 60);
+  --gray-300: oklch(0.62 0.004 60);
+  --gray-400: oklch(0.50 0.004 60);
+  --gray-500: oklch(0.40 0.005 55);
+  --gray-600: oklch(0.32 0.005 50);
+  --gray-700: oklch(0.27 0.005 50);
+  --gray-800: oklch(0.22 0.005 50);
+  --gray-900: oklch(0.17 0.005 50);
+  --gray-950: oklch(0.13 0.005 50);
+
+  /* ========================================
+     SEMANTIC TOKENS
+     ======================================== */
+  --background: var(--gray-950);
+  --foreground: var(--gray-50);
+  --card: var(--gray-900);
+  --card-foreground: var(--gray-50);
+  --popover: var(--gray-900);
+  --popover-foreground: var(--gray-50);
   --primary: oklch(0.68 0.24 315);
-  --primary-foreground: oklch(0.13 0.005 50);
-  --secondary: oklch(0.22 0.005 50);
-  --secondary-foreground: oklch(0.88 0.003 60);
-  --muted: oklch(0.22 0.005 50);
-  --muted-foreground: oklch(0.62 0.004 60);
-  --accent: oklch(0.22 0.006 50);
-  --accent-foreground: oklch(0.95 0.003 60);
+  --primary-foreground: var(--gray-950);
+  --secondary: var(--gray-800);
+  --secondary-foreground: var(--gray-100);
+  --muted: var(--gray-800);
+  --muted-foreground: var(--gray-300);
+  --accent: var(--gray-800);
+  --accent-foreground: var(--gray-50);
   --destructive: oklch(0.58 0.22 25);
   --destructive-foreground: oklch(0.95 0 0);
-  --border: oklch(0.27 0.005 50);
-  --input: oklch(0.27 0.005 50);
+  --border: var(--gray-700);
+  --input: var(--gray-700);
   --ring: oklch(0.68 0.24 315);
+  --success: oklch(0.72 0.19 155);
+  --warning: oklch(0.8 0.16 75);
+
+  /* ========================================
+     COMPONENT TOKENS - Button
+     ======================================== */
+  --button-bg: var(--gray-100);
+  --button-fg: var(--gray-950);
+  --button-hover-bg: var(--gray-200);
+  --button-secondary-bg: var(--gray-800);
+  --button-secondary-fg: var(--gray-100);
+  --button-secondary-hover-bg: var(--gray-700);
+  --button-ghost-fg: var(--gray-300);
+  --button-ghost-hover-bg: var(--gray-800);
+  --button-ghost-hover-fg: var(--gray-50);
+  --button-outline-border: var(--gray-700);
+  --button-outline-fg: var(--gray-100);
+  --button-outline-hover-bg: var(--gray-800);
+
+  /* ========================================
+     COMPONENT TOKENS - Input
+     ======================================== */
+  --input-bg: var(--gray-900);
+  --input-fg: var(--gray-50);
+  --input-border: var(--gray-700);
+  --input-placeholder: var(--gray-400);
+  --input-focus-ring: oklch(0.68 0.24 315);
+  --input-disabled-bg: var(--gray-800);
+  --input-disabled-fg: var(--gray-500);
+
+  /* ========================================
+     COMPONENT TOKENS - Card
+     ======================================== */
+  --card-bg: var(--gray-900);
+  --card-fg: var(--gray-50);
+  --card-border: var(--gray-700);
+  --card-header-fg: var(--gray-50);
+  --card-description-fg: var(--gray-300);
+
+  /* ========================================
+     COMPONENT TOKENS - Table
+     ======================================== */
+  --table-header-bg: var(--gray-900);
+  --table-header-fg: var(--gray-300);
+  --table-row-bg: var(--gray-900);
+  --table-row-hover-bg: var(--gray-800);
+  --table-border: var(--gray-800);
+  --table-cell-fg: var(--gray-50);
+
+  /* ========================================
+     COMPONENT TOKENS - Badge
+     ======================================== */
+  --badge-default-bg: var(--gray-800);
+  --badge-default-fg: var(--gray-100);
+  --badge-success-bg: oklch(0.25 0.08 155);
+  --badge-success-fg: oklch(0.75 0.15 155);
+  --badge-warning-bg: oklch(0.28 0.08 75);
+  --badge-warning-fg: oklch(0.82 0.14 75);
+  --badge-destructive-bg: oklch(0.25 0.08 25);
+  --badge-destructive-fg: oklch(0.72 0.18 25);
+
+  /* ========================================
+     COMPONENT TOKENS - Dropdown/Select
+     ======================================== */
+  --dropdown-bg: var(--gray-900);
+  --dropdown-fg: var(--gray-50);
+  --dropdown-border: var(--gray-700);
+  --dropdown-item-hover-bg: var(--gray-800);
+  --dropdown-item-selected-bg: var(--gray-700);
+  --dropdown-separator: var(--gray-800);
+
+  /* ========================================
+     COMPONENT TOKENS - Tooltip
+     ======================================== */
+  --tooltip-bg: var(--gray-100);
+  --tooltip-fg: var(--gray-950);
+
+  /* ========================================
+     DATA VIZ TOKENS
+     ======================================== */
   --chart-1: oklch(0.68 0.24 315);
   --chart-2: oklch(0.65 0.2 250);
   --chart-3: oklch(0.75 0.15 55);
   --chart-4: oklch(0.65 0.22 330);
   --chart-5: oklch(0.7 0.15 145);
-  /* AI Model brand colors — same across themes */
+  --chart-grid: var(--gray-700);
+  --chart-tick: var(--gray-300);
+  --chart-cursor: oklch(0.22 0.005 50 / 0.5);
+  --chart-dot-stroke: var(--gray-900);
+
+  /* ========================================
+     AI MODEL BRAND COLORS
+     ======================================== */
   --model-chatgpt: #10a37f;
   --model-claude: #d97757;
   --model-gemini: #4285f4;
   --model-perplexity: #20b8cd;
   --model-copilot: #0078d4;
+
+  /* ========================================
+     SIDEBAR TOKENS
+     ======================================== */
   --sidebar: oklch(0.11 0.005 50);
-  --sidebar-foreground: oklch(0.62 0.004 60);
+  --sidebar-foreground: var(--gray-300);
   --sidebar-primary: oklch(0.68 0.24 315);
-  --sidebar-primary-foreground: oklch(0.13 0.005 50);
-  --sidebar-accent: oklch(0.18 0.006 50);
-  --sidebar-accent-foreground: oklch(0.95 0.003 60);
-  --sidebar-border: oklch(0.23 0.005 50);
+  --sidebar-primary-foreground: var(--gray-950);
+  --sidebar-accent: var(--gray-800);
+  --sidebar-accent-foreground: var(--gray-50);
+  --sidebar-border: var(--gray-800);
   --sidebar-ring: oklch(0.68 0.24 315);
-  --success: oklch(0.72 0.19 155);
-  --warning: oklch(0.8 0.16 75);
-  --chart-grid: oklch(0.27 0.005 50);
-  --chart-tick: oklch(0.62 0.004 60);
-  --chart-cursor: oklch(0.22 0.005 50 / 0.5);
-  --chart-dot-stroke: oklch(0.17 0.005 50);
 }
 
 @theme inline {
   --font-sans: 'Inter', 'Geist', 'Geist Fallback', sans-serif;
   --font-mono: 'Geist Mono', 'Geist Mono Fallback', monospace;
+
+  /* Primitive Gray Scale */
+  --color-gray-50: var(--gray-50);
+  --color-gray-100: var(--gray-100);
+  --color-gray-200: var(--gray-200);
+  --color-gray-300: var(--gray-300);
+  --color-gray-400: var(--gray-400);
+  --color-gray-500: var(--gray-500);
+  --color-gray-600: var(--gray-600);
+  --color-gray-700: var(--gray-700);
+  --color-gray-800: var(--gray-800);
+  --color-gray-900: var(--gray-900);
+  --color-gray-950: var(--gray-950);
+
+  /* Semantic Colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -120,26 +341,88 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+
+  /* Button Component Colors */
+  --color-button-bg: var(--button-bg);
+  --color-button-fg: var(--button-fg);
+  --color-button-hover-bg: var(--button-hover-bg);
+  --color-button-secondary-bg: var(--button-secondary-bg);
+  --color-button-secondary-fg: var(--button-secondary-fg);
+  --color-button-secondary-hover-bg: var(--button-secondary-hover-bg);
+  --color-button-ghost-fg: var(--button-ghost-fg);
+  --color-button-ghost-hover-bg: var(--button-ghost-hover-bg);
+  --color-button-ghost-hover-fg: var(--button-ghost-hover-fg);
+  --color-button-outline-border: var(--button-outline-border);
+  --color-button-outline-fg: var(--button-outline-fg);
+  --color-button-outline-hover-bg: var(--button-outline-hover-bg);
+
+  /* Input Component Colors */
+  --color-input-bg: var(--input-bg);
+  --color-input-fg: var(--input-fg);
+  --color-input-border: var(--input-border);
+  --color-input-placeholder: var(--input-placeholder);
+  --color-input-focus-ring: var(--input-focus-ring);
+  --color-input-disabled-bg: var(--input-disabled-bg);
+  --color-input-disabled-fg: var(--input-disabled-fg);
+
+  /* Card Component Colors */
+  --color-card-bg: var(--card-bg);
+  --color-card-fg: var(--card-fg);
+  --color-card-border: var(--card-border);
+  --color-card-header-fg: var(--card-header-fg);
+  --color-card-description-fg: var(--card-description-fg);
+
+  /* Table Component Colors */
+  --color-table-header-bg: var(--table-header-bg);
+  --color-table-header-fg: var(--table-header-fg);
+  --color-table-row-bg: var(--table-row-bg);
+  --color-table-row-hover-bg: var(--table-row-hover-bg);
+  --color-table-border: var(--table-border);
+  --color-table-cell-fg: var(--table-cell-fg);
+
+  /* Badge Component Colors */
+  --color-badge-default-bg: var(--badge-default-bg);
+  --color-badge-default-fg: var(--badge-default-fg);
+  --color-badge-success-bg: var(--badge-success-bg);
+  --color-badge-success-fg: var(--badge-success-fg);
+  --color-badge-warning-bg: var(--badge-warning-bg);
+  --color-badge-warning-fg: var(--badge-warning-fg);
+  --color-badge-destructive-bg: var(--badge-destructive-bg);
+  --color-badge-destructive-fg: var(--badge-destructive-fg);
+
+  /* Dropdown Component Colors */
+  --color-dropdown-bg: var(--dropdown-bg);
+  --color-dropdown-fg: var(--dropdown-fg);
+  --color-dropdown-border: var(--dropdown-border);
+  --color-dropdown-item-hover-bg: var(--dropdown-item-hover-bg);
+  --color-dropdown-item-selected-bg: var(--dropdown-item-selected-bg);
+  --color-dropdown-separator: var(--dropdown-separator);
+
+  /* Tooltip Component Colors */
+  --color-tooltip-bg: var(--tooltip-bg);
+  --color-tooltip-fg: var(--tooltip-fg);
+
+  /* Chart Colors */
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+  --color-chart-grid: var(--chart-grid);
+  --color-chart-tick: var(--chart-tick);
+  --color-chart-cursor: var(--chart-cursor);
+  --color-chart-dot-stroke: var(--chart-dot-stroke);
+
+  /* AI Model Brand Colors */
   --color-model-chatgpt: var(--model-chatgpt);
   --color-model-claude: var(--model-claude);
   --color-model-gemini: var(--model-gemini);
   --color-model-perplexity: var(--model-perplexity);
   --color-model-copilot: var(--model-copilot);
-  --color-success: var(--success);
-  --color-warning: var(--warning);
-  --color-chart-grid: var(--chart-grid);
-  --color-chart-tick: var(--chart-tick);
-  --color-chart-cursor: var(--chart-cursor);
-  --color-chart-dot-stroke: var(--chart-dot-stroke);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+
+  /* Sidebar Colors */
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -148,6 +431,12 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Radius */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
 @layer base {
