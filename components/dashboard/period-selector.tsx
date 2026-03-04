@@ -1,0 +1,91 @@
+"use client"
+
+import { useState } from "react"
+import { CalendarDays, ChevronDown } from "lucide-react"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Separator } from "@/components/ui/separator"
+import { Switch } from "@/components/ui/switch"
+import { cn } from "@/lib/utils"
+
+const PERIODS = [7, 14, 30, 90] as const
+type Period = (typeof PERIODS)[number]
+
+export function PeriodSelector() {
+  const [open, setOpen] = useState(false)
+  const [days, setDays] = useState<Period>(7)
+  const [compare, setCompare] = useState(true)
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <button className="flex h-9 items-center gap-2 rounded-lg border border-border bg-secondary px-3 text-sm font-medium text-secondary-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+          <CalendarDays className="size-4 text-muted-foreground" />
+          <span>Last {days} days</span>
+          {compare && (
+            <span className="rounded-md bg-primary/15 px-1.5 py-0.5 text-xs font-medium text-primary">
+              vs. prior 7d
+            </span>
+          )}
+          <ChevronDown className={cn("size-4 text-muted-foreground transition-transform", open && "rotate-180")} />
+        </button>
+      </PopoverTrigger>
+
+      <PopoverContent align="end" sideOffset={6} className="w-72 p-5 shadow-xl">
+
+        {/* Period */}
+        <p className="mb-1 text-sm font-semibold text-foreground">How much data do you want to see?</p>
+        <p className="mb-3 text-xs leading-relaxed text-muted-foreground">
+          Pick a time window. More days means more context, fewer days means more recent detail.
+        </p>
+        <div className="grid grid-cols-4 gap-1.5 rounded-xl border border-border bg-muted p-1">
+          {PERIODS.map((p) => (
+            <button
+              key={p}
+              onClick={() => setDays(p)}
+              className={cn(
+                "rounded-lg py-2 text-sm font-semibold transition-all",
+                days === p
+                  ? "bg-background text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              {p}d
+            </button>
+          ))}
+        </div>
+        <p className="mt-2 text-center text-xs text-muted-foreground">
+          {{
+            7: "Past week",
+            14: "Past two weeks",
+            30: "Past month",
+            90: "Past three months",
+          }[days]}
+        </p>
+
+        <Separator className="my-4" />
+
+        {/* Comparison */}
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-foreground">Compare to prior 7 days</p>
+            <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
+              Shows whether your numbers went up or down compared to the same window right before.
+            </p>
+          </div>
+          <Switch
+            checked={compare}
+            onCheckedChange={setCompare}
+            className="mt-0.5 shrink-0"
+          />
+        </div>
+
+        {/* Summary */}
+        <div className="mt-4 rounded-lg bg-muted px-3 py-2.5 text-xs leading-relaxed text-muted-foreground">
+          {compare
+            ? <>You are viewing the <strong className="text-foreground">last {days} days</strong>, compared against the <strong className="text-foreground">7 days before that</strong>.</>
+            : <>You are viewing the <strong className="text-foreground">last {days} days</strong> with no comparison.</>}
+        </div>
+      </PopoverContent>
+    </Popover>
+  )
+}
