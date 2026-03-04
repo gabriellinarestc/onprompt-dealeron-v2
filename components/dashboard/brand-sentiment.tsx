@@ -1,8 +1,6 @@
 "use client"
 
-import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import {
   Tooltip as RechartsTooltip,
   ResponsiveContainer,
@@ -12,13 +10,7 @@ import {
   YAxis,
   CartesianGrid,
 } from "recharts"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
-import { ArrowDownRight, LineChart as LineChartIcon, Grid3X3 } from "lucide-react"
+import { ArrowDownRight } from "lucide-react"
 
 const sentimentData = [
   { date: "02 Feb", score: 78 },
@@ -36,56 +28,43 @@ const promptTypeData = [
   { name: "Brand Specific", score: null, color: "bg-muted" },
 ]
 
-const timeSlots = ["6am", "9am", "12pm", "3pm", "6pm", "9pm", "12am"]
-const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+// Temperature colors
+const TEMP_RED    = "oklch(0.58 0.18 25)"
+const TEMP_AMBER  = "oklch(0.72 0.14 75)"
+const TEMP_YELLOW = "oklch(0.68 0.15 120)"
+const TEMP_GREEN  = "oklch(0.6 0.17 145)"
+const TEMP_DEEP   = "oklch(0.52 0.19 155)"
 
-// Heatmap data: sentiment scores (0-100) for each day/time combination
-const heatmapData: Record<string, number[]> = {
-  Mon: [65, 78, 85, 72, 80, 88, 92],
-  Tue: [70, 82, 75, 88, 68, 85, 62],
-  Wed: [58, 72, 80, 78, 82, 90, 85],
-  Thu: [75, 85, 78, 92, 88, 80, 95],
-  Fri: [82, 78, 85, 65, 88, 82, 72],
-  Sat: [68, 75, 80, 85, 62, 90, 78],
-  Sun: [72, 68, 82, 78, 85, 75, 70],
+function getTemperatureColor(score: number): string {
+  if (score >= 85) return TEMP_DEEP
+  if (score >= 75) return TEMP_GREEN
+  if (score >= 60) return TEMP_YELLOW
+  if (score >= 40) return TEMP_AMBER
+  return TEMP_RED
 }
-
-// Temperature colors for heatmap: red (low) -> amber (mid) -> green (high)
-function getHeatmapColor(score: number): string {
-  if (score >= 90) return "oklch(0.52 0.19 155)" // Deep green
-  if (score >= 80) return "oklch(0.6 0.17 145)"  // Green
-  if (score >= 70) return "oklch(0.68 0.15 120)" // Yellow-green
-  if (score >= 60) return "oklch(0.72 0.14 75)"  // Amber
-  return "oklch(0.58 0.18 25)"                    // Red
-}
-
-const heatmapLegendColors = [
-  "oklch(0.58 0.18 25)",   // Red
-  "oklch(0.72 0.14 75)",   // Amber
-  "oklch(0.68 0.15 120)",  // Yellow-green
-  "oklch(0.6 0.17 145)",   // Green
-  "oklch(0.52 0.19 155)",  // Deep green
-]
 
 function CustomChartTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number }>; label?: string }) {
   if (!active || !payload) return null
+  const score = payload[0]?.value ?? 0
+  const color = getTemperatureColor(score)
   return (
     <div className="rounded-lg border border-border bg-popover px-3 py-2 shadow-xl">
       <p className="text-[10px] text-muted-foreground">{label}</p>
-      <p className="text-sm font-bold text-foreground">{payload[0]?.value}/100</p>
+      <div className="flex items-center gap-2">
+        <span className="size-2 rounded-full" style={{ backgroundColor: color }} />
+        <p className="text-sm font-bold text-foreground">{score}/100</p>
+      </div>
     </div>
   )
 }
 
 export function BrandSentiment() {
-  const [viewMode, setViewMode] = useState<"chart" | "heatmap">("chart")
-  
   return (
     <div className="grid gap-4 lg:grid-cols-2">
       <Card className="border-border bg-card">
         <CardHeader>
           <CardTitle className="text-sm font-semibold text-foreground">Score Summary</CardTitle>
-          <CardDescription className="text-xs">Overview of your brand's sentiment performance across AI models</CardDescription>
+          <CardDescription className="text-xs">Overview of your brand{"'"}s sentiment performance across AI models</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="mb-6">
@@ -147,124 +126,104 @@ export function BrandSentiment() {
 
       <Card className="border-border bg-card">
         <CardHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle className="text-sm font-semibold text-foreground">Sentiment Over Time</CardTitle>
-              <CardDescription className="text-xs">
-                Track how AI models perceive your brand sentiment over time
-              </CardDescription>
-            </div>
-            <ToggleGroup
-              type="single"
-              value={viewMode}
-              onValueChange={(v) => v && setViewMode(v as "chart" | "heatmap")}
-              variant="outline"
-              size="sm"
-              className="h-8"
-            >
-              <ToggleGroupItem value="chart" aria-label="Chart view" className="size-8 px-0">
-                <LineChartIcon className="size-3.5" />
-              </ToggleGroupItem>
-              <ToggleGroupItem value="heatmap" aria-label="Heatmap view" className="size-8 px-0">
-                <Grid3X3 className="size-3.5" />
-              </ToggleGroupItem>
-            </ToggleGroup>
-          </div>
+          <CardTitle className="text-sm font-semibold text-foreground">Sentiment Over Time</CardTitle>
+          <CardDescription className="text-xs">
+            Track how AI models perceive your brand sentiment over time
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          {viewMode === "chart" ? (
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={sentimentData}>
-                  <defs>
-                    <linearGradient id="sentimentGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="var(--chart-1)" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="var(--chart-1)" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" vertical={false} />
-                  <XAxis
-                    dataKey="date"
-                    tick={{ fill: "var(--chart-tick)", fontSize: 11 }}
-                    axisLine={{ stroke: "var(--chart-grid)" }}
-                    tickLine={false}
-                  />
-                  <YAxis
-                    domain={[0, 100]}
-                    tick={{ fill: "var(--chart-tick)", fontSize: 11 }}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <RechartsTooltip content={<CustomChartTooltip />} cursor={{ stroke: "var(--chart-grid)", strokeDasharray: "3 3" }} />
-                  <Area
-                    type="monotone"
-                    dataKey="score"
-                    stroke="var(--chart-1)"
-                    strokeWidth={2}
-                    fill="url(#sentimentGradient)"
-                    dot={{ r: 4, fill: "var(--chart-1)", strokeWidth: 2, stroke: "var(--chart-dot-stroke)" }}
-                    activeDot={{ r: 6, fill: "var(--chart-1)", strokeWidth: 2, stroke: "var(--chart-dot-stroke)" }}
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-          ) : (
-            <div className="h-64 flex flex-col">
-              {/* Time slots header */}
-              <div className="flex items-center mb-2">
-                <div className="w-10" />
-                <div className="flex flex-1 justify-between px-1">
-                  {timeSlots.map((time) => (
-                    <span key={time} className="text-[10px] text-muted-foreground w-10 text-center">
-                      {time}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              
-              {/* Heatmap grid */}
-              <div className="flex flex-col gap-1 flex-1">
-                <TooltipProvider>
-                  {days.map((day) => (
-                    <div key={day} className="flex items-center gap-2 flex-1">
-                      <span className="w-8 text-xs text-muted-foreground">{day}</span>
-                      <div className="flex flex-1 gap-1 h-full">
-                        {heatmapData[day].map((score, idx) => (
-                          <Tooltip key={idx}>
-                            <TooltipTrigger asChild>
-                              <div
-                                className="flex-1 rounded-md cursor-pointer transition-transform hover:scale-105"
-                                style={{ backgroundColor: getHeatmapColor(score) }}
-                              />
-                            </TooltipTrigger>
-                            <TooltipContent className="bg-popover text-popover-foreground border-border">
-                              <p className="text-xs font-medium">{day} at {timeSlots[idx]}</p>
-                              <p className="text-xs text-muted-foreground">Score: {score}/100</p>
-                            </TooltipContent>
-                          </Tooltip>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </TooltipProvider>
-              </div>
-              
-              {/* Legend */}
-              <div className="flex items-center justify-center gap-2 pt-2 mt-2 border-t border-border">
-                <span className="text-xs text-muted-foreground">Lower</span>
-                <div className="flex gap-0.5">
-                  {heatmapLegendColors.map((color, idx) => (
-                    <div
-                      key={idx}
-                      className="w-6 h-4 rounded-sm"
-                      style={{ backgroundColor: color }}
-                    />
-                  ))}
-                </div>
-                <span className="text-xs text-muted-foreground">Higher</span>
-              </div>
-            </div>
-          )}
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={sentimentData}>
+                <defs>
+                  {/* Vertical gradient for the line stroke: green at top (high scores) -> red at bottom (low scores) */}
+                  <linearGradient id="sentimentStrokeGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stopColor={TEMP_DEEP} />
+                    <stop offset="20%"  stopColor={TEMP_GREEN} />
+                    <stop offset="50%"  stopColor={TEMP_YELLOW} />
+                    <stop offset="80%"  stopColor={TEMP_AMBER} />
+                    <stop offset="100%" stopColor={TEMP_RED} />
+                  </linearGradient>
+                  {/* Subtle fill under the line using the same temperature range */}
+                  <linearGradient id="sentimentFillGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stopColor={TEMP_DEEP}  stopOpacity={0.18} />
+                    <stop offset="30%"  stopColor={TEMP_GREEN}  stopOpacity={0.12} />
+                    <stop offset="60%"  stopColor={TEMP_YELLOW} stopOpacity={0.08} />
+                    <stop offset="100%" stopColor={TEMP_RED}    stopOpacity={0.03} />
+                  </linearGradient>
+                  {/* Very subtle full-background temperature wash */}
+                  <linearGradient id="sentimentBgGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%"   stopColor={TEMP_DEEP}  stopOpacity={0.06} />
+                    <stop offset="40%"  stopColor={TEMP_GREEN}  stopOpacity={0.04} />
+                    <stop offset="70%"  stopColor={TEMP_AMBER}  stopOpacity={0.03} />
+                    <stop offset="100%" stopColor={TEMP_RED}    stopOpacity={0.06} />
+                  </linearGradient>
+                </defs>
+
+                {/* Background temperature wash — a full-height area behind the data */}
+                <Area
+                  type="monotone"
+                  dataKey={() => 100}
+                  stroke="none"
+                  fill="url(#sentimentBgGradient)"
+                  isAnimationActive={false}
+                />
+
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" vertical={false} />
+                <XAxis
+                  dataKey="date"
+                  tick={{ fill: "var(--chart-tick)", fontSize: 11 }}
+                  axisLine={{ stroke: "var(--chart-grid)" }}
+                  tickLine={false}
+                />
+                <YAxis
+                  domain={[0, 100]}
+                  tick={{ fill: "var(--chart-tick)", fontSize: 11 }}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <RechartsTooltip
+                  content={<CustomChartTooltip />}
+                  cursor={{ stroke: "var(--chart-grid)", strokeDasharray: "3 3" }}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="score"
+                  stroke="url(#sentimentStrokeGradient)"
+                  strokeWidth={2.5}
+                  fill="url(#sentimentFillGradient)"
+                  dot={({ cx, cy, payload }: { cx: number; cy: number; payload: { score: number } }) => {
+                    const color = getTemperatureColor(payload.score)
+                    return (
+                      <circle
+                        key={`dot-${cx}`}
+                        cx={cx}
+                        cy={cy}
+                        r={4}
+                        fill={color}
+                        stroke="var(--chart-dot-stroke)"
+                        strokeWidth={2}
+                      />
+                    )
+                  }}
+                  activeDot={({ cx, cy, payload }: { cx: number; cy: number; payload: { score: number } }) => {
+                    const color = getTemperatureColor(payload.score)
+                    return (
+                      <circle
+                        key={`active-${cx}`}
+                        cx={cx}
+                        cy={cy}
+                        r={6}
+                        fill={color}
+                        stroke="var(--chart-dot-stroke)"
+                        strokeWidth={2}
+                      />
+                    )
+                  }}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
         </CardContent>
       </Card>
     </div>
