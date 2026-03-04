@@ -81,7 +81,7 @@ export function BrandVisibilityCards() {
                   </HelpTooltip>
                 </div>
               </div>
-              {i === 0 && <div className="absolute right-0 top-1/4 h-1/2 w-px bg-border" />}
+
             </div>
           )
         })}
