@@ -48,10 +48,10 @@
   /* ========================================
      COMPONENT TOKENS - Button
      ======================================== */
-  /* Primary: Main CTA - solid dark */
-  --button-primary-bg: var(--gray-900);
-  --button-primary-fg: var(--gray-50);
-  --button-primary-hover-bg: var(--gray-800);
+  /* Primary: Main CTA - purple/magenta brand color */
+  --button-primary-bg: oklch(0.52 0.24 315);
+  --button-primary-fg: oklch(0.98 0 0);
+  --button-primary-hover-bg: oklch(0.47 0.22 315);
   /* Secondary: Intermediary gray solid */
   --button-secondary-bg: var(--gray-600);
   --button-secondary-fg: var(--gray-50);
@@ -206,10 +206,10 @@
   /* ========================================
      COMPONENT TOKENS - Button
      ======================================== */
-  /* Primary: Main CTA - solid light */
-  --button-primary-bg: var(--gray-100);
-  --button-primary-fg: var(--gray-950);
-  --button-primary-hover-bg: var(--gray-200);
+  /* Primary: Main CTA - purple/magenta brand color */
+  --button-primary-bg: oklch(0.68 0.24 315);
+  --button-primary-fg: oklch(0.13 0.005 50);
+  --button-primary-hover-bg: oklch(0.73 0.22 315);
   /* Secondary: Intermediary light gray solid */
   --button-secondary-bg: var(--gray-400);
   --button-secondary-fg: var(--gray-950);
