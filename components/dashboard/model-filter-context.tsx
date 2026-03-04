@@ -3,7 +3,8 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react"
 import type { ModelKey } from "@/lib/models"
 
-const ALL_MODELS: ModelKey[] = ["chatgpt", "claude", "gemini", "perplexity", "copilot"]
+const ALL_MODELS: ModelKey[] = ["chatgpt", "claude", "gemini", "aioverview", "perplexity", "copilot"]
+const DEFAULT_MODELS: ModelKey[] = ["chatgpt", "aioverview", "perplexity"]
 
 interface ModelFilterContextValue {
   activeModels: Set<ModelKey>
@@ -15,7 +16,7 @@ interface ModelFilterContextValue {
 const ModelFilterContext = createContext<ModelFilterContextValue | null>(null)
 
 export function ModelFilterProvider({ children }: { children: ReactNode }) {
-  const [activeModels, setActiveModels] = useState<Set<ModelKey>>(new Set(ALL_MODELS))
+  const [activeModels, setActiveModels] = useState<Set<ModelKey>>(new Set(DEFAULT_MODELS))
 
   const toggleModel = useCallback((key: ModelKey) => {
     setActiveModels((prev) => {
