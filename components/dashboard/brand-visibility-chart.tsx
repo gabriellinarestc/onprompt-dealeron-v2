@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import {
@@ -204,15 +203,15 @@ export function BrandVisibilityChart() {
             {/* Brand type filter */}
             <Popover>
               <PopoverTrigger asChild>
-                <Button variant="outline" size="sm" className="h-8 gap-1.5 px-2.5 text-xs font-medium">
-                  <Filter className="size-3.5" />
+                <button className="flex h-8 items-center gap-1.5 rounded-lg border border-border bg-secondary px-2.5 text-xs font-medium text-secondary-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                  <Filter className="size-3.5 text-muted-foreground" />
                   Brands
                   {activeTypes.size < 3 && (
                     <span className="flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
                       {activeTypes.size}
                     </span>
                   )}
-                </Button>
+                </button>
               </PopoverTrigger>
               <PopoverContent align="end" className="w-52 p-2">
                 <p className="mb-2 px-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
@@ -260,12 +259,12 @@ export function BrandVisibilityChart() {
               onValueChange={(v) => v && setView(v as "chart" | "list")}
               variant="outline"
               size="sm"
-              className="h-8"
+              className="h-8 shadow-none"
             >
-              <ToggleGroupItem value="chart" aria-label="Chart view" className="size-8 px-0">
+              <ToggleGroupItem value="chart" aria-label="Chart view" className="size-8 px-0 border-border bg-secondary text-secondary-foreground shadow-none hover:bg-accent data-[state=on]:bg-accent data-[state=on]:text-foreground">
                 <BarChart2 className="size-3.5" />
               </ToggleGroupItem>
-              <ToggleGroupItem value="list" aria-label="List view" className="size-8 px-0">
+              <ToggleGroupItem value="list" aria-label="List view" className="size-8 px-0 border-border bg-secondary text-secondary-foreground shadow-none hover:bg-accent data-[state=on]:bg-accent data-[state=on]:text-foreground">
                 <List className="size-3.5" />
               </ToggleGroupItem>
             </ToggleGroup>
