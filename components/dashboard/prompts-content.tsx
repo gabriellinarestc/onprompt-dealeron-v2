@@ -155,12 +155,12 @@ export function PromptsContent() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="secondary" className="gap-2">
-            <Plus className="size-4" />
+          <Button variant="secondary">
+            <Plus />
             Create Prompt
           </Button>
-          <Button variant="outline" className="gap-2">
-            <Download className="size-4" />
+          <Button variant="tertiary">
+            <Download />
             Export CSV
           </Button>
         </div>
