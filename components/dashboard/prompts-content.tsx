@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, useCallback } from "react"
-import { Plus, Download, Search } from "lucide-react"
+import { useState, useCallback, useMemo } from "react"
+import { Plus, Download, Search, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
@@ -20,6 +20,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { HelpTooltip } from "./help-tooltip"
 import { CreatePromptModal } from "./create-prompt-modal"
 
@@ -29,17 +36,48 @@ function getScoreColor(value: number): string {
   return `oklch(0.62 0.2 ${hue})`
 }
 
-function getDifficultyColor(value: number): string {
-  if (value <= 40) return "oklch(0.55 0.19 155)" // green - easy
-  if (value <= 70) return "oklch(0.7 0.16 75)"   // amber - medium
-  return "oklch(0.55 0.22 25)"                    // red - hard
-}
-
 function getSentimentColor(value: number): string {
   if (value >= 80) return "oklch(0.55 0.19 155)"
   if (value >= 60) return "oklch(0.65 0.17 115)"
   if (value >= 40) return "oklch(0.7 0.16 75)"
   return "oklch(0.55 0.22 25)"
+}
+
+// Difficulty level type and utilities
+type DifficultyLevel = "Low" | "Moderate" | "Medium" | "High" | "Very High"
+
+function getDifficultyLevel(value: number): DifficultyLevel {
+  if (value <= 20) return "Low"
+  if (value <= 40) return "Moderate"
+  if (value <= 60) return "Medium"
+  if (value <= 80) return "High"
+  return "Very High"
+}
+
+function getDifficultyConfig(level: DifficultyLevel): { bg: string; text: string } {
+  switch (level) {
+    case "Low":
+      return { bg: "oklch(0.92 0.10 155)", text: "oklch(0.35 0.15 155)" }
+    case "Moderate":
+      return { bg: "oklch(0.92 0.08 135)", text: "oklch(0.40 0.12 135)" }
+    case "Medium":
+      return { bg: "oklch(0.92 0.10 75)", text: "oklch(0.40 0.12 75)" }
+    case "High":
+      return { bg: "oklch(0.92 0.12 45)", text: "oklch(0.45 0.15 45)" }
+    case "Very High":
+      return { bg: "oklch(0.92 0.12 25)", text: "oklch(0.45 0.18 25)" }
+  }
+}
+
+// Volume range formatter
+function formatVolumeRange(volume: number): string {
+  if (volume < 1000) return "< 1K"
+  if (volume < 5000) return "1K - 5K"
+  if (volume < 10000) return "5K - 10K"
+  if (volume < 25000) return "10K - 25K"
+  if (volume < 50000) return "25K - 50K"
+  if (volume < 100000) return "50K - 100K"
+  return "100K+"
 }
 
 // Sentiment bar
@@ -67,19 +105,17 @@ function SentimentBar({ value }: { value: number }) {
   )
 }
 
-// Difficulty bar
-function DifficultyBar({ value }: { value: number }) {
-  const color = getDifficultyColor(value)
+// Difficulty tag component
+function DifficultyTag({ value }: { value: number }) {
+  const level = getDifficultyLevel(value)
+  const config = getDifficultyConfig(level)
   return (
-    <div className="flex items-center gap-2">
-      <div className="h-1.5 w-12 rounded-full bg-muted overflow-hidden">
-        <div
-          className="h-full rounded-full transition-all duration-500"
-          style={{ width: `${value}%`, backgroundColor: color }}
-        />
-      </div>
-      <span className="text-xs font-semibold tabular-nums" style={{ color }}>{value}</span>
-    </div>
+    <span
+      className="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium"
+      style={{ backgroundColor: config.bg, color: config.text }}
+    >
+      {level}
+    </span>
   )
 }
 
@@ -162,12 +198,87 @@ const initialPromptsData: PromptData[] = [
     brands: ["C", "M"],
     isAnalyzing: false,
   },
+  {
+    id: 6,
+    prompt: "how to optimize database queries",
+    visibilityScore: 81,
+    sentiment: 79,
+    volume: 6200,
+    difficulty: 55,
+    brands: ["D", "C"],
+    isAnalyzing: false,
+  },
+  {
+    id: 7,
+    prompt: "best practices for API design",
+    visibilityScore: 76,
+    sentiment: 84,
+    volume: 9100,
+    difficulty: 48,
+    brands: ["T", "D"],
+    isAnalyzing: false,
+  },
+  {
+    id: 8,
+    prompt: "cloud computing fundamentals",
+    visibilityScore: 69,
+    sentiment: 88,
+    volume: 22000,
+    difficulty: 25,
+    brands: ["C"],
+    isAnalyzing: false,
+  },
+  {
+    id: 9,
+    prompt: "machine learning for beginners",
+    visibilityScore: 72,
+    sentiment: 90,
+    volume: 45000,
+    difficulty: 18,
+    brands: ["M", "T"],
+    isAnalyzing: false,
+  },
+  {
+    id: 10,
+    prompt: "cybersecurity best practices",
+    visibilityScore: 84,
+    sentiment: 76,
+    volume: 31000,
+    difficulty: 67,
+    brands: ["T", "D", "C"],
+    isAnalyzing: false,
+  },
+  {
+    id: 11,
+    prompt: "serverless architecture patterns",
+    visibilityScore: 67,
+    sentiment: 82,
+    volume: 4800,
+    difficulty: 73,
+    brands: ["C"],
+    isAnalyzing: false,
+  },
+  {
+    id: 12,
+    prompt: "kubernetes deployment strategies",
+    visibilityScore: 58,
+    sentiment: 78,
+    volume: 7300,
+    difficulty: 85,
+    brands: ["D", "C"],
+    isAnalyzing: false,
+  },
 ]
+
+const RESULTS_PER_PAGE_OPTIONS = [10, 25, 50] as const
+type ResultsPerPage = (typeof RESULTS_PER_PAGE_OPTIONS)[number]
 
 export function PromptsContent() {
   const [searchQuery, setSearchQuery] = useState("")
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [prompts, setPrompts] = useState<PromptData[]>(initialPromptsData)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [resultsPerPage, setResultsPerPage] = useState<ResultsPerPage>(50)
 
   const handleCreatePrompt = useCallback((promptText: string) => {
     const newId = Math.max(...prompts.map(p => p.id)) + 1
@@ -185,43 +296,48 @@ export function PromptsContent() {
     }
     
     setPrompts(prev => [newPrompt, ...prev])
-    
-    // Simulate analysis completing after 3 seconds
-    setTimeout(() => {
-      setPrompts(prev => prev.map(p => 
-        p.id === newId 
-          ? {
-              ...p,
-              visibilityScore: Math.floor(Math.random() * 40) + 60, // 60-100
-              sentiment: Math.floor(Math.random() * 30) + 70, // 70-100
-              volume: Math.floor(Math.random() * 10000) + 1000, // 1000-11000
-              difficulty: Math.floor(Math.random() * 80) + 20, // 20-100
-              brands: ["T", "D"].slice(0, Math.floor(Math.random() * 2) + 1),
-              isAnalyzing: false,
-            }
-          : p
-      ))
-    }, 3000)
+    setCurrentPage(1) // Reset to first page when adding new prompt
   }, [prompts])
 
-  const filteredPrompts = prompts.filter((item) =>
-    item.prompt.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredPrompts = useMemo(() => 
+    prompts.filter((item) =>
+      item.prompt.toLowerCase().includes(searchQuery.toLowerCase())
+    ), [prompts, searchQuery]
   )
+
+  // Pagination calculations
+  const totalPrompts = filteredPrompts.length
+  const totalPages = Math.ceil(totalPrompts / resultsPerPage)
+  const startIndex = (currentPage - 1) * resultsPerPage
+  const endIndex = Math.min(startIndex + resultsPerPage, totalPrompts)
+  const paginatedPrompts = filteredPrompts.slice(startIndex, endIndex)
+
+  // Reset to page 1 when search changes
+  const handleSearchChange = useCallback((value: string) => {
+    setSearchQuery(value)
+    setCurrentPage(1)
+  }, [])
+
+  // Handle results per page change
+  const handleResultsPerPageChange = useCallback((value: string) => {
+    setResultsPerPage(Number(value) as ResultsPerPage)
+    setCurrentPage(1)
+  }, [])
 
   const handleExportCSV = useCallback(() => {
     // Filter out prompts still being analyzed
     const exportablePrompts = prompts.filter(p => !p.isAnalyzing)
     
     // CSV headers
-    const headers = ["Prompt", "Visibility Score", "Sentiment", "Volume", "Difficulty", "Brands"]
+    const headers = ["Prompt", "Visibility", "Sentiment", "Volume", "Difficulty", "Brands"]
     
     // Convert prompts to CSV rows
     const rows = exportablePrompts.map(item => [
       `"${item.prompt.replace(/"/g, '""')}"`, // Escape quotes in prompt text
       item.visibilityScore?.toString() ?? "",
       item.sentiment?.toString() ?? "",
-      item.volume?.toString() ?? "",
-      item.difficulty?.toString() ?? "",
+      item.volume ? formatVolumeRange(item.volume) : "",
+      item.difficulty ? getDifficultyLevel(item.difficulty) : "",
       item.brands.map(b => brandNames[b] || b).join("; ")
     ])
     
@@ -265,20 +381,20 @@ export function PromptsContent() {
         </div>
       </div>
 
-      {/* Search Bar */}
+      {/* Search Bar and Prompt Count */}
       <div className="flex items-center gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search by prompt text..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => handleSearchChange(e.target.value)}
             className="h-10 pl-9 bg-card border-border"
           />
         </div>
-        <span className="shrink-0 text-sm text-muted-foreground">
-          {filteredPrompts.length} prompts
-        </span>
+        <Badge variant="secondary" className="h-8 px-3 text-sm font-medium">
+          {totalPrompts} {totalPrompts === 1 ? "prompt" : "prompts"}
+        </Badge>
       </div>
 
       {/* Table */}
@@ -292,8 +408,8 @@ export function PromptsContent() {
                 </TableHead>
                 <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
                   <span className="inline-flex items-center gap-1">
-                    Visibility Score
-                    <HelpTooltip title="Visibility Score">
+                    Visibility
+                    <HelpTooltip title="Visibility">
                       Measures how often your brand appears in AI model responses for this prompt. Higher is better.
                     </HelpTooltip>
                   </span>
@@ -305,7 +421,7 @@ export function PromptsContent() {
                   <span className="inline-flex items-center gap-1">
                     Volume
                     <HelpTooltip title="Volume">
-                      The estimated monthly search volume for this prompt across all AI platforms.
+                      The estimated monthly search volume range for this prompt across all AI platforms.
                     </HelpTooltip>
                   </span>
                 </TableHead>
@@ -323,7 +439,7 @@ export function PromptsContent() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredPrompts.map((item) => (
+              {paginatedPrompts.map((item) => (
                 <TableRow key={item.id} className={`border-border ${item.isAnalyzing ? 'bg-muted/30' : ''}`}>
                   <TableCell className="max-w-[300px] text-sm text-foreground pl-6">
                     <div className="flex items-center gap-2">
@@ -356,8 +472,8 @@ export function PromptsContent() {
                     {item.isAnalyzing ? (
                       <AnalyzingSkeleton />
                     ) : (
-                      <span className="text-sm tabular-nums text-foreground">
-                        {item.volume!.toLocaleString()}
+                      <span className="text-sm tabular-nums text-muted-foreground">
+                        {formatVolumeRange(item.volume!)}
                       </span>
                     )}
                   </TableCell>
@@ -365,7 +481,7 @@ export function PromptsContent() {
                     {item.isAnalyzing ? (
                       <AnalyzingSkeleton />
                     ) : (
-                      <DifficultyBar value={item.difficulty!} />
+                      <DifficultyTag value={item.difficulty!} />
                     )}
                   </TableCell>
                   <TableCell className="pr-6">
@@ -397,6 +513,56 @@ export function PromptsContent() {
               ))}
             </TableBody>
           </Table>
+
+          {/* Pagination */}
+          {totalPages > 0 && (
+            <div className="flex items-center justify-between border-t border-border px-6 py-4">
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground">Show</span>
+                <Select value={String(resultsPerPage)} onValueChange={handleResultsPerPageChange}>
+                  <SelectTrigger size="sm" className="w-[70px]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {RESULTS_PER_PAGE_OPTIONS.map((option) => (
+                      <SelectItem key={option} value={String(option)}>
+                        {option}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <span className="text-sm text-muted-foreground">per page</span>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <span className="text-sm text-muted-foreground">
+                  {startIndex + 1}-{endIndex} of {totalPrompts}
+                </span>
+                <div className="flex items-center gap-1">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="size-8"
+                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                    disabled={currentPage === 1}
+                  >
+                    <ChevronLeft className="size-4" />
+                    <span className="sr-only">Previous page</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="size-8"
+                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                    disabled={currentPage === totalPages}
+                  >
+                    <ChevronRight className="size-4" />
+                    <span className="sr-only">Next page</span>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
 

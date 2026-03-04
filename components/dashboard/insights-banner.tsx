@@ -35,7 +35,7 @@ export function InsightsBanner() {
             <div className="flex items-start gap-2 flex-1">
               <TrendingUp className="size-3.5 mt-0.5 shrink-0 text-success" />
               <p className="text-xs text-muted-foreground leading-relaxed">
-                <span className="font-medium text-foreground">Visibility Score</span> measures how often AI models reference your brand when answering relevant prompts, weighted by model reach and relevance.
+                <span className="font-medium text-foreground">Visibility</span> measures how often AI models reference your brand when answering relevant prompts, weighted by model reach and relevance.
               </p>
             </div>
             <div className="flex items-start gap-2 flex-1">

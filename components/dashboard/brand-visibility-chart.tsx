@@ -126,7 +126,8 @@ function CustomChartTooltip({
 }
 
 export function BrandVisibilityChart() {
-  const [view, setView] = useState<"chart" | "list">("chart")
+  // View toggle kept for future use - default to list only for MVP
+  const [view] = useState<"chart" | "list">("list")
   const { activeModels } = useModelFilter()
   const [activeTypes, setActiveTypes] = useState<Set<BrandType>>(new Set(["main", "competitor", "partner"]))
 
@@ -202,8 +203,8 @@ export function BrandVisibilityChart() {
               <span className="text-xs text-muted-foreground">mentions</span>
             </div>
 
-            {/* Brand type filter */}
-            <Popover>
+            {/* Brand type filter - hidden for MVP, kept for later use */}
+            {/* <Popover>
               <PopoverTrigger asChild>
                 <Button variant="outline" size="sm" className="h-8 gap-1.5 px-2.5 text-xs font-medium">
                   <Filter className="size-3.5" />
@@ -245,10 +246,10 @@ export function BrandVisibilityChart() {
                   })}
                 </div>
               </PopoverContent>
-            </Popover>
+            </Popover> */}
 
-            {/* Chart / List toggle */}
-            <ToggleGroup
+            {/* Chart / List toggle - hidden for MVP, kept for later use */}
+            {/* <ToggleGroup
               type="single"
               value={view}
               onValueChange={(v) => v && setView(v as "chart" | "list")}
@@ -262,7 +263,7 @@ export function BrandVisibilityChart() {
               <ToggleGroupItem value="list" aria-label="List view" className="size-8 px-0">
                 <List className="size-3.5" />
               </ToggleGroupItem>
-            </ToggleGroup>
+            </ToggleGroup> */}
           </div>
         </div>
       </CardHeader>
@@ -390,7 +391,7 @@ export function BrandVisibilityChart() {
                         </span>
                       </TooltipTrigger>
                       <TooltipContent className="bg-popover text-popover-foreground border-border">
-                        <p className="text-xs font-medium">Visibility Score</p>
+                        <p className="text-xs font-medium">Visibility</p>
                         <p className="text-[10px] text-muted-foreground">How often AI models reference this brand in relevant queries</p>
                       </TooltipContent>
                     </Tooltip>
