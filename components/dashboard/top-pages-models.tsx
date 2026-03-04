@@ -63,16 +63,16 @@ export function TopPagesModels() {
             </HelpTooltip>
           </div>
           <div className="flex gap-1">
-            <Button variant="ghost" size="sm" asChild>
+            <Button variant="ghost" size="sm" className="gap-1 text-xs text-foreground hover:text-foreground" asChild>
               <Link href="/visitor-analytics">
                 View Visitors
-                <ArrowRight />
+                <ArrowRight className="size-3" />
               </Link>
             </Button>
-            <Button variant="ghost" size="sm" asChild>
+            <Button variant="ghost" size="sm" className="gap-1 text-xs text-foreground hover:text-foreground" asChild>
               <Link href="/crawler-logs">
                 View Crawls
-                <ArrowRight />
+                <ArrowRight className="size-3" />
               </Link>
             </Button>
           </div>
@@ -120,16 +120,16 @@ export function TopPagesModels() {
             </HelpTooltip>
           </div>
           <div className="flex gap-1">
-            <Button variant="ghost" size="sm" asChild>
+            <Button variant="ghost" size="sm" className="gap-1 text-xs text-foreground hover:text-foreground" asChild>
               <Link href="/visitor-analytics">
                 View Visitors
-                <ArrowRight />
+                <ArrowRight className="size-3" />
               </Link>
             </Button>
-            <Button variant="ghost" size="sm" asChild>
+            <Button variant="ghost" size="sm" className="gap-1 text-xs text-foreground hover:text-foreground" asChild>
               <Link href="/crawler-logs">
                 View Crawls
-                <ArrowRight />
+                <ArrowRight className="size-3" />
               </Link>
             </Button>
           </div>
