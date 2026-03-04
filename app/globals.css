@@ -50,23 +50,6 @@
   --gray-900: oklch(0.18 0.006 60);
   --gray-950: oklch(0.13 0.005 50);
 
-  /* Button component tokens */
-  --button-primary-bg: var(--primary);
-  --button-primary-fg: var(--primary-foreground);
-  --button-primary-hover-bg: oklch(0.46 0.24 315);
-  --button-secondary-bg: var(--secondary);
-  --button-secondary-fg: var(--secondary-foreground);
-  --button-secondary-hover-bg: oklch(0.90 0.006 60);
-  --button-tertiary-bg: transparent;
-  --button-tertiary-fg: var(--foreground);
-  --button-tertiary-border: var(--border);
-  --button-tertiary-hover-bg: oklch(0.94 0.006 60);
-  --button-ghost-fg: var(--foreground);
-  --button-ghost-hover-bg: oklch(0.94 0.006 60);
-  --button-ghost-hover-fg: var(--foreground);
-  --button-link-fg: var(--primary);
-  --button-link-hover-fg: oklch(0.46 0.24 315);
-
   /* Input component tokens */
   --input-bg: oklch(1 0 0);
   --input-fg: var(--foreground);
@@ -174,23 +157,6 @@
   --gray-800: oklch(0.22 0.005 50);
   --gray-900: oklch(0.17 0.005 50);
   --gray-950: oklch(0.13 0.005 50);
-
-  /* Button component tokens (dark) */
-  --button-primary-bg: var(--primary);
-  --button-primary-fg: var(--primary-foreground);
-  --button-primary-hover-bg: oklch(0.74 0.24 315);
-  --button-secondary-bg: var(--secondary);
-  --button-secondary-fg: var(--secondary-foreground);
-  --button-secondary-hover-bg: oklch(0.27 0.005 50);
-  --button-tertiary-bg: transparent;
-  --button-tertiary-fg: var(--foreground);
-  --button-tertiary-border: var(--border);
-  --button-tertiary-hover-bg: oklch(0.22 0.005 50);
-  --button-ghost-fg: var(--foreground);
-  --button-ghost-hover-bg: oklch(0.22 0.005 50);
-  --button-ghost-hover-fg: var(--foreground);
-  --button-link-fg: var(--primary);
-  --button-link-hover-fg: oklch(0.74 0.24 315);
 
   /* Input component tokens (dark) */
   --input-bg: oklch(0.17 0.005 50);
@@ -300,23 +266,6 @@
   --color-gray-800: var(--gray-800);
   --color-gray-900: var(--gray-900);
   --color-gray-950: var(--gray-950);
-
-  /* Button tokens */
-  --color-button-primary-bg: var(--button-primary-bg);
-  --color-button-primary-fg: var(--button-primary-fg);
-  --color-button-primary-hover-bg: var(--button-primary-hover-bg);
-  --color-button-secondary-bg: var(--button-secondary-bg);
-  --color-button-secondary-fg: var(--button-secondary-fg);
-  --color-button-secondary-hover-bg: var(--button-secondary-hover-bg);
-  --color-button-tertiary-bg: var(--button-tertiary-bg);
-  --color-button-tertiary-fg: var(--button-tertiary-fg);
-  --color-button-tertiary-border: var(--button-tertiary-border);
-  --color-button-tertiary-hover-bg: var(--button-tertiary-hover-bg);
-  --color-button-ghost-fg: var(--button-ghost-fg);
-  --color-button-ghost-hover-bg: var(--button-ghost-hover-bg);
-  --color-button-ghost-hover-fg: var(--button-ghost-hover-fg);
-  --color-button-link-fg: var(--button-link-fg);
-  --color-button-link-hover-fg: var(--button-link-hover-fg);
 
   /* Input tokens */
   --color-input-bg: var(--input-bg);

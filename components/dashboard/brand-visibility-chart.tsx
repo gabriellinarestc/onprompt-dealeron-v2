@@ -204,7 +204,7 @@ export function BrandVisibilityChart() {
             {/* Brand type filter */}
             <Popover>
               <PopoverTrigger asChild>
-                <Button variant="tertiary" size="sm">
+                <Button variant="outline" size="sm" className="h-8 gap-1.5 px-2.5 text-xs font-medium">
                   <Filter className="size-3.5" />
                   Brands
                   {activeTypes.size < 3 && (
