@@ -11,7 +11,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { BarChart2, List, Check, Filter, Crown } from "lucide-react"
+import { Checkbox } from "@/components/ui/checkbox"
+import { BarChart2, List, Filter, Crown } from "lucide-react"
 import { HelpTooltip } from "./help-tooltip"
 import {
   BarChart,
@@ -207,11 +208,9 @@ export function BrandVisibilityChart() {
                 <Button variant="outline" size="sm" className="h-8 gap-1.5 px-2.5 text-xs font-medium">
                   <Filter className="size-3.5" />
                   Brands
-                  {activeTypes.size < 3 && (
-                    <span className="flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
-                      {activeTypes.size}
-                    </span>
-                  )}
+                  <span className="flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                    {filteredData.length}
+                  </span>
                 </Button>
               </PopoverTrigger>
               <PopoverContent align="end" className="w-52 p-2">
@@ -235,16 +234,11 @@ export function BrandVisibilityChart() {
                         {isMain ? (
                           <Crown className="size-3 text-primary" />
                         ) : (
-                          <span
-                            className="flex size-4 shrink-0 items-center justify-center rounded-[4px] border transition-colors"
-                            style={
-                              checked
-                                ? { backgroundColor: "var(--foreground)", borderColor: "var(--foreground)", color: "var(--background)" }
-                                : { borderColor: "var(--border)" }
-                            }
-                          >
-                            {checked && <Check className="size-2.5 stroke-[3]" />}
-                          </span>
+                          <Checkbox
+                            checked={checked}
+                            onCheckedChange={() => toggleType(type)}
+                            className="pointer-events-none"
+                          />
                         )}
                       </button>
                     )
