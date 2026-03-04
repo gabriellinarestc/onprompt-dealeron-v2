@@ -361,13 +361,6 @@ export function PromptsContent() {
       {/* Table */}
       <Card className="border-border bg-card overflow-hidden">
         <CardContent className="p-0">
-          {/* Option 5: Table caption - styled like "67 mentions" */}
-          <div className="px-6 pt-4 pb-2">
-            <div className="flex items-baseline gap-1">
-              <span className="text-2xl font-bold text-foreground">{totalPrompts}</span>
-              <span className="text-xs text-muted-foreground">{totalPrompts === 1 ? "prompt" : "prompts"}</span>
-            </div>
-          </div>
           <Table>
             <TableHeader>
               <TableRow className="border-border hover:bg-transparent">
