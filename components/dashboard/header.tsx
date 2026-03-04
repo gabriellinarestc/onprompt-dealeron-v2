@@ -13,7 +13,7 @@ import {
 } from "./model-logos"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Separator } from "@/components/ui/separator"
-import { Bot, ChevronDown, Check } from "lucide-react"
+import { Sparkles, ChevronDown, Check } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
 
@@ -40,7 +40,7 @@ export function DashboardHeader() {
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <button className="flex h-9 items-center gap-2 rounded-lg border border-border bg-secondary px-3 text-sm font-medium text-secondary-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-              <Bot className="size-4 text-muted-foreground" />
+              <Sparkles className="size-4 text-muted-foreground" />
               <span>{allActive ? "All Models" : `${activeModels.size} Models`}</span>
               {!allActive && (
                 <span className="rounded-md bg-primary/15 px-1.5 py-0.5 text-xs font-medium text-primary">
