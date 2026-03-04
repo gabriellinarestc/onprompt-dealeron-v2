@@ -9,6 +9,7 @@ import {
   ClaudeLogo,
   CopilotLogo,
   GeminiLogo,
+  AIOverviewLogo,
   PerplexityLogo,
 } from "./model-logos"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
@@ -22,6 +23,7 @@ const MODEL_LOGOS: Record<ModelKey, React.ComponentType<{ size?: number }>> = {
   claude: ClaudeLogo,
   copilot: CopilotLogo,
   gemini: GeminiLogo,
+  aioverview: AIOverviewLogo,
   perplexity: PerplexityLogo,
 }
 

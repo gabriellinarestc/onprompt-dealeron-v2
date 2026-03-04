@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
-import { ChatGPTLogo, ClaudeLogo, GeminiLogo, PerplexityLogo, CopilotLogo } from "./model-logos"
+import { ChatGPTLogo, ClaudeLogo, GeminiLogo, AIOverviewLogo, PerplexityLogo, CopilotLogo } from "./model-logos"
 import { useModelFilter } from "./model-filter-context"
 import { resolveModelKey } from "@/lib/models"
 import { HelpTooltip } from "./help-tooltip"
@@ -23,6 +23,7 @@ const MODEL_LOGO_MAP: Record<string, { Logo: ModelLogoComponent; color: string }
   "chatgpt.com":          { Logo: ChatGPTLogo,    color: "#10a37f" },
   "claude.ai":            { Logo: ClaudeLogo,     color: "#d97757" },
   "gemini.google.com":    { Logo: GeminiLogo,     color: "#4285f4" },
+  "google.com/search":    { Logo: AIOverviewLogo, color: "#e1306c" },
   "perplexity.ai":        { Logo: PerplexityLogo, color: "#20b8cd" },
   "copilot.microsoft.com":{ Logo: CopilotLogo,    color: "#0078d4" },
 }
@@ -39,6 +40,7 @@ const topModels = [
   { model: "chatgpt.com", visitors: 22, crawls: "716.4k" },
   { model: "claude.ai", visitors: 10, crawls: "338.5k" },
   { model: "gemini.google.com", visitors: 5, crawls: "60" },
+  { model: "google.com/search", visitors: 3, crawls: "45.2k" },
   { model: "perplexity.ai", visitors: 2, crawls: "116.4k" },
   { model: "copilot.microsoft.com", visitors: 1, crawls: "8.9k" },
 ]

@@ -66,6 +66,17 @@ export function GeminiLogo({ size = 20 }: { size?: number }) {
   )
 }
 
+export function AIOverviewLogo({ size = 20 }: { size?: number }) {
+  return (
+    <GradientLogo
+      src="/models/gemini.svg"
+      alt="AI Overview"
+      gradient="linear-gradient(135deg, #e1306c 0%, #c13584 50%, #833ab4 100%)"
+      size={size}
+    />
+  )
+}
+
 export function PerplexityLogo({ size = 20 }: { size?: number }) {
   return (
     <GradientLogo

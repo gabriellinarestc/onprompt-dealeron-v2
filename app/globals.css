@@ -35,6 +35,7 @@
   --model-gemini: #4285f4;
   --model-perplexity: #20b8cd;
   --model-copilot: #0078d4;
+  --model-aioverview: #e1306c;
   --sidebar: oklch(0.98 0.004 60);
   --sidebar-foreground: oklch(0.47 0.006 60);
   --sidebar-primary: oklch(0.52 0.24 315);
@@ -80,6 +81,7 @@
   --model-chatgpt: #10a37f;
   --model-claude: #d97757;
   --model-gemini: #4285f4;
+  --model-aioverview: #e1306c;
   --model-perplexity: #20b8cd;
   --model-copilot: #0078d4;
   --sidebar: oklch(0.11 0.005 50);
@@ -130,6 +132,7 @@
   --color-model-gemini: var(--model-gemini);
   --color-model-perplexity: var(--model-perplexity);
   --color-model-copilot: var(--model-copilot);
+  --color-model-aioverview: var(--model-aioverview);
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-chart-grid: var(--chart-grid);
