@@ -1,6 +1,7 @@
 "use client"
 
-import { ThemeToggle } from "./theme-toggle"
+// ThemeToggle hidden for MVP - can be re-enabled later
+// import { ThemeToggle } from "./theme-toggle"
 import { PeriodSelector } from "./period-selector"
 import { useModelFilter } from "./model-filter-context"
 import { MODEL_CONFIG, type ModelKey } from "@/lib/models"
@@ -108,7 +109,8 @@ export function DashboardHeader() {
         </Popover>
 
         <PeriodSelector />
-        <ThemeToggle />
+        {/* ThemeToggle hidden for MVP - can be re-enabled later */}
+        {/* <ThemeToggle /> */}
       </div>
     </header>
   )
