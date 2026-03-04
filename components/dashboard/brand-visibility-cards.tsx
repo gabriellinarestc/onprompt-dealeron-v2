@@ -8,7 +8,6 @@ import {
   ChatGPTLogo,
   ClaudeLogo,
   GeminiLogo,
-  AIOverviewLogo,
   PerplexityLogo,
   CopilotLogo,
 } from "./model-logos"
@@ -17,7 +16,6 @@ const modelData = [
   { key: "chatgpt" as const, mentions: 20, change: "+1,900%" },
   { key: "claude" as const, mentions: 8, change: "+700%" },
   { key: "gemini" as const, mentions: 5, change: "+400%" },
-  { key: "aioverview" as const, mentions: 4, change: "+300%" },
   { key: "perplexity" as const, mentions: 1, change: null },
   { key: "copilot" as const, mentions: 1, change: null },
 ]
@@ -26,7 +24,6 @@ const MODEL_LOGOS = {
   chatgpt: ChatGPTLogo,
   claude: ClaudeLogo,
   gemini: GeminiLogo,
-  aioverview: AIOverviewLogo,
   perplexity: PerplexityLogo,
   copilot: CopilotLogo,
 }

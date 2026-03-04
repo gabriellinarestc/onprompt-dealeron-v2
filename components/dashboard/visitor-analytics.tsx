@@ -9,7 +9,6 @@ import {
   ClaudeLogo,
   CopilotLogo,
   GeminiLogo,
-  AIOverviewLogo,
   PerplexityLogo,
 } from "./model-logos"
 
@@ -18,7 +17,6 @@ const MODEL_LOGOS = {
   claude: ClaudeLogo,
   copilot: CopilotLogo,
   gemini: GeminiLogo,
-  aioverview: AIOverviewLogo,
   perplexity: PerplexityLogo,
 }
 
@@ -27,7 +25,6 @@ const visitorModels = [
   { key: "claude" as const, visitors: 10, change: null },
   { key: "copilot" as const, visitors: 1, change: null },
   { key: "gemini" as const, visitors: 5, change: "+400%" },
-  { key: "aioverview" as const, visitors: 3, change: "+200%" },
   { key: "perplexity" as const, visitors: 2, change: "+100%" },
 ]
 
