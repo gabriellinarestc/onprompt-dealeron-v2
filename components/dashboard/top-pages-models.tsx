@@ -137,13 +137,12 @@ export function TopPagesModels() {
                 <TableRow key={item.model} className="border-border">
                   <TableCell className="text-xs text-foreground">
                     <div className="flex items-center gap-2">
-                      {MODEL_LOGO_MAP[item.model] ? (
-                        <span style={{ color: MODEL_LOGO_MAP[item.model].color }}>
-                          <MODEL_LOGO_MAP[item.model].Logo size={16} />
-                        </span>
-                      ) : (
-                        <span className="size-2 rounded-full bg-primary" />
-                      )}
+                      {(() => {
+                        const entry = MODEL_LOGO_MAP[item.model]
+                        if (!entry) return <span className="size-2 rounded-full bg-primary" />
+                        const Logo = entry.Logo
+                        return <span style={{ color: entry.color }}><Logo size={16} /></span>
+                      })()}
                       {item.model}
                     </div>
                   </TableCell>
