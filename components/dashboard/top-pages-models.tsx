@@ -15,6 +15,7 @@ import { ArrowRight } from "lucide-react"
 import { ChatGPTLogo, ClaudeLogo, GeminiLogo, PerplexityLogo, CopilotLogo } from "./model-logos"
 import { useModelFilter } from "./model-filter-context"
 import { resolveModelKey } from "@/lib/models"
+import { HelpTooltip } from "./help-tooltip"
 
 type ModelLogoComponent = React.ComponentType<{ size?: number }>
 
@@ -53,7 +54,12 @@ export function TopPagesModels() {
     <div className="grid gap-4 lg:grid-cols-2">
       <Card className="border-border bg-card">
         <CardHeader>
-          <CardTitle className="text-sm font-semibold text-foreground">Top Pages</CardTitle>
+          <div className="flex items-center gap-1.5">
+            <CardTitle className="text-sm font-semibold text-foreground">Top Pages</CardTitle>
+            <HelpTooltip title="Top Pages">
+              Your website pages that receive the most AI-driven traffic. Visitors are real users arriving from AI model responses, crawls are indexing requests from AI bots.
+            </HelpTooltip>
+          </div>
           <CardAction>
             <div className="flex gap-1">
               <Button variant="ghost" size="sm" className="gap-1 text-xs text-foreground hover:text-foreground" asChild>
@@ -107,7 +113,12 @@ export function TopPagesModels() {
 
       <Card className="border-border bg-card">
         <CardHeader>
-          <CardTitle className="text-sm font-semibold text-foreground">Top Models</CardTitle>
+          <div className="flex items-center gap-1.5">
+            <CardTitle className="text-sm font-semibold text-foreground">Top Models</CardTitle>
+            <HelpTooltip title="Top Models">
+              AI models ranked by engagement with your site. Visitors are users who clicked through from an AI response, crawls show how often each model indexes your content.
+            </HelpTooltip>
+          </div>
           <CardAction>
             <div className="flex gap-1">
               <Button variant="ghost" size="sm" className="gap-1 text-xs text-foreground hover:text-foreground" asChild>

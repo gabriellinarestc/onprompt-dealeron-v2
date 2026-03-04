@@ -26,16 +26,16 @@ export default function DashboardPage() {
               <InsightsBanner />
 
               {/* Brand Visibility Section */}
-              <SectionHeader title="Brand Visibility" />
+              <SectionHeader title="Brand Visibility" tooltip="How visible your brand is across AI models like ChatGPT, Claude, and Gemini when users ask relevant questions." />
               <BrandVisibilityCards />
               <BrandVisibilityChart />
 
               {/* Brand Sentiment Section */}
-              <SectionHeader title="Brand Sentiment" />
+              <SectionHeader title="Brand Sentiment" tooltip="How positively or negatively AI models describe your brand when it appears in their responses." />
               <BrandSentiment />
 
               {/* Prompts & Content Coverage Section */}
-              <SectionHeader title="Prompts & Content Coverage" />
+              <SectionHeader title="Prompts & Content Coverage" tooltip="The specific user questions where your brand appears and topics where you have gaps in AI coverage." />
               <div className="grid gap-4 lg:grid-cols-5">
                 <div className="lg:col-span-3">
                   <TopPrompts />
@@ -46,7 +46,7 @@ export default function DashboardPage() {
               </div>
 
               {/* Visitor Analytics & Crawler Logs Section */}
-              <SectionHeader title="Visitor Analytics & Crawler Logs" />
+              <SectionHeader title="Visitor Analytics & Crawler Logs" tooltip="Real traffic and crawl activity from AI models on your website. Understand which models drive visitors and how they index your content." />
               <VisitorAnalytics />
               <TopPagesModels />
             </div>

@@ -3,6 +3,7 @@
 import { ArrowUpRight } from "lucide-react"
 import { MODEL_CONFIG } from "@/lib/models"
 import { useModelFilter } from "./model-filter-context"
+import { HelpTooltip } from "./help-tooltip"
 import {
   ChatGPTLogo,
   ClaudeLogo,
@@ -71,7 +72,14 @@ export function BrandVisibilityCards() {
               <Ring value={item.value} size={64} stroke={6} />
               <div className="flex flex-col items-center gap-0.5">
                 <p className="text-lg font-bold leading-tight" style={{ color }}>{item.value}%</p>
-                <p className="text-center text-xs leading-tight text-muted-foreground">{item.label}</p>
+                <div className="flex items-center gap-1">
+                  <p className="text-center text-xs leading-tight text-muted-foreground">{item.label}</p>
+                  <HelpTooltip title={item.label}>
+                    {i === 0
+                      ? "Measures how often your brand appears in AI model responses. Calculated as (your brand mentions / total category mentions) across all tracked models and prompts."
+                      : "Percentage of relevant prompts where your brand appears in at least one AI model response. Higher coverage means better discoverability."}
+                  </HelpTooltip>
+                </div>
               </div>
               {i === 0 && <div className="absolute right-0 top-1/4 h-1/2 w-px bg-border" />}
             </div>
@@ -81,9 +89,14 @@ export function BrandVisibilityCards() {
 
       {/* Visibility by Model */}
       <div className="flex flex-col overflow-hidden rounded-xl border border-border bg-card md:col-span-2">
-        <p className="px-5 py-3 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
-          Visibility by Model
-        </p>
+        <div className="flex items-center gap-1.5 px-5 py-3">
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+            Visibility by Model
+          </p>
+          <HelpTooltip title="Visibility by Model">
+            Total number of times your brand was mentioned in responses from each AI model. The percentage shows growth compared to the previous period.
+          </HelpTooltip>
+        </div>
         <div className="flex flex-1 divide-x divide-border border-t border-border">
           {filteredModelData.map((item) => {
             const config = MODEL_CONFIG[item.key]

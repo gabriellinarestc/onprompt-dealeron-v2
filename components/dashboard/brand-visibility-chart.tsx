@@ -12,6 +12,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { BarChart2, List, Check, Filter, Crown } from "lucide-react"
+import { HelpTooltip } from "./help-tooltip"
 import {
   BarChart,
   Bar,
@@ -178,9 +179,14 @@ export function BrandVisibilityChart() {
       <CardHeader>
         <div className="flex items-start justify-between gap-4">
           <div>
-            <CardTitle className="text-sm font-semibold text-foreground">
-              Mentions by Model
-            </CardTitle>
+            <div className="flex items-center gap-1.5">
+              <CardTitle className="text-sm font-semibold text-foreground">
+                Mentions by Model
+              </CardTitle>
+              <HelpTooltip title="Mentions by Model">
+                Total brand mentions broken down by AI model. Each stacked bar segment represents a different model. The visibility score (0-100) indicates overall discoverability, while mentions show the raw count.
+              </HelpTooltip>
+            </div>
             <CardDescription className="text-xs">
               How often your brand is mentioned across AI models vs. competitors
             </CardDescription>

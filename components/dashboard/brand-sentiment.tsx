@@ -12,6 +12,7 @@ import {
   ReferenceLine,
 } from "recharts"
 import { ArrowDownRight } from "lucide-react"
+import { HelpTooltip } from "./help-tooltip"
 
 // Realistic growing sentiment data with variations — starts lower, trends upward
 const sentimentData = [
@@ -69,7 +70,12 @@ export function BrandSentiment() {
     <div className="grid gap-4 lg:grid-cols-2">
       <Card className="border-border bg-card">
         <CardHeader>
-          <CardTitle className="text-sm font-semibold text-foreground">Score Summary</CardTitle>
+          <div className="flex items-center gap-1.5">
+            <CardTitle className="text-sm font-semibold text-foreground">Score Summary</CardTitle>
+            <HelpTooltip title="Sentiment Score">
+              Calculated by averaging how positively AI models describe your brand across all tracked prompts. Scores range from 0 (negative) to 100 (very positive), weighted by prompt frequency and model reach.
+            </HelpTooltip>
+          </div>
           <CardDescription className="text-xs">Overview of your brand{"'"}s sentiment performance across AI models</CardDescription>
         </CardHeader>
         <CardContent>
@@ -96,7 +102,7 @@ export function BrandSentiment() {
                 className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2"
                 style={{ left: `${currentScore}%` }}
               >
-                <div className="size-3.5 rounded-full border-2 border-foreground bg-background" />
+                <div className="size-3.5 rounded-full border-2 border-background" style={{ backgroundColor: getTemperatureColor(currentScore) }} />
               </div>
             </div>
             <p className="mt-1.5 text-right text-xs text-muted-foreground">
@@ -108,7 +114,12 @@ export function BrandSentiment() {
 
       <Card className="border-border bg-card">
         <CardHeader>
-          <CardTitle className="text-sm font-semibold text-foreground">Sentiment Over Time</CardTitle>
+          <div className="flex items-center gap-1.5">
+            <CardTitle className="text-sm font-semibold text-foreground">Sentiment Over Time</CardTitle>
+            <HelpTooltip title="How to read this chart">
+              Each point shows the weekly average sentiment score. The line color shifts from red (negative) through amber to green (positive) to reflect the score at that point. An upward trend means AI models are describing your brand more favorably.
+            </HelpTooltip>
+          </div>
           <CardDescription className="text-xs">
             Track how AI models perceive your brand sentiment over time
           </CardDescription>

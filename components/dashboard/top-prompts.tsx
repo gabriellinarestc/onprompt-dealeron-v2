@@ -19,6 +19,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { ArrowRight } from "lucide-react"
+import { HelpTooltip } from "./help-tooltip"
 
 function getTemperatureColor(value: number): string {
   if (value >= 80) return "oklch(0.55 0.19 155)"  // green
@@ -101,15 +102,22 @@ const promptsData = [
 
 function SentimentBar({ value }: { value: number }) {
   const color = getTemperatureColor(value)
+  // Clamp left% so the dot doesn't overflow the bar edges
+  const clampedLeft = Math.max(8, Math.min(92, value))
   return (
     <div className="flex items-center gap-2">
-      <div className="relative h-2 w-20 rounded-full overflow-hidden"
+      <div
+        className="relative h-2 w-20 rounded-full"
         style={{ background: "linear-gradient(to right, oklch(0.55 0.22 25), oklch(0.7 0.16 75), oklch(0.55 0.19 155))" }}
       >
-        {/* Indicator */}
         <div
-          className="absolute top-1/2 -translate-y-1/2 size-2.5 rounded-full border-2 border-background"
-          style={{ left: `${value}%`, transform: `translate(-50%, -50%)`, backgroundColor: color }}
+          className="absolute size-2.5 rounded-full border-2 border-background"
+          style={{
+            left: `${clampedLeft}%`,
+            top: "50%",
+            transform: "translate(-50%, -50%)",
+            backgroundColor: color,
+          }}
         />
       </div>
       <span className="text-[11px] font-semibold tabular-nums" style={{ color }}>{value}</span>
@@ -121,7 +129,12 @@ export function TopPrompts() {
   return (
     <Card className="border-border bg-card h-full flex flex-col">
       <CardHeader>
-        <CardTitle className="text-sm font-semibold text-foreground">Top Prompts</CardTitle>
+        <div className="flex items-center gap-1.5">
+          <CardTitle className="text-sm font-semibold text-foreground">Top Prompts</CardTitle>
+          <HelpTooltip title="Top Prompts">
+            The most frequent prompts where your brand appears in AI model responses. Sentiment shows how positively your brand is described, visibility shows how often your brand appears for that prompt.
+          </HelpTooltip>
+        </div>
         <CardAction>
           <Button variant="ghost" size="sm" className="gap-1 text-xs text-foreground hover:text-foreground" asChild>
             <Link href="/prompts">
@@ -139,10 +152,10 @@ export function TopPrompts() {
                 Prompt
               </TableHead>
               <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
-                Sentiment
+                <span className="inline-flex items-center gap-1">Sentiment <HelpTooltip>How positively the AI model describes your brand for this prompt. 0 = negative, 100 = very positive.</HelpTooltip></span>
               </TableHead>
               <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
-                Visibility
+                <span className="inline-flex items-center gap-1">Visibility <HelpTooltip>The percentage of times your brand is mentioned when this prompt is asked across all tracked models.</HelpTooltip></span>
               </TableHead>
               <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
                 Brands
