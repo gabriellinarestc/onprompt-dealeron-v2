@@ -21,6 +21,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { HelpTooltip } from "./help-tooltip"
+import { CreatePromptModal } from "./create-prompt-modal"
 
 // Color utilities
 function getScoreColor(value: number): string {
@@ -139,6 +140,12 @@ const promptsData = [
 
 export function PromptsContent() {
   const [searchQuery, setSearchQuery] = useState("")
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+
+  const handleCreatePrompt = (prompt: string) => {
+    // TODO: Implement prompt creation logic
+    console.log("Creating prompt:", prompt)
+  }
 
   const filteredPrompts = promptsData.filter((item) =>
     item.prompt.toLowerCase().includes(searchQuery.toLowerCase())
@@ -155,7 +162,7 @@ export function PromptsContent() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button className="gap-2">
+          <Button className="gap-2" onClick={() => setIsCreateModalOpen(true)}>
             <Plus className="size-4" />
             Create Prompt
           </Button>
@@ -275,6 +282,13 @@ export function PromptsContent() {
           </Table>
         </CardContent>
       </Card>
+
+      {/* Create Prompt Modal */}
+      <CreatePromptModal
+        open={isCreateModalOpen}
+        onOpenChange={setIsCreateModalOpen}
+        onSubmit={handleCreatePrompt}
+      />
     </div>
   )
 }
