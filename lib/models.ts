@@ -1,7 +1,7 @@
 // Canonical AI model registry — single source of truth for names, colors, and logos.
 // Import and use MODEL_CONFIG throughout the dashboard to ensure consistency.
 
-export type ModelKey = "chatgpt" | "claude" | "gemini" | "aioverview" | "perplexity" | "copilot"
+export type ModelKey = "chatgpt" | "claude" | "gemini" | "perplexity" | "copilot"
 
 export interface ModelConfig {
   key: ModelKey
@@ -34,14 +34,7 @@ export const MODEL_CONFIG: Record<ModelKey, ModelConfig> = {
     name: "Gemini",
     color: "var(--model-gemini)",
     bgClass: "bg-model-gemini",
-    hex: "#536dfe",
-  },
-  aioverview: {
-    key: "aioverview",
-    name: "AI Overview",
-    color: "var(--model-aioverview)",
-    bgClass: "bg-model-aioverview",
-    hex: "#9c5bce",
+    hex: "#4285f4",
   },
   perplexity: {
     key: "perplexity",
@@ -66,7 +59,6 @@ export function resolveModelKey(value: string): ModelKey | null {
   const lower = value.toLowerCase()
   if (lower.includes("chatgpt") || lower.includes("openai")) return "chatgpt"
   if (lower.includes("claude") || lower.includes("anthropic")) return "claude"
-  if (lower.includes("ai overview") || lower.includes("aioverview") || lower.includes("google.com/search")) return "aioverview"
   if (lower.includes("gemini") || lower.includes("google")) return "gemini"
   if (lower.includes("perplexity")) return "perplexity"
   if (lower.includes("copilot") || lower.includes("microsoft") || lower.includes("bing")) return "copilot"

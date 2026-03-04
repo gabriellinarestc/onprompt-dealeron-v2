@@ -9,7 +9,6 @@ import {
   ClaudeLogo,
   CopilotLogo,
   GeminiLogo,
-  AIOverviewLogo,
   PerplexityLogo,
 } from "./model-logos"
 import { Button } from "@/components/ui/button"
@@ -24,7 +23,6 @@ const MODEL_LOGOS: Record<ModelKey, React.ComponentType<{ size?: number }>> = {
   claude: ClaudeLogo,
   copilot: CopilotLogo,
   gemini: GeminiLogo,
-  aioverview: AIOverviewLogo,
   perplexity: PerplexityLogo,
 }
 
