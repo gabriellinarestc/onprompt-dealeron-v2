@@ -67,7 +67,7 @@
   --card-description-fg: var(--muted-foreground);
 
   /* Table component tokens */
-  --table-header-bg: oklch(0.94 0.006 60);
+  --table-header-bg: transparent;
   --table-header-fg: var(--muted-foreground);
   --table-row-bg: transparent;
   --table-row-hover-bg: oklch(0.94 0.006 60 / 0.5);
@@ -175,7 +175,7 @@
   --card-description-fg: var(--muted-foreground);
 
   /* Table component tokens (dark) */
-  --table-header-bg: oklch(0.22 0.005 50);
+  --table-header-bg: transparent;
   --table-header-fg: var(--muted-foreground);
   --table-row-bg: transparent;
   --table-row-hover-bg: oklch(0.22 0.005 50 / 0.5);
