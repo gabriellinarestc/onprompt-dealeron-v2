@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Card, CardContent, CardHeader, CardTitle, CardAction } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import {
   Table,
   TableBody,
@@ -128,22 +128,20 @@ function SentimentBar({ value }: { value: number }) {
 export function TopPrompts() {
   return (
     <Card className="border-border bg-card h-full flex flex-col">
-      <CardHeader>
+      <div className="flex items-center justify-between px-6">
         <div className="flex items-center gap-1.5">
-          <CardTitle className="text-sm font-semibold text-foreground">Top Prompts</CardTitle>
+          <h3 className="text-sm font-semibold text-foreground">Top Prompts</h3>
           <HelpTooltip title="Top Prompts">
             The most frequent prompts where your brand appears in AI model responses. Sentiment shows how positively your brand is described, visibility shows how often your brand appears for that prompt.
           </HelpTooltip>
         </div>
-        <CardAction>
-          <Button variant="ghost" size="sm" className="gap-1 text-xs text-foreground hover:text-foreground" asChild>
-            <Link href="/prompts">
-              View All
-              <ArrowRight className="size-3" />
-            </Link>
-          </Button>
-        </CardAction>
-      </CardHeader>
+        <Button variant="ghost" size="sm" className="gap-1 text-xs text-foreground hover:text-foreground" asChild>
+          <Link href="/prompts">
+            View All
+            <ArrowRight className="size-3" />
+          </Link>
+        </Button>
+      </div>
       <CardContent className="flex-1 flex flex-col">
         <Table className="flex-1">
           <TableHeader>

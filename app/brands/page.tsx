@@ -1,5 +1,8 @@
+"use client"
+
 import { DashboardSidebar } from "@/components/dashboard/sidebar"
 import { DashboardHeader } from "@/components/dashboard/header"
+import { ModelFilterProvider } from "@/components/dashboard/model-filter-context"
 import {
   Empty,
   EmptyHeader,
@@ -11,6 +14,7 @@ import { Building2 } from "lucide-react"
 
 export default function BrandsPage() {
   return (
+    <ModelFilterProvider>
     <div className="flex h-screen bg-background">
       <DashboardSidebar />
       <div className="flex flex-1 flex-col overflow-hidden">
@@ -32,5 +36,6 @@ export default function BrandsPage() {
         </main>
       </div>
     </div>
+    </ModelFilterProvider>
   )
 }

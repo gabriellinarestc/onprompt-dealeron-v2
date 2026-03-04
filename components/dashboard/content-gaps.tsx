@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Card, CardContent, CardHeader, CardTitle, CardAction } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
@@ -31,22 +31,20 @@ const recommendations = [
 export function ContentGaps() {
   return (
     <Card className="border-border bg-card h-full">
-      <CardHeader>
+      <div className="flex items-center justify-between px-6">
         <div className="flex items-center gap-1.5">
-          <CardTitle className="text-sm font-semibold text-foreground">Content Gaps Overview</CardTitle>
+          <h3 className="text-sm font-semibold text-foreground">Content Gaps Overview</h3>
           <HelpTooltip title="Content Gaps">
             Topics where users are asking AI models questions but your brand is not appearing in responses. Addressing these gaps can improve your visibility score.
           </HelpTooltip>
         </div>
-        <CardAction>
-          <Button variant="ghost" size="sm" className="gap-1 text-xs text-foreground hover:text-foreground" asChild>
-            <Link href="/content-gaps">
-              View All
-              <ArrowRight className="size-3" />
-            </Link>
-          </Button>
-        </CardAction>
-      </CardHeader>
+        <Button variant="ghost" size="sm" className="gap-1 text-xs text-foreground hover:text-foreground" asChild>
+          <Link href="/content-gaps">
+            View All
+            <ArrowRight className="size-3" />
+          </Link>
+        </Button>
+      </div>
       <CardContent>
         <div className="mb-5 flex items-center gap-4 rounded-lg bg-secondary p-4">
           <div className="relative size-14">
