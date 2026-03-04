@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Plus, Download, Search, CalendarDays, ArrowUpDown, ChevronDown } from "lucide-react"
+import { Plus, Download, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
@@ -39,27 +39,6 @@ function getSentimentColor(value: number): string {
   if (value >= 60) return "oklch(0.65 0.17 115)"
   if (value >= 40) return "oklch(0.7 0.16 75)"
   return "oklch(0.55 0.22 25)"
-}
-
-// Mini visibility ring component
-function VisibilityRing({ value, size = 32, stroke = 3 }: { value: number; size?: number; stroke?: number }) {
-  const r = (size - stroke) / 2
-  const circ = 2 * Math.PI * r
-  const color = getScoreColor(value)
-  return (
-    <svg width={size} height={size} className="shrink-0 rotate-[-90deg]">
-      <circle cx={size / 2} cy={size / 2} r={r} strokeWidth={stroke} fill="none" stroke="var(--muted)" />
-      <circle
-        cx={size / 2} cy={size / 2} r={r}
-        strokeWidth={stroke} fill="none"
-        stroke={color}
-        strokeDasharray={circ}
-        strokeDashoffset={circ - (value / 100) * circ}
-        strokeLinecap="round"
-        className="transition-all duration-700"
-      />
-    </svg>
-  )
 }
 
 // Sentiment bar
@@ -187,20 +166,6 @@ export function PromptsContent() {
         </div>
       </div>
 
-      {/* Filters Row */}
-      <div className="flex flex-wrap items-center gap-2">
-        <button className="flex h-9 items-center gap-2 rounded-lg border border-border bg-secondary px-3 text-sm font-medium text-secondary-foreground transition-colors hover:bg-accent">
-          <CalendarDays className="size-4 text-muted-foreground" />
-          <span>Last 7 days</span>
-          <ChevronDown className="size-4 text-muted-foreground" />
-        </button>
-        <button className="flex h-9 items-center gap-2 rounded-lg border border-border bg-secondary px-3 text-sm font-medium text-secondary-foreground transition-colors hover:bg-accent">
-          <ArrowUpDown className="size-4 text-muted-foreground" />
-          <span>vs Prior 7 Days</span>
-          <ChevronDown className="size-4 text-muted-foreground" />
-        </button>
-      </div>
-
       {/* Search Bar */}
       <div className="flex items-center gap-4">
         <div className="relative flex-1">
@@ -265,15 +230,12 @@ export function PromptsContent() {
                     {item.prompt}
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-2">
-                      <VisibilityRing value={item.visibilityScore} />
-                      <span
-                        className="text-sm font-semibold tabular-nums"
-                        style={{ color: getScoreColor(item.visibilityScore) }}
-                      >
-                        {item.visibilityScore}%
-                      </span>
-                    </div>
+                    <span
+                      className="text-sm font-semibold tabular-nums"
+                      style={{ color: getScoreColor(item.visibilityScore) }}
+                    >
+                      {item.visibilityScore}%
+                    </span>
                   </TableCell>
                   <TableCell>
                     <SentimentBar value={item.sentiment} />
