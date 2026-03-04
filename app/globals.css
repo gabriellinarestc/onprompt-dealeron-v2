@@ -36,6 +36,83 @@
   --model-perplexity: #20b8cd;
   --model-copilot: #0078d4;
   --model-aioverview: #9c5bce;
+
+  /* Primitive warm gray scale */
+  --gray-50: oklch(0.98 0.004 60);
+  --gray-100: oklch(0.94 0.006 60);
+  --gray-200: oklch(0.90 0.006 60);
+  --gray-300: oklch(0.82 0.006 60);
+  --gray-400: oklch(0.65 0.006 60);
+  --gray-500: oklch(0.48 0.006 60);
+  --gray-600: oklch(0.40 0.006 60);
+  --gray-700: oklch(0.33 0.006 60);
+  --gray-800: oklch(0.25 0.006 60);
+  --gray-900: oklch(0.18 0.006 60);
+  --gray-950: oklch(0.13 0.005 50);
+
+  /* Button component tokens */
+  --button-primary-bg: var(--primary);
+  --button-primary-fg: var(--primary-foreground);
+  --button-primary-hover-bg: oklch(0.46 0.24 315);
+  --button-secondary-bg: var(--secondary);
+  --button-secondary-fg: var(--secondary-foreground);
+  --button-secondary-hover-bg: oklch(0.90 0.006 60);
+  --button-tertiary-bg: transparent;
+  --button-tertiary-fg: var(--foreground);
+  --button-tertiary-border: var(--border);
+  --button-tertiary-hover-bg: oklch(0.94 0.006 60);
+  --button-ghost-fg: var(--foreground);
+  --button-ghost-hover-bg: oklch(0.94 0.006 60);
+  --button-ghost-hover-fg: var(--foreground);
+  --button-link-fg: var(--primary);
+  --button-link-hover-fg: oklch(0.46 0.24 315);
+
+  /* Input component tokens */
+  --input-bg: oklch(1 0 0);
+  --input-fg: var(--foreground);
+  --input-border: var(--border);
+  --input-placeholder: var(--muted-foreground);
+  --input-focus-ring: var(--ring);
+  --input-disabled-bg: oklch(0.94 0.006 60);
+  --input-disabled-fg: var(--muted-foreground);
+
+  /* Card component tokens */
+  --card-bg: oklch(1 0 0);
+  --card-fg: var(--foreground);
+  --card-border: var(--border);
+  --card-header-fg: var(--foreground);
+  --card-description-fg: var(--muted-foreground);
+
+  /* Table component tokens */
+  --table-header-bg: oklch(0.94 0.006 60);
+  --table-header-fg: var(--muted-foreground);
+  --table-row-bg: transparent;
+  --table-row-hover-bg: oklch(0.94 0.006 60 / 0.5);
+  --table-border: var(--border);
+  --table-cell-fg: var(--foreground);
+
+  /* Badge component tokens */
+  --badge-default-bg: var(--primary);
+  --badge-default-fg: var(--primary-foreground);
+  --badge-success-bg: oklch(0.92 0.10 155);
+  --badge-success-fg: oklch(0.35 0.15 155);
+  --badge-warning-bg: oklch(0.92 0.10 75);
+  --badge-warning-fg: oklch(0.40 0.12 75);
+  --badge-destructive-bg: var(--destructive);
+  --badge-destructive-fg: var(--destructive-foreground);
+
+  /* Dropdown component tokens */
+  --dropdown-bg: oklch(1 0 0);
+  --dropdown-fg: var(--foreground);
+  --dropdown-border: var(--border);
+  --dropdown-item-hover-bg: oklch(0.94 0.006 60);
+  --dropdown-selected-bg: oklch(0.94 0.006 60);
+  --dropdown-separator: var(--border);
+
+  /* Tooltip component tokens */
+  --tooltip-bg: var(--gray-900);
+  --tooltip-fg: var(--gray-50);
+
   --sidebar: oklch(0.98 0.004 60);
   --sidebar-foreground: oklch(0.47 0.006 60);
   --sidebar-primary: oklch(0.52 0.24 315);
@@ -84,6 +161,83 @@
   --model-aioverview: #9c5bce;
   --model-perplexity: #20b8cd;
   --model-copilot: #0078d4;
+
+  /* Primitive warm gray scale (dark) */
+  --gray-50: oklch(0.95 0.003 60);
+  --gray-100: oklch(0.88 0.003 60);
+  --gray-200: oklch(0.72 0.004 60);
+  --gray-300: oklch(0.62 0.004 60);
+  --gray-400: oklch(0.48 0.006 60);
+  --gray-500: oklch(0.40 0.006 60);
+  --gray-600: oklch(0.33 0.006 60);
+  --gray-700: oklch(0.27 0.005 50);
+  --gray-800: oklch(0.22 0.005 50);
+  --gray-900: oklch(0.17 0.005 50);
+  --gray-950: oklch(0.13 0.005 50);
+
+  /* Button component tokens (dark) */
+  --button-primary-bg: var(--primary);
+  --button-primary-fg: var(--primary-foreground);
+  --button-primary-hover-bg: oklch(0.74 0.24 315);
+  --button-secondary-bg: var(--secondary);
+  --button-secondary-fg: var(--secondary-foreground);
+  --button-secondary-hover-bg: oklch(0.27 0.005 50);
+  --button-tertiary-bg: transparent;
+  --button-tertiary-fg: var(--foreground);
+  --button-tertiary-border: var(--border);
+  --button-tertiary-hover-bg: oklch(0.22 0.005 50);
+  --button-ghost-fg: var(--foreground);
+  --button-ghost-hover-bg: oklch(0.22 0.005 50);
+  --button-ghost-hover-fg: var(--foreground);
+  --button-link-fg: var(--primary);
+  --button-link-hover-fg: oklch(0.74 0.24 315);
+
+  /* Input component tokens (dark) */
+  --input-bg: oklch(0.17 0.005 50);
+  --input-fg: var(--foreground);
+  --input-border: var(--border);
+  --input-placeholder: var(--muted-foreground);
+  --input-focus-ring: var(--ring);
+  --input-disabled-bg: oklch(0.22 0.005 50);
+  --input-disabled-fg: var(--muted-foreground);
+
+  /* Card component tokens (dark) */
+  --card-bg: oklch(0.17 0.005 50);
+  --card-fg: var(--foreground);
+  --card-border: var(--border);
+  --card-header-fg: var(--foreground);
+  --card-description-fg: var(--muted-foreground);
+
+  /* Table component tokens (dark) */
+  --table-header-bg: oklch(0.22 0.005 50);
+  --table-header-fg: var(--muted-foreground);
+  --table-row-bg: transparent;
+  --table-row-hover-bg: oklch(0.22 0.005 50 / 0.5);
+  --table-border: var(--border);
+  --table-cell-fg: var(--foreground);
+
+  /* Badge component tokens (dark) */
+  --badge-default-bg: var(--primary);
+  --badge-default-fg: var(--primary-foreground);
+  --badge-success-bg: oklch(0.30 0.10 155);
+  --badge-success-fg: oklch(0.80 0.15 155);
+  --badge-warning-bg: oklch(0.35 0.10 75);
+  --badge-warning-fg: oklch(0.85 0.12 75);
+  --badge-destructive-bg: var(--destructive);
+  --badge-destructive-fg: var(--destructive-foreground);
+
+  /* Dropdown component tokens (dark) */
+  --dropdown-bg: oklch(0.17 0.005 50);
+  --dropdown-fg: var(--foreground);
+  --dropdown-border: var(--border);
+  --dropdown-item-hover-bg: oklch(0.22 0.005 50);
+  --dropdown-selected-bg: oklch(0.22 0.005 50);
+  --dropdown-separator: var(--border);
+
+  /* Tooltip component tokens (dark) */
+  --tooltip-bg: var(--gray-50);
+  --tooltip-fg: var(--gray-950);
+
   --sidebar: oklch(0.11 0.005 50);
   --sidebar-foreground: oklch(0.62 0.004 60);
   --sidebar-primary: oklch(0.68 0.24 315);
@@ -133,6 +287,83 @@
   --color-model-perplexity: var(--model-perplexity);
   --color-model-copilot: var(--model-copilot);
   --color-model-aioverview: var(--model-aioverview);
+
+  /* Gray scale */
+  --color-gray-50: var(--gray-50);
+  --color-gray-100: var(--gray-100);
+  --color-gray-200: var(--gray-200);
+  --color-gray-300: var(--gray-300);
+  --color-gray-400: var(--gray-400);
+  --color-gray-500: var(--gray-500);
+  --color-gray-600: var(--gray-600);
+  --color-gray-700: var(--gray-700);
+  --color-gray-800: var(--gray-800);
+  --color-gray-900: var(--gray-900);
+  --color-gray-950: var(--gray-950);
+
+  /* Button tokens */
+  --color-button-primary-bg: var(--button-primary-bg);
+  --color-button-primary-fg: var(--button-primary-fg);
+  --color-button-primary-hover-bg: var(--button-primary-hover-bg);
+  --color-button-secondary-bg: var(--button-secondary-bg);
+  --color-button-secondary-fg: var(--button-secondary-fg);
+  --color-button-secondary-hover-bg: var(--button-secondary-hover-bg);
+  --color-button-tertiary-bg: var(--button-tertiary-bg);
+  --color-button-tertiary-fg: var(--button-tertiary-fg);
+  --color-button-tertiary-border: var(--button-tertiary-border);
+  --color-button-tertiary-hover-bg: var(--button-tertiary-hover-bg);
+  --color-button-ghost-fg: var(--button-ghost-fg);
+  --color-button-ghost-hover-bg: var(--button-ghost-hover-bg);
+  --color-button-ghost-hover-fg: var(--button-ghost-hover-fg);
+  --color-button-link-fg: var(--button-link-fg);
+  --color-button-link-hover-fg: var(--button-link-hover-fg);
+
+  /* Input tokens */
+  --color-input-bg: var(--input-bg);
+  --color-input-fg: var(--input-fg);
+  --color-input-border: var(--input-border);
+  --color-input-placeholder: var(--input-placeholder);
+  --color-input-focus-ring: var(--input-focus-ring);
+  --color-input-disabled-bg: var(--input-disabled-bg);
+  --color-input-disabled-fg: var(--input-disabled-fg);
+
+  /* Card tokens */
+  --color-card-bg: var(--card-bg);
+  --color-card-fg: var(--card-fg);
+  --color-card-border: var(--card-border);
+  --color-card-header-fg: var(--card-header-fg);
+  --color-card-description-fg: var(--card-description-fg);
+
+  /* Table tokens */
+  --color-table-header-bg: var(--table-header-bg);
+  --color-table-header-fg: var(--table-header-fg);
+  --color-table-row-bg: var(--table-row-bg);
+  --color-table-row-hover-bg: var(--table-row-hover-bg);
+  --color-table-border: var(--table-border);
+  --color-table-cell-fg: var(--table-cell-fg);
+
+  /* Badge tokens */
+  --color-badge-default-bg: var(--badge-default-bg);
+  --color-badge-default-fg: var(--badge-default-fg);
+  --color-badge-success-bg: var(--badge-success-bg);
+  --color-badge-success-fg: var(--badge-success-fg);
+  --color-badge-warning-bg: var(--badge-warning-bg);
+  --color-badge-warning-fg: var(--badge-warning-fg);
+  --color-badge-destructive-bg: var(--badge-destructive-bg);
+  --color-badge-destructive-fg: var(--badge-destructive-fg);
+
+  /* Dropdown tokens */
+  --color-dropdown-bg: var(--dropdown-bg);
+  --color-dropdown-fg: var(--dropdown-fg);
+  --color-dropdown-border: var(--dropdown-border);
+  --color-dropdown-item-hover-bg: var(--dropdown-item-hover-bg);
+  --color-dropdown-selected-bg: var(--dropdown-selected-bg);
+  --color-dropdown-separator: var(--dropdown-separator);
+
+  /* Tooltip tokens */
+  --color-tooltip-bg: var(--tooltip-bg);
+  --color-tooltip-fg: var(--tooltip-fg);
+
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-chart-grid: var(--chart-grid);
