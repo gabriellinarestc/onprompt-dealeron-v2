@@ -12,6 +12,7 @@ import {
   AIOverviewLogo,
   PerplexityLogo,
 } from "./model-logos"
+import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Separator } from "@/components/ui/separator"
 import { Sparkles, ChevronDown, Check } from "lucide-react"
@@ -41,7 +42,7 @@ export function DashboardHeader() {
         {/* Global model filter — styled like PeriodSelector */}
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
-            <button className="flex h-9 items-center gap-2 rounded-lg border border-border bg-secondary px-3 text-sm font-medium text-secondary-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+            <Button variant="outline" className="h-9 gap-2 px-3">
               <Sparkles className="size-4 text-muted-foreground" />
               <span>{allActive ? "All Models" : `${activeModels.size} Models`}</span>
               {!allActive && (
@@ -50,7 +51,7 @@ export function DashboardHeader() {
                 </span>
               )}
               <ChevronDown className={cn("size-4 text-muted-foreground transition-transform", open && "rotate-180")} />
-            </button>
+            </Button>
           </PopoverTrigger>
 
           <PopoverContent align="end" sideOffset={6} className="w-72 p-5 shadow-xl">

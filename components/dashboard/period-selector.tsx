@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { CalendarDays, ChevronDown } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Separator } from "@/components/ui/separator"
 import { Switch } from "@/components/ui/switch"
@@ -18,7 +19,7 @@ export function PeriodSelector() {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <button className="flex h-9 items-center gap-2 rounded-lg border border-border bg-secondary px-3 text-sm font-medium text-secondary-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+        <Button variant="outline" className="h-9 gap-2 px-3">
           <CalendarDays className="size-4 text-muted-foreground" />
           <span>Last {days} days</span>
           {compare && (
@@ -27,7 +28,7 @@ export function PeriodSelector() {
             </span>
           )}
           <ChevronDown className={cn("size-4 text-muted-foreground transition-transform", open && "rotate-180")} />
-        </button>
+        </Button>
       </PopoverTrigger>
 
       <PopoverContent align="end" sideOffset={6} className="w-72 p-5 shadow-xl">
