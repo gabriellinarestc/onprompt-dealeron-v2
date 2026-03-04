@@ -12,9 +12,10 @@ import {
 
 const modelData = [
   { key: "chatgpt" as const, mentions: 20, change: "+1,900%" },
-  { key: "copilot" as const, mentions: 1, change: null },
+  { key: "claude" as const, mentions: 8, change: "+700%" },
   { key: "gemini" as const, mentions: 5, change: "+400%" },
   { key: "perplexity" as const, mentions: 1, change: null },
+  { key: "copilot" as const, mentions: 1, change: null },
 ]
 
 const MODEL_LOGOS = {

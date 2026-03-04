@@ -20,6 +20,21 @@ import {
 } from "@/components/ui/tooltip"
 import { ArrowRight } from "lucide-react"
 
+function getTemperatureColor(value: number): string {
+  if (value >= 80) return "oklch(0.55 0.19 155)"  // green
+  if (value >= 60) return "oklch(0.65 0.17 115)"  // yellow-green
+  if (value >= 40) return "oklch(0.7 0.16 75)"    // amber
+  return "oklch(0.55 0.22 25)"                     // red
+}
+
+function getTemperatureGradient(value: number): string {
+  // Returns a gradient stop position for the bar
+  if (value >= 80) return "oklch(0.55 0.19 155)"
+  if (value >= 60) return "oklch(0.65 0.17 115)"
+  if (value >= 40) return "oklch(0.7 0.16 75)"
+  return "oklch(0.55 0.22 25)"
+}
+
 const brandNames: Record<string, string> = {
   T: "TechCorp",
   D: "DataFlow",
@@ -85,15 +100,19 @@ const promptsData = [
 ]
 
 function SentimentBar({ value }: { value: number }) {
+  const color = getTemperatureColor(value)
   return (
     <div className="flex items-center gap-2">
-      <div className="relative h-1.5 w-16 rounded-full bg-muted">
+      <div className="relative h-2 w-20 rounded-full overflow-hidden"
+        style={{ background: "linear-gradient(to right, oklch(0.55 0.22 25), oklch(0.7 0.16 75), oklch(0.55 0.19 155))" }}
+      >
+        {/* Indicator */}
         <div
-          className="absolute inset-y-0 left-0 rounded-full bg-primary"
-          style={{ width: `${value}%` }}
+          className="absolute top-1/2 -translate-y-1/2 size-2.5 rounded-full border-2 border-background"
+          style={{ left: `${value}%`, transform: `translate(-50%, -50%)`, backgroundColor: color }}
         />
       </div>
-      <span className="text-xs font-medium text-foreground">{value}</span>
+      <span className="text-[11px] font-semibold tabular-nums" style={{ color }}>{value}</span>
     </div>
   )
 }
@@ -139,8 +158,10 @@ export function TopPrompts() {
                 <TableCell>
                   <SentimentBar value={item.sentiment} />
                 </TableCell>
-                <TableCell className="text-xs font-medium text-success">
-                  {item.visibility}
+                <TableCell>
+                  <span className="text-xs font-semibold tabular-nums" style={{ color: getTemperatureColor(parseInt(item.visibility)) }}>
+                    {item.visibility}
+                  </span>
                 </TableCell>
                 <TableCell>
                   <TooltipProvider>

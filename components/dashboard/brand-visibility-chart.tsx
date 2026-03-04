@@ -24,6 +24,7 @@ import {
 import { MODEL_CONFIG, type ModelKey } from "@/lib/models"
 import {
   ChatGPTLogo,
+  ClaudeLogo,
   CopilotLogo,
   GeminiLogo,
   PerplexityLogo,
@@ -31,12 +32,13 @@ import {
 
 const MODEL_LOGOS: Record<string, React.ComponentType<{ size?: number }>> = {
   chatgpt: ChatGPTLogo,
+  claude: ClaudeLogo,
   copilot: CopilotLogo,
   gemini: GeminiLogo,
   perplexity: PerplexityLogo,
 }
 
-const CHART_MODELS: ModelKey[] = ["chatgpt", "copilot", "gemini", "perplexity"]
+const CHART_MODELS: ModelKey[] = ["chatgpt", "claude", "copilot", "gemini", "perplexity"]
 
 // --- Brand data with type, visibility score, and realistic names ---
 
@@ -48,19 +50,20 @@ interface BrandEntry {
   type: BrandType
   visibility: number // 0-100 visibility score
   chatgpt: number
+  claude: number
   copilot: number
   gemini: number
   perplexity: number
 }
 
 const chartData: BrandEntry[] = [
-  { name: "DealerOn",       website: "dealeron.com",        type: "main",       visibility: 72, chatgpt: 12, copilot: 1, gemini: 10, perplexity: 3 },
-  { name: "Dealer Inspire", website: "dealerinspire.com",   type: "competitor", visibility: 68, chatgpt: 8,  copilot: 0, gemini: 5,  perplexity: 1 },
-  { name: "CDK Global",     website: "cdkglobal.com",       type: "competitor", visibility: 54, chatgpt: 7,  copilot: 0, gemini: 2,  perplexity: 1 },
-  { name: "Sincro",         website: "sincrodigital.com",   type: "partner",    visibility: 41, chatgpt: 5,  copilot: 0, gemini: 2,  perplexity: 0 },
-  { name: "Cars.com",       website: "cars.com",            type: "competitor", visibility: 63, chatgpt: 4,  copilot: 1, gemini: 3,  perplexity: 0 },
-  { name: "Shift Digital",  website: "shiftdigital.com",    type: "partner",    visibility: 35, chatgpt: 3,  copilot: 0, gemini: 1,  perplexity: 0 },
-  { name: "AutoTrader",     website: "autotrader.com",      type: "competitor", visibility: 58, chatgpt: 3,  copilot: 0, gemini: 1,  perplexity: 0 },
+  { name: "DealerOn",       website: "dealeron.com",        type: "main",       visibility: 72, chatgpt: 12, claude: 8,  copilot: 1, gemini: 10, perplexity: 3 },
+  { name: "Dealer Inspire", website: "dealerinspire.com",   type: "competitor", visibility: 68, chatgpt: 8,  claude: 5,  copilot: 0, gemini: 5,  perplexity: 1 },
+  { name: "CDK Global",     website: "cdkglobal.com",       type: "competitor", visibility: 54, chatgpt: 7,  claude: 3,  copilot: 0, gemini: 2,  perplexity: 1 },
+  { name: "Sincro",         website: "sincrodigital.com",   type: "partner",    visibility: 41, chatgpt: 5,  claude: 2,  copilot: 0, gemini: 2,  perplexity: 0 },
+  { name: "Cars.com",       website: "cars.com",            type: "competitor", visibility: 63, chatgpt: 4,  claude: 4,  copilot: 1, gemini: 3,  perplexity: 0 },
+  { name: "Shift Digital",  website: "shiftdigital.com",    type: "partner",    visibility: 35, chatgpt: 3,  claude: 1,  copilot: 0, gemini: 1,  perplexity: 0 },
+  { name: "AutoTrader",     website: "autotrader.com",      type: "competitor", visibility: 58, chatgpt: 3,  claude: 2,  copilot: 0, gemini: 1,  perplexity: 0 },
 ]
 
 function getVisibilityColor(score: number): string {
@@ -328,15 +331,44 @@ export function BrandVisibilityChart() {
 
       <CardContent>
         {view === "chart" ? (
-          <div className="h-64">
+          <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={filteredData} barCategoryGap="22%" barGap={2}>
+              <BarChart data={filteredData} barCategoryGap="22%" barGap={2} margin={{ bottom: 16 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" vertical={false} />
                 <XAxis
                   dataKey="name"
-                  tick={{ fill: "var(--chart-tick)", fontSize: 11 }}
+                  tick={({ x, y, payload }: { x: number; y: number; payload: { value: string } }) => {
+                    const brand = chartData.find((d) => d.name === payload.value)
+                    const isMain = brand?.type === "main"
+                    const tagLabel = isMain ? "You" : brand?.type === "competitor" ? "Comp" : "Partner"
+                    const tagColor = isMain ? "var(--primary)" : brand?.type === "competitor" ? "#d14343" : "#3b82f6"
+                    return (
+                      <g transform={`translate(${x},${y})`}>
+                        <text
+                          textAnchor="middle"
+                          dy={12}
+                          fill={isMain ? "var(--primary)" : "var(--chart-tick)"}
+                          fontSize={11}
+                          fontWeight={isMain ? 600 : 400}
+                        >
+                          {payload.value}
+                        </text>
+                        <rect x={-16} y={17} width={32} height={14} rx={3} fill={isMain ? tagColor : `${tagColor}18`} />
+                        <text
+                          textAnchor="middle"
+                          dy={27}
+                          fill={isMain ? "#fff" : tagColor}
+                          fontSize={8}
+                          fontWeight={600}
+                        >
+                          {tagLabel}
+                        </text>
+                      </g>
+                    )
+                  }}
                   axisLine={{ stroke: "var(--chart-grid)" }}
                   tickLine={false}
+                  height={45}
                 />
                 <YAxis
                   tick={{ fill: "var(--chart-tick)", fontSize: 11 }}

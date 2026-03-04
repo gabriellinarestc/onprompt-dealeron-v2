@@ -50,21 +50,21 @@ const heatmapData: Record<string, number[]> = {
   Sun: [72, 68, 82, 78, 85, 75, 70],
 }
 
-// Get color based on score using primary warm purple color variations (hue 315)
+// Temperature colors for heatmap: red (low) -> amber (mid) -> green (high)
 function getHeatmapColor(score: number): string {
-  if (score >= 90) return "oklch(0.52 0.24 315)" // Darkest — matches primary
-  if (score >= 80) return "oklch(0.58 0.19 315)"
-  if (score >= 70) return "oklch(0.65 0.15 315)"
-  if (score >= 60) return "oklch(0.72 0.11 315)"
-  return "oklch(0.80 0.07 315)" // Lightest
+  if (score >= 90) return "oklch(0.52 0.19 155)" // Deep green
+  if (score >= 80) return "oklch(0.6 0.17 145)"  // Green
+  if (score >= 70) return "oklch(0.68 0.15 120)" // Yellow-green
+  if (score >= 60) return "oklch(0.72 0.14 75)"  // Amber
+  return "oklch(0.58 0.18 25)"                    // Red
 }
 
 const heatmapLegendColors = [
-  "oklch(0.80 0.07 315)",
-  "oklch(0.72 0.11 315)",
-  "oklch(0.65 0.15 315)",
-  "oklch(0.58 0.19 315)",
-  "oklch(0.52 0.24 315)",
+  "oklch(0.58 0.18 25)",   // Red
+  "oklch(0.72 0.14 75)",   // Amber
+  "oklch(0.68 0.15 120)",  // Yellow-green
+  "oklch(0.6 0.17 145)",   // Green
+  "oklch(0.52 0.19 155)",  // Deep green
 ]
 
 function CustomChartTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number }>; label?: string }) {
@@ -195,7 +195,7 @@ export function BrandSentiment() {
                     axisLine={false}
                     tickLine={false}
                   />
-                  <RechartsTooltip content={<CustomChartTooltip />} />
+                  <RechartsTooltip content={<CustomChartTooltip />} cursor={{ stroke: "var(--chart-grid)", strokeDasharray: "3 3" }} />
                   <Area
                     type="monotone"
                     dataKey="score"
