@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { X, Sparkles, TrendingUp, FileText } from "lucide-react"
+import { X, TrendingUp, FileText } from "lucide-react"
 
 export function InsightsBanner() {
   const [visible, setVisible] = useState(true)
@@ -25,30 +25,20 @@ export function InsightsBanner() {
       {/* Subtle noise overlay */}
       <div className="absolute inset-0 bg-card/60" />
 
-      <div className="relative flex items-start gap-4 px-5 py-4">
-        {/* Icon */}
-        <div
-          className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg"
-          style={{
-            background: "linear-gradient(135deg, oklch(0.52 0.24 315 / 0.15), oklch(0.55 0.19 155 / 0.10))",
-          }}
-        >
-          <Sparkles className="size-4 text-primary" />
-        </div>
-
+      <div className="relative flex items-center justify-between gap-4 px-5 py-4">
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold text-foreground mb-1">
+          <p className="text-sm font-semibold text-foreground mb-2">
             Understanding Your AI Visibility
           </p>
-          <div className="flex flex-wrap gap-x-6 gap-y-2">
-            <div className="flex items-start gap-2">
+          <div className="flex flex-wrap gap-x-8 gap-y-2">
+            <div className="flex items-start gap-2 flex-1 min-w-[280px]">
               <TrendingUp className="size-3.5 mt-0.5 shrink-0 text-success" />
               <p className="text-xs text-muted-foreground leading-relaxed">
                 <span className="font-medium text-foreground">Visibility Score</span> measures how often AI models reference your brand when answering relevant prompts, weighted by model reach and relevance.
               </p>
             </div>
-            <div className="flex items-start gap-2">
+            <div className="flex items-start gap-2 flex-1 min-w-[280px]">
               <FileText className="size-3.5 mt-0.5 shrink-0 text-primary" />
               <p className="text-xs text-muted-foreground leading-relaxed">
                 <span className="font-medium text-foreground">Content Coverage</span> tracks which topics AI models associate with your brand and identifies gaps where competitors are being recommended instead.
@@ -60,7 +50,7 @@ export function InsightsBanner() {
         {/* Close */}
         <button
           onClick={() => setVisible(false)}
-          className="mt-0.5 shrink-0 rounded-md p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          className="shrink-0 self-start rounded-md p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           aria-label="Dismiss banner"
         >
           <X className="size-3.5" />
