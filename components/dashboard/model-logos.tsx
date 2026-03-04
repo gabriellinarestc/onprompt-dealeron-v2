@@ -60,7 +60,18 @@ export function GeminiLogo({ size = 20 }: { size?: number }) {
     <GradientLogo
       src="/models/gemini.svg"
       alt="Gemini"
-      gradient="linear-gradient(135deg, #4285f4 0%, #a259ff 40%, #ea4335 70%, #fbbc04 100%)"
+      gradient="linear-gradient(135deg, #536dfe 0%, #4a5ff7 50%, #3d5afe 100%)"
+      size={size}
+    />
+  )
+}
+
+export function AIOverviewLogo({ size = 20 }: { size?: number }) {
+  return (
+    <GradientLogo
+      src="/models/gemini.svg"
+      alt="AI Overview"
+      gradient="linear-gradient(135deg, #9c5bce 0%, #8e4ec6 50%, #7e57c2 100%)"
       size={size}
     />
   )
