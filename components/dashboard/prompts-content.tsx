@@ -364,10 +364,10 @@ export function PromptsContent() {
           <Table>
             <TableHeader>
               <TableRow className="border-border hover:bg-transparent">
-                <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium pl-6 h-auto py-2">
+                <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium pl-6">
                   Prompt
                 </TableHead>
-                <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium h-auto py-2">
+                <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
                   <span className="inline-flex items-center gap-1">
                     Visibility
                     <HelpTooltip title="Visibility">
@@ -375,10 +375,10 @@ export function PromptsContent() {
                     </HelpTooltip>
                   </span>
                 </TableHead>
-                <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium h-auto py-2">
+                <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
                   Sentiment
                 </TableHead>
-                <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium h-auto py-2">
+                <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
                   <span className="inline-flex items-center gap-1">
                     Volume
                     <HelpTooltip title="Volume">
@@ -386,7 +386,7 @@ export function PromptsContent() {
                     </HelpTooltip>
                   </span>
                 </TableHead>
-                <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium h-auto py-2">
+                <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
                   <span className="inline-flex items-center gap-1">
                     Difficulty
                     <HelpTooltip title="Difficulty">
@@ -394,7 +394,7 @@ export function PromptsContent() {
                     </HelpTooltip>
                   </span>
                 </TableHead>
-                <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium pr-6 h-auto py-2">
+                <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium pr-6">
                   Brands
                 </TableHead>
               </TableRow>
