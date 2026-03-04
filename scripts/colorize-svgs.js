@@ -1,4 +1,5 @@
-import { readFileSync, writeFileSync } from 'fs';
+const { readFileSync, writeFileSync } = require('fs');
+const path = require('path');
 
 // Brand gradient definitions (from → to colors)
 const brandGradients = {
@@ -10,7 +11,7 @@ const brandGradients = {
 };
 
 for (const [name, gradient] of Object.entries(brandGradients)) {
-  const filePath = `public/models/${name}.svg`;
+  const filePath = path.join(__dirname, '..', 'public', 'models', `${name}.svg`);
   let svg = readFileSync(filePath, 'utf8');
 
   if (!gradient) {
