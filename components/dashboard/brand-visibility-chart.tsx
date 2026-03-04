@@ -275,8 +275,8 @@ export function BrandVisibilityChart() {
 
       <CardContent>
         {view === "chart" ? (
-          <div className="h-72">
-            <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
+          <div>
+            <ResponsiveContainer width="100%" height={288}>
               <BarChart data={filteredData} barCategoryGap="22%" barGap={2} margin={{ bottom: 16 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" vertical={false} />
                 <XAxis
