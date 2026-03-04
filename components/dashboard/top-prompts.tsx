@@ -128,7 +128,7 @@ function SentimentBar({ value }: { value: number }) {
 export function TopPrompts() {
   return (
     <Card className="border-border bg-card h-full flex flex-col">
-      <div className="flex items-center justify-between px-6 pt-6">
+      <div className="flex items-center justify-between px-6">
         <div className="flex items-center gap-1.5">
           <h3 className="text-sm font-semibold text-foreground">Top Prompts</h3>
           <HelpTooltip title="Top Prompts">

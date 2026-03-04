@@ -53,7 +53,7 @@ export function TopPagesModels() {
   return (
     <div className="grid gap-4 lg:grid-cols-2">
       <Card className="border-border bg-card">
-        <div className="flex items-center justify-between px-6 pt-6">
+        <div className="flex items-center justify-between px-6">
           <div className="flex items-center gap-1.5">
             <h3 className="text-sm font-semibold text-foreground">Top Pages</h3>
             <HelpTooltip title="Top Pages">
@@ -110,7 +110,7 @@ export function TopPagesModels() {
       </Card>
 
       <Card className="border-border bg-card">
-        <div className="flex items-center justify-between px-6 pt-6">
+        <div className="flex items-center justify-between px-6">
           <div className="flex items-center gap-1.5">
             <h3 className="text-sm font-semibold text-foreground">Top Models</h3>
             <HelpTooltip title="Top Models">
