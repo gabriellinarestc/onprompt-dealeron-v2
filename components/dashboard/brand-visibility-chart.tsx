@@ -11,7 +11,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { BarChart2, List, SlidersHorizontal, Check, Filter, Crown } from "lucide-react"
+import { BarChart2, List, Check, Filter, Crown } from "lucide-react"
 import {
   BarChart,
   Bar,
@@ -22,6 +22,7 @@ import {
   ResponsiveContainer,
 } from "recharts"
 import { MODEL_CONFIG, type ModelKey } from "@/lib/models"
+import { useModelFilter } from "./model-filter-context"
 import {
   ChatGPTLogo,
   ClaudeLogo,
@@ -121,20 +122,8 @@ function CustomChartTooltip({
 
 export function BrandVisibilityChart() {
   const [view, setView] = useState<"chart" | "list">("chart")
-  const [activeModels, setActiveModels] = useState<Set<ModelKey>>(new Set(CHART_MODELS))
+  const { activeModels } = useModelFilter()
   const [activeTypes, setActiveTypes] = useState<Set<BrandType>>(new Set(["main", "competitor", "partner"]))
-
-  function toggleModel(key: ModelKey) {
-    setActiveModels((prev) => {
-      const next = new Set(prev)
-      if (next.has(key)) {
-        if (next.size > 1) next.delete(key)
-      } else {
-        next.add(key)
-      }
-      return next
-    })
-  }
 
   function toggleType(type: BrandType) {
     setActiveTypes((prev) => {
@@ -248,60 +237,6 @@ export function BrandVisibilityChart() {
                             {checked && <Check className="size-2.5 stroke-[3]" />}
                           </span>
                         )}
-                      </button>
-                    )
-                  })}
-                </div>
-              </PopoverContent>
-            </Popover>
-
-            {/* Model filter popover */}
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="outline" size="sm" className="h-8 gap-1.5 px-2.5 text-xs font-medium">
-                  <SlidersHorizontal className="size-3.5" />
-                  Models
-                  {activeModels.size < CHART_MODELS.length && (
-                    <span className="flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
-                      {activeModels.size}
-                    </span>
-                  )}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent align="end" className="w-52 p-2">
-                <p className="mb-2 px-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  Filter models
-                </p>
-                <div className="flex flex-col gap-0.5">
-                  {CHART_MODELS.map((key) => {
-                    const config = MODEL_CONFIG[key]
-                    const Logo = MODEL_LOGOS[key]
-                    const checked = activeModels.has(key)
-                    return (
-                      <button
-                        key={key}
-                        onClick={() => toggleModel(key)}
-                        className="flex w-full items-center gap-2.5 rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-accent"
-                      >
-                        <span
-                          className="flex size-6 shrink-0 items-center justify-center rounded-md"
-                          style={{ backgroundColor: `${config.hex}18`, color: config.hex }}
-                        >
-                          {Logo && <Logo size={13} />}
-                        </span>
-                        <span className="flex-1 text-left text-xs font-medium text-foreground">
-                          {config.name}
-                        </span>
-                        <span
-                          className="flex size-4 shrink-0 items-center justify-center rounded-[4px] border transition-colors"
-                          style={
-                            checked
-                              ? { backgroundColor: config.hex, borderColor: config.hex, color: "#fff" }
-                              : { borderColor: "var(--border)" }
-                          }
-                        >
-                          {checked && <Check className="size-2.5 stroke-[3]" />}
-                        </span>
                       </button>
                     )
                   })}

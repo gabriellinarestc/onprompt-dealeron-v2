@@ -2,6 +2,7 @@
 
 import { ArrowUpRight, AlertTriangle, Clock, CheckCircle2 } from "lucide-react"
 import { MODEL_CONFIG } from "@/lib/models"
+import { useModelFilter } from "./model-filter-context"
 import {
   ChatGPTLogo,
   ClaudeLogo,
@@ -60,6 +61,8 @@ const statusStyles = {
 }
 
 export function VisitorAnalytics() {
+  const { isModelActive } = useModelFilter()
+  const filteredVisitorModels = visitorModels.filter((item) => isModelActive(item.key))
   const hasWarning = crawlerStats.some((s) => s.status === "warn" && s.value > 0)
 
   return (
@@ -105,7 +108,7 @@ export function VisitorAnalytics() {
           Visitors by Model
         </p>
         <div className="flex flex-1 divide-x divide-border border-t border-border">
-          {visitorModels.map((item) => {
+          {filteredVisitorModels.map((item) => {
             const config = MODEL_CONFIG[item.key]
             const Logo = MODEL_LOGOS[item.key]
             return (

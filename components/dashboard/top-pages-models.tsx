@@ -13,6 +13,8 @@ import {
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import { ChatGPTLogo, ClaudeLogo, GeminiLogo, PerplexityLogo, CopilotLogo } from "./model-logos"
+import { useModelFilter } from "./model-filter-context"
+import { resolveModelKey } from "@/lib/models"
 
 type ModelLogoComponent = React.ComponentType<{ size?: number }>
 
@@ -41,6 +43,12 @@ const topModels = [
 ]
 
 export function TopPagesModels() {
+  const { isModelActive } = useModelFilter()
+  const filteredModels = topModels.filter((item) => {
+    const key = resolveModelKey(item.model)
+    return key ? isModelActive(key) : true
+  })
+
   return (
     <div className="grid gap-4 lg:grid-cols-2">
       <Card className="border-border bg-card">
@@ -133,7 +141,7 @@ export function TopPagesModels() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {topModels.map((item) => (
+              {filteredModels.map((item) => (
                 <TableRow key={item.model} className="border-border">
                   <TableCell className="text-xs text-foreground">
                     <div className="flex items-center gap-2">

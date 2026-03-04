@@ -1,5 +1,8 @@
+"use client"
+
 import { DashboardSidebar } from "@/components/dashboard/sidebar"
 import { DashboardHeader } from "@/components/dashboard/header"
+import { ModelFilterProvider } from "@/components/dashboard/model-filter-context"
 import { InsightsBanner } from "@/components/dashboard/insights-banner"
 import { BrandVisibilityCards } from "@/components/dashboard/brand-visibility-cards"
 import { BrandVisibilityChart } from "@/components/dashboard/brand-visibility-chart"
@@ -12,6 +15,7 @@ import { SectionHeader } from "@/components/dashboard/section-header"
 
 export default function DashboardPage() {
   return (
+    <ModelFilterProvider>
     <div className="flex h-screen bg-background">
       <DashboardSidebar />
       <div className="flex flex-1 flex-col overflow-hidden">
@@ -50,5 +54,6 @@ export default function DashboardPage() {
         </main>
       </div>
     </div>
+    </ModelFilterProvider>
   )
 }

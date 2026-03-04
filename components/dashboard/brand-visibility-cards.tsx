@@ -2,6 +2,7 @@
 
 import { ArrowUpRight } from "lucide-react"
 import { MODEL_CONFIG } from "@/lib/models"
+import { useModelFilter } from "./model-filter-context"
 import {
   ChatGPTLogo,
   ClaudeLogo,
@@ -52,6 +53,9 @@ function Ring({ value, size = 44, stroke = 5 }: { value: number; size?: number; 
 }
 
 export function BrandVisibilityCards() {
+  const { isModelActive } = useModelFilter()
+  const filteredModelData = modelData.filter((item) => isModelActive(item.key))
+
   return (
     <div className="grid gap-4 md:grid-cols-3">
 
@@ -81,7 +85,7 @@ export function BrandVisibilityCards() {
           Visibility by Model
         </p>
         <div className="flex flex-1 divide-x divide-border border-t border-border">
-          {modelData.map((item) => {
+          {filteredModelData.map((item) => {
             const config = MODEL_CONFIG[item.key]
             const Logo = MODEL_LOGOS[item.key]
             return (
