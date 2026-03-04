@@ -31,14 +31,14 @@ const recommendations = [
 export function ContentGaps() {
   return (
     <Card className="border-border bg-card h-full">
-      <CardHeader>
+      <CardHeader className="items-center">
         <div className="flex items-center gap-1.5">
           <CardTitle className="text-sm font-semibold text-foreground">Content Gaps Overview</CardTitle>
           <HelpTooltip title="Content Gaps">
             Topics where users are asking AI models questions but your brand is not appearing in responses. Addressing these gaps can improve your visibility score.
           </HelpTooltip>
         </div>
-        <CardAction>
+        <CardAction className="self-center">
           <Button variant="ghost" size="sm" className="gap-1 text-xs text-foreground hover:text-foreground" asChild>
             <Link href="/content-gaps">
               View All

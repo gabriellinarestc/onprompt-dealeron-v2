@@ -128,14 +128,14 @@ function SentimentBar({ value }: { value: number }) {
 export function TopPrompts() {
   return (
     <Card className="border-border bg-card h-full flex flex-col">
-      <CardHeader>
+      <CardHeader className="items-center">
         <div className="flex items-center gap-1.5">
           <CardTitle className="text-sm font-semibold text-foreground">Top Prompts</CardTitle>
           <HelpTooltip title="Top Prompts">
             The most frequent prompts where your brand appears in AI model responses. Sentiment shows how positively your brand is described, visibility shows how often your brand appears for that prompt.
           </HelpTooltip>
         </div>
-        <CardAction>
+        <CardAction className="self-center">
           <Button variant="ghost" size="sm" className="gap-1 text-xs text-foreground hover:text-foreground" asChild>
             <Link href="/prompts">
               View All

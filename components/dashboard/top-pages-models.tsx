@@ -53,14 +53,14 @@ export function TopPagesModels() {
   return (
     <div className="grid gap-4 lg:grid-cols-2">
       <Card className="border-border bg-card">
-        <CardHeader>
+        <CardHeader className="items-center">
           <div className="flex items-center gap-1.5">
             <CardTitle className="text-sm font-semibold text-foreground">Top Pages</CardTitle>
             <HelpTooltip title="Top Pages">
               Your website pages that receive the most AI-driven traffic. Visitors are real users arriving from AI model responses, crawls are indexing requests from AI bots.
             </HelpTooltip>
           </div>
-          <CardAction>
+          <CardAction className="self-center">
             <div className="flex gap-1">
               <Button variant="ghost" size="sm" className="gap-1 text-xs text-foreground hover:text-foreground" asChild>
                 <Link href="/visitor-analytics">
@@ -112,14 +112,14 @@ export function TopPagesModels() {
       </Card>
 
       <Card className="border-border bg-card">
-        <CardHeader>
+        <CardHeader className="items-center">
           <div className="flex items-center gap-1.5">
             <CardTitle className="text-sm font-semibold text-foreground">Top Models</CardTitle>
             <HelpTooltip title="Top Models">
               AI models ranked by engagement with your site. Visitors are users who clicked through from an AI response, crawls show how often each model indexes your content.
             </HelpTooltip>
           </div>
-          <CardAction>
+          <CardAction className="self-center">
             <div className="flex gap-1">
               <Button variant="ghost" size="sm" className="gap-1 text-xs text-foreground hover:text-foreground" asChild>
                 <Link href="/visitor-analytics">
