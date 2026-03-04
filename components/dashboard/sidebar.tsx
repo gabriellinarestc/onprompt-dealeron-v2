@@ -11,7 +11,6 @@ import {
   Settings,
   LogOut,
   ChevronLeft,
-  Sparkles,
 } from "lucide-react"
 import { useState } from "react"
 import { usePathname } from "next/navigation"
@@ -38,12 +37,14 @@ export function DashboardSidebar() {
       )}
     >
       <div className="flex h-14 items-center gap-2 border-b border-sidebar-border px-4">
-        <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary">
-          <Sparkles className="size-4 text-primary-foreground" />
-        </div>
-        {!collapsed && (
-          <span className="text-sm font-semibold text-foreground tracking-tight">
-            OnPrompt
+        {!collapsed ? (
+          <span className="select-none text-lg tracking-tight">
+            <span className="font-light text-foreground">On</span>
+            <span className="font-extrabold text-primary">Prompt</span>
+          </span>
+        ) : (
+          <span className="flex size-8 shrink-0 select-none items-center justify-center text-base font-extrabold tracking-tighter text-primary">
+            Op
           </span>
         )}
         <button
