@@ -62,7 +62,7 @@
   --button-tertiary-border: var(--gray-300);
   --button-tertiary-hover-bg: var(--gray-100);
   /* Ghost: Subtle background on hover */
-  --button-ghost-fg: var(--gray-600);
+  --button-ghost-fg: var(--gray-900);
   --button-ghost-hover-bg: var(--gray-200);
   --button-ghost-hover-fg: var(--gray-900);
   /* Link: Text only */
@@ -220,7 +220,7 @@
   --button-tertiary-border: var(--gray-700);
   --button-tertiary-hover-bg: var(--gray-800);
   /* Ghost: Subtle background on hover */
-  --button-ghost-fg: var(--gray-300);
+  --button-ghost-fg: var(--gray-50);
   --button-ghost-hover-bg: var(--gray-800);
   --button-ghost-hover-fg: var(--gray-50);
   /* Link: Text only */
