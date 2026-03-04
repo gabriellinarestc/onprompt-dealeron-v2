@@ -364,10 +364,10 @@ export function PromptsContent() {
           <Table>
             <TableHeader>
               <TableRow className="border-border hover:bg-transparent">
-                <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium pl-6">
+                <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium pl-6 py-3">
                   Prompt
                 </TableHead>
-                <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
+                <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium py-3">
                   <span className="inline-flex items-center gap-1">
                     Visibility
                     <HelpTooltip title="Visibility">
@@ -375,10 +375,10 @@ export function PromptsContent() {
                     </HelpTooltip>
                   </span>
                 </TableHead>
-                <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
+                <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium py-3">
                   Sentiment
                 </TableHead>
-                <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
+                <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium py-3">
                   <span className="inline-flex items-center gap-1">
                     Volume
                     <HelpTooltip title="Volume">
@@ -386,7 +386,7 @@ export function PromptsContent() {
                     </HelpTooltip>
                   </span>
                 </TableHead>
-                <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
+                <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium py-3">
                   <span className="inline-flex items-center gap-1">
                     Difficulty
                     <HelpTooltip title="Difficulty">
@@ -394,7 +394,7 @@ export function PromptsContent() {
                     </HelpTooltip>
                   </span>
                 </TableHead>
-                <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium pr-6">
+                <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium pr-6 py-3">
                   Brands
                 </TableHead>
               </TableRow>
@@ -402,7 +402,7 @@ export function PromptsContent() {
             <TableBody>
               {paginatedPrompts.map((item) => (
                 <TableRow key={item.id} className={`border-border ${item.isAnalyzing ? 'bg-muted/30' : ''}`}>
-                  <TableCell className="max-w-[300px] text-sm text-foreground pl-6">
+                  <TableCell className="max-w-[300px] text-sm text-foreground pl-6 py-3">
                     <div className="flex items-center gap-2">
                       {item.prompt}
                       {item.isAnalyzing && (
@@ -445,7 +445,7 @@ export function PromptsContent() {
                       <DifficultyTag value={item.difficulty!} />
                     )}
                   </TableCell>
-                  <TableCell className="pr-6">
+                  <TableCell className="pr-6 py-3">
                     {item.isAnalyzing ? (
                       <AnalyzingSkeleton />
                     ) : (
