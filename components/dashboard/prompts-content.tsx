@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import { Plus, Download, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -21,6 +21,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { HelpTooltip } from "./help-tooltip"
+import { CreatePromptModal } from "./create-prompt-modal"
 
 // Color utilities
 function getScoreColor(value: number): string {
@@ -82,6 +83,27 @@ function DifficultyBar({ value }: { value: number }) {
   )
 }
 
+// Analyzing skeleton for loading state
+function AnalyzingSkeleton() {
+  return (
+    <div className="flex items-center gap-2">
+      <div className="h-2 w-12 animate-pulse rounded-full bg-muted" />
+    </div>
+  )
+}
+
+// Type for prompt data
+interface PromptData {
+  id: number
+  prompt: string
+  visibilityScore: number | null
+  sentiment: number | null
+  volume: number | null
+  difficulty: number | null
+  brands: string[]
+  isAnalyzing: boolean
+}
+
 const brandNames: Record<string, string> = {
   T: "TechCorp",
   D: "DataFlow",
@@ -89,7 +111,7 @@ const brandNames: Record<string, string> = {
   M: "MetaAI",
 }
 
-const promptsData = [
+const initialPromptsData: PromptData[] = [
   {
     id: 1,
     prompt: "how to use react hooks",
@@ -98,6 +120,7 @@ const promptsData = [
     volume: 8900,
     difficulty: 45,
     brands: ["T", "D"],
+    isAnalyzing: false,
   },
   {
     id: 2,
@@ -107,6 +130,7 @@ const promptsData = [
     volume: 12400,
     difficulty: 72,
     brands: ["T", "D", "C"],
+    isAnalyzing: false,
   },
   {
     id: 3,
@@ -116,6 +140,7 @@ const promptsData = [
     volume: 15600,
     difficulty: 61,
     brands: ["T", "D", "C"],
+    isAnalyzing: false,
   },
   {
     id: 4,
@@ -125,6 +150,7 @@ const promptsData = [
     volume: 5200,
     difficulty: 88,
     brands: ["T"],
+    isAnalyzing: false,
   },
   {
     id: 5,
@@ -134,15 +160,88 @@ const promptsData = [
     volume: 3800,
     difficulty: 34,
     brands: ["C", "M"],
+    isAnalyzing: false,
   },
 ]
 
 export function PromptsContent() {
   const [searchQuery, setSearchQuery] = useState("")
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+  const [prompts, setPrompts] = useState<PromptData[]>(initialPromptsData)
 
-  const filteredPrompts = promptsData.filter((item) =>
+  const handleCreatePrompt = useCallback((promptText: string) => {
+    const newId = Math.max(...prompts.map(p => p.id)) + 1
+    
+    // Add new prompt with analyzing state
+    const newPrompt: PromptData = {
+      id: newId,
+      prompt: promptText,
+      visibilityScore: null,
+      sentiment: null,
+      volume: null,
+      difficulty: null,
+      brands: [],
+      isAnalyzing: true,
+    }
+    
+    setPrompts(prev => [newPrompt, ...prev])
+    
+    // Simulate analysis completing after 3 seconds
+    setTimeout(() => {
+      setPrompts(prev => prev.map(p => 
+        p.id === newId 
+          ? {
+              ...p,
+              visibilityScore: Math.floor(Math.random() * 40) + 60, // 60-100
+              sentiment: Math.floor(Math.random() * 30) + 70, // 70-100
+              volume: Math.floor(Math.random() * 10000) + 1000, // 1000-11000
+              difficulty: Math.floor(Math.random() * 80) + 20, // 20-100
+              brands: ["T", "D"].slice(0, Math.floor(Math.random() * 2) + 1),
+              isAnalyzing: false,
+            }
+          : p
+      ))
+    }, 3000)
+  }, [prompts])
+
+  const filteredPrompts = prompts.filter((item) =>
     item.prompt.toLowerCase().includes(searchQuery.toLowerCase())
   )
+
+  const handleExportCSV = useCallback(() => {
+    // Filter out prompts still being analyzed
+    const exportablePrompts = prompts.filter(p => !p.isAnalyzing)
+    
+    // CSV headers
+    const headers = ["Prompt", "Visibility Score", "Sentiment", "Volume", "Difficulty", "Brands"]
+    
+    // Convert prompts to CSV rows
+    const rows = exportablePrompts.map(item => [
+      `"${item.prompt.replace(/"/g, '""')}"`, // Escape quotes in prompt text
+      item.visibilityScore?.toString() ?? "",
+      item.sentiment?.toString() ?? "",
+      item.volume?.toString() ?? "",
+      item.difficulty?.toString() ?? "",
+      item.brands.map(b => brandNames[b] || b).join("; ")
+    ])
+    
+    // Combine headers and rows
+    const csvContent = [
+      headers.join(","),
+      ...rows.map(row => row.join(","))
+    ].join("\n")
+    
+    // Create blob and trigger download
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement("a")
+    link.setAttribute("href", url)
+    link.setAttribute("download", `prompts-export-${new Date().toISOString().split("T")[0]}.csv`)
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+  }, [prompts])
 
   return (
     <div className="flex flex-col gap-6">
@@ -155,11 +254,11 @@ export function PromptsContent() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button className="gap-2">
+          <Button className="gap-2" onClick={() => setIsCreateModalOpen(true)}>
             <Plus className="size-4" />
             Create Prompt
           </Button>
-          <Button variant="outline" className="gap-2">
+          <Button variant="outline" className="gap-2" onClick={handleExportCSV}>
             <Download className="size-4" />
             Export CSV
           </Button>
@@ -225,49 +324,74 @@ export function PromptsContent() {
             </TableHeader>
             <TableBody>
               {filteredPrompts.map((item) => (
-                <TableRow key={item.id} className="border-border">
+                <TableRow key={item.id} className={`border-border ${item.isAnalyzing ? 'bg-muted/30' : ''}`}>
                   <TableCell className="max-w-[300px] text-sm text-foreground pl-6">
-                    {item.prompt}
+                    <div className="flex items-center gap-2">
+                      {item.prompt}
+                      {item.isAnalyzing && (
+                        <span className="text-xs text-muted-foreground italic">Analyzing...</span>
+                      )}
+                    </div>
                   </TableCell>
                   <TableCell>
-                    <span
-                      className="text-sm font-semibold tabular-nums"
-                      style={{ color: getScoreColor(item.visibilityScore) }}
-                    >
-                      {item.visibilityScore}%
-                    </span>
+                    {item.isAnalyzing ? (
+                      <AnalyzingSkeleton />
+                    ) : (
+                      <span
+                        className="text-sm font-semibold tabular-nums"
+                        style={{ color: getScoreColor(item.visibilityScore!) }}
+                      >
+                        {item.visibilityScore}%
+                      </span>
+                    )}
                   </TableCell>
                   <TableCell>
-                    <SentimentBar value={item.sentiment} />
+                    {item.isAnalyzing ? (
+                      <AnalyzingSkeleton />
+                    ) : (
+                      <SentimentBar value={item.sentiment!} />
+                    )}
                   </TableCell>
                   <TableCell>
-                    <span className="text-sm tabular-nums text-foreground">
-                      {item.volume.toLocaleString()}
-                    </span>
+                    {item.isAnalyzing ? (
+                      <AnalyzingSkeleton />
+                    ) : (
+                      <span className="text-sm tabular-nums text-foreground">
+                        {item.volume!.toLocaleString()}
+                      </span>
+                    )}
                   </TableCell>
                   <TableCell>
-                    <DifficultyBar value={item.difficulty} />
+                    {item.isAnalyzing ? (
+                      <AnalyzingSkeleton />
+                    ) : (
+                      <DifficultyBar value={item.difficulty!} />
+                    )}
                   </TableCell>
                   <TableCell className="pr-6">
-                    <TooltipProvider>
-                      <div className="flex gap-1">
-                        {item.brands.map((b) => (
-                          <Tooltip key={b}>
-                            <TooltipTrigger asChild>
-                              <Badge
-                                variant="outline"
-                                className="size-6 items-center justify-center rounded-full border-border p-0 text-[10px] text-muted-foreground cursor-pointer hover:bg-muted"
-                              >
-                                {b}
-                              </Badge>
-                            </TooltipTrigger>
-                            <TooltipContent className="bg-popover text-popover-foreground border-border">
-                              <p className="text-xs">{brandNames[b]}</p>
-                            </TooltipContent>
-                          </Tooltip>
-                        ))}
-                      </div>
-                    </TooltipProvider>
+                    {item.isAnalyzing ? (
+                      <AnalyzingSkeleton />
+                    ) : (
+                      <TooltipProvider>
+                        <div className="flex gap-1">
+                          {item.brands.map((b) => (
+                            <Tooltip key={b}>
+                              <TooltipTrigger asChild>
+                                <Badge
+                                  variant="outline"
+                                  className="size-6 items-center justify-center rounded-full border-border p-0 text-[10px] text-muted-foreground cursor-pointer hover:bg-muted"
+                                >
+                                  {b}
+                                </Badge>
+                              </TooltipTrigger>
+                              <TooltipContent className="bg-popover text-popover-foreground border-border">
+                                <p className="text-xs">{brandNames[b]}</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          ))}
+                        </div>
+                      </TooltipProvider>
+                    )}
                   </TableCell>
                 </TableRow>
               ))}
@@ -275,6 +399,13 @@ export function PromptsContent() {
           </Table>
         </CardContent>
       </Card>
+
+      {/* Create Prompt Modal */}
+      <CreatePromptModal
+        open={isCreateModalOpen}
+        onOpenChange={setIsCreateModalOpen}
+        onSubmit={handleCreatePrompt}
+      />
     </div>
   )
 }
