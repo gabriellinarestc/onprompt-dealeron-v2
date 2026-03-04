@@ -34,14 +34,14 @@ export const MODEL_CONFIG: Record<ModelKey, ModelConfig> = {
     name: "Gemini",
     color: "var(--model-gemini)",
     bgClass: "bg-model-gemini",
-    hex: "#7c4dff",
+    hex: "#536dfe",
   },
   aioverview: {
     key: "aioverview",
     name: "AI Overview",
     color: "var(--model-aioverview)",
     bgClass: "bg-model-aioverview",
-    hex: "#c850c0",
+    hex: "#9c5bce",
   },
   perplexity: {
     key: "perplexity",
