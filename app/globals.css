@@ -32,7 +32,7 @@
   /* AI Model brand colors */
   --model-chatgpt: #10a37f;
   --model-claude: #d97757;
-  --model-gemini: #4285f4;
+  --model-gemini: #536dfe;
   --model-perplexity: #20b8cd;
   --model-copilot: #0078d4;
   --model-aioverview: #9c5bce;
@@ -140,7 +140,8 @@
   /* AI Model brand colors — same across themes */
   --model-chatgpt: #10a37f;
   --model-claude: #d97757;
-  --model-gemini: #4285f4;
+  --model-gemini: #536dfe;
+  --model-aioverview: #9c5bce;
   --model-perplexity: #20b8cd;
   --model-copilot: #0078d4;
 
