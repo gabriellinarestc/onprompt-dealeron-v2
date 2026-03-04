@@ -1,7 +1,7 @@
 "use client"
 
-import { ArrowUpRight, Lock } from "lucide-react"
-import { MODEL_CONFIG, LOCKED_MODELS } from "@/lib/models"
+import { ArrowUpRight } from "lucide-react"
+import { MODEL_CONFIG } from "@/lib/models"
 import { useModelFilter } from "./model-filter-context"
 import { HelpTooltip } from "./help-tooltip"
 import {
@@ -126,13 +126,6 @@ export function BrandVisibilityCards() {
               </div>
             )
           })}
-          {/* Locked models teaser */}
-          {LOCKED_MODELS.length > 0 && (
-            <div className="flex flex-1 flex-col items-center justify-center gap-1.5 px-5 py-4 opacity-40">
-              <Lock className="size-3.5 text-muted-foreground" />
-              <span className="text-xs text-muted-foreground">+{LOCKED_MODELS.length} models</span>
-            </div>
-          )}
         </div>
       </div>
 

@@ -11,10 +11,10 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Lock } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import { ChatGPTLogo, ClaudeLogo, GeminiLogo, AIOverviewLogo, PerplexityLogo, CopilotLogo } from "./model-logos"
 import { useModelFilter } from "./model-filter-context"
-import { resolveModelKey, isModelLocked } from "@/lib/models"
+import { resolveModelKey } from "@/lib/models"
 import { HelpTooltip } from "./help-tooltip"
 
 type ModelLogoComponent = React.ComponentType<{ size?: number }>
@@ -47,14 +47,9 @@ const topModels = [
 
 export function TopPagesModels() {
   const { isModelActive } = useModelFilter()
-  // Show active models first, then locked models at the bottom
-  const activeModels = topModels.filter((item) => {
+  const filteredModels = topModels.filter((item) => {
     const key = resolveModelKey(item.model)
     return key ? isModelActive(key) : true
-  })
-  const lockedModels = topModels.filter((item) => {
-    const key = resolveModelKey(item.model)
-    return key ? isModelLocked(key) : false
   })
 
   return (
@@ -155,7 +150,7 @@ export function TopPagesModels() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {activeModels.map((item) => (
+              {filteredModels.map((item) => (
                 <TableRow key={item.model} className="border-border">
                   <TableCell className="text-xs text-foreground">
                     <div className="flex items-center gap-2">
@@ -174,24 +169,6 @@ export function TopPagesModels() {
                   <TableCell className="text-right text-xs text-muted-foreground">
                     {item.crawls}
                   </TableCell>
-                </TableRow>
-              ))}
-              {lockedModels.map((item) => (
-                <TableRow key={item.model} className="border-border opacity-40">
-                  <TableCell className="text-xs text-muted-foreground">
-                    <div className="flex items-center gap-2">
-                      {(() => {
-                        const entry = MODEL_LOGO_MAP[item.model]
-                        if (!entry) return <span className="size-2 rounded-full bg-muted-foreground" />
-                        const Logo = entry.Logo
-                        return <span style={{ color: entry.color }}><Logo size={16} /></span>
-                      })()}
-                      {item.model}
-                      <Lock className="size-3 text-muted-foreground" />
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-right text-xs text-muted-foreground">--</TableCell>
-                  <TableCell className="text-right text-xs text-muted-foreground">--</TableCell>
                 </TableRow>
               ))}
             </TableBody>

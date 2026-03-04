@@ -1,7 +1,7 @@
 "use client"
 
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react"
-import { type ModelKey, isModelLocked } from "@/lib/models"
+import type { ModelKey } from "@/lib/models"
 
 const ALL_MODELS: ModelKey[] = ["chatgpt", "claude", "gemini", "aioverview", "perplexity", "copilot"]
 const DEFAULT_MODELS: ModelKey[] = ["chatgpt", "aioverview", "perplexity"]
@@ -19,7 +19,6 @@ export function ModelFilterProvider({ children }: { children: ReactNode }) {
   const [activeModels, setActiveModels] = useState<Set<ModelKey>>(new Set(DEFAULT_MODELS))
 
   const toggleModel = useCallback((key: ModelKey) => {
-    if (isModelLocked(key)) return
     setActiveModels((prev) => {
       const next = new Set(prev)
       if (next.has(key)) {
