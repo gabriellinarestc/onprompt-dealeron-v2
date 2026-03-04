@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { CalendarDays, ChevronDown } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Separator } from "@/components/ui/separator"
 import { Switch } from "@/components/ui/switch"
@@ -15,19 +16,21 @@ export function PeriodSelector() {
   const [days, setDays] = useState<Period>(7)
   const [compare, setCompare] = useState(true)
 
+  const canCompare = days === 7
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <button className="flex h-9 items-center gap-2 rounded-lg border border-border bg-secondary px-3 text-sm font-medium text-secondary-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+        <Button variant="outline" className="h-9 gap-2 px-3">
           <CalendarDays className="size-4 text-muted-foreground" />
           <span>Last {days} days</span>
-          {compare && (
+          {compare && canCompare && (
             <span className="rounded-md bg-primary/15 px-1.5 py-0.5 text-xs font-medium text-primary">
               vs. prior 7d
             </span>
           )}
           <ChevronDown className={cn("size-4 text-muted-foreground transition-transform", open && "rotate-180")} />
-        </button>
+        </Button>
       </PopoverTrigger>
 
       <PopoverContent align="end" sideOffset={6} className="w-72 p-5 shadow-xl">
@@ -65,23 +68,26 @@ export function PeriodSelector() {
         <Separator className="my-4" />
 
         {/* Comparison */}
-        <div className="flex items-start justify-between gap-4">
+        <div className={cn("flex items-start justify-between gap-4", !canCompare && "opacity-50")}>
           <div>
             <p className="text-sm font-semibold text-foreground">Compare to prior 7 days</p>
             <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
-              Shows whether your numbers went up or down compared to the same window right before.
+              {canCompare
+                ? "Shows whether your numbers went up or down compared to the previous week."
+                : "Only available when viewing 7-day data."}
             </p>
           </div>
           <Switch
-            checked={compare}
+            checked={compare && canCompare}
             onCheckedChange={setCompare}
+            disabled={!canCompare}
             className="mt-0.5 shrink-0"
           />
         </div>
 
         {/* Summary */}
         <div className="mt-4 rounded-lg bg-muted px-3 py-2.5 text-xs leading-relaxed text-muted-foreground">
-          {compare
+          {compare && canCompare
             ? <>You are viewing the <strong className="text-foreground">last {days} days</strong>, compared against the <strong className="text-foreground">7 days before that</strong>.</>
             : <>You are viewing the <strong className="text-foreground">last {days} days</strong> with no comparison.</>}
         </div>
