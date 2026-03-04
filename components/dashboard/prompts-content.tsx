@@ -445,7 +445,7 @@ export function PromptsContent() {
                     <div className="flex items-center gap-2">
                       {item.prompt}
                       {item.isAnalyzing && (
-                        <span className="text-xs text-muted-foreground italic">Analyzing...</span>
+                        <span className="text-xs text-muted-foreground italic">Analyzing — this can take up to 24 hours.</span>
                       )}
                     </div>
                   </TableCell>
