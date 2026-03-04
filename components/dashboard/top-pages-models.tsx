@@ -12,6 +12,17 @@ import {
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
+import { ChatGPTLogo, ClaudeLogo, GeminiLogo, PerplexityLogo, CopilotLogo } from "./model-logos"
+
+type ModelLogoComponent = React.ComponentType<{ size?: number }>
+
+const MODEL_LOGO_MAP: Record<string, { Logo: ModelLogoComponent; color: string }> = {
+  "chatgpt.com":          { Logo: ChatGPTLogo,    color: "#10a37f" },
+  "claude.ai":            { Logo: ClaudeLogo,     color: "#d97757" },
+  "gemini.google.com":    { Logo: GeminiLogo,     color: "#4285f4" },
+  "perplexity.ai":        { Logo: PerplexityLogo, color: "#20b8cd" },
+  "copilot.microsoft.com":{ Logo: CopilotLogo,    color: "#0078d4" },
+}
 
 const topPages = [
   { page: "/", visitors: 12, crawls: "100.7k" },
@@ -126,7 +137,13 @@ export function TopPagesModels() {
                 <TableRow key={item.model} className="border-border">
                   <TableCell className="text-xs text-foreground">
                     <div className="flex items-center gap-2">
-                      <span className="size-2 rounded-full bg-primary" />
+                      {MODEL_LOGO_MAP[item.model] ? (
+                        <span style={{ color: MODEL_LOGO_MAP[item.model].color }}>
+                          <MODEL_LOGO_MAP[item.model].Logo size={16} />
+                        </span>
+                      ) : (
+                        <span className="size-2 rounded-full bg-primary" />
+                      )}
                       {item.model}
                     </div>
                   </TableCell>

@@ -50,23 +50,21 @@ const heatmapData: Record<string, number[]> = {
   Sun: [72, 68, 82, 78, 85, 75, 70],
 }
 
-// Get color based on score using primary purple color variations (hue 300)
+// Get color based on score using primary warm purple color variations (hue 315)
 function getHeatmapColor(score: number): string {
-  // Using oklch with primary hue (300) adjusting lightness and chroma for intensity
-  // Lower scores = lighter/less saturated, higher scores = darker/more saturated
-  if (score >= 90) return "oklch(0.52 0.22 300)" // Darkest purple (primary)
-  if (score >= 80) return "oklch(0.58 0.18 300)"
-  if (score >= 70) return "oklch(0.65 0.15 300)"
-  if (score >= 60) return "oklch(0.72 0.12 300)"
-  return "oklch(0.80 0.08 300)" // Lightest purple
+  if (score >= 90) return "oklch(0.52 0.24 315)" // Darkest — matches primary
+  if (score >= 80) return "oklch(0.58 0.19 315)"
+  if (score >= 70) return "oklch(0.65 0.15 315)"
+  if (score >= 60) return "oklch(0.72 0.11 315)"
+  return "oklch(0.80 0.07 315)" // Lightest
 }
 
 const heatmapLegendColors = [
-  "oklch(0.80 0.08 300)",
-  "oklch(0.72 0.12 300)",
-  "oklch(0.65 0.15 300)",
-  "oklch(0.58 0.18 300)",
-  "oklch(0.52 0.22 300)",
+  "oklch(0.80 0.07 315)",
+  "oklch(0.72 0.11 315)",
+  "oklch(0.65 0.15 315)",
+  "oklch(0.58 0.19 315)",
+  "oklch(0.52 0.24 315)",
 ]
 
 function CustomChartTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number }>; label?: string }) {
