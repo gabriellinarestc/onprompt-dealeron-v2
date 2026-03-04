@@ -9,23 +9,26 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
+  ReferenceLine,
 } from "recharts"
 import { ArrowDownRight } from "lucide-react"
 
+// Realistic growing sentiment data with variations — starts lower, trends upward
 const sentimentData = [
-  { date: "02 Feb", score: 78 },
-  { date: "03 Feb", score: 74 },
-  { date: "04 Feb", score: 82 },
-  { date: "05 Feb", score: 79 },
-  { date: "06 Feb", score: 85 },
-  { date: "07 Feb", score: 80 },
-  { date: "08 Feb", score: 82 },
-]
-
-const promptTypeData = [
-  { name: "Organic", score: 82, color: "bg-chart-1" },
-  { name: "Competitor Comparison", score: 83, color: "bg-chart-2" },
-  { name: "Brand Specific", score: null, color: "bg-muted" },
+  { date: "Jan 15", score: 38 },
+  { date: "Jan 22", score: 42 },
+  { date: "Jan 29", score: 45 },
+  { date: "Feb 05", score: 51 },
+  { date: "Feb 12", score: 48 },
+  { date: "Feb 19", score: 56 },
+  { date: "Feb 26", score: 62 },
+  { date: "Mar 05", score: 58 },
+  { date: "Mar 12", score: 65 },
+  { date: "Mar 19", score: 71 },
+  { date: "Mar 26", score: 68 },
+  { date: "Apr 02", score: 74 },
+  { date: "Apr 09", score: 78 },
+  { date: "Apr 16", score: 82 },
 ]
 
 // Temperature colors
@@ -36,10 +39,10 @@ const TEMP_GREEN  = "oklch(0.6 0.17 145)"
 const TEMP_DEEP   = "oklch(0.52 0.19 155)"
 
 function getTemperatureColor(score: number): string {
-  if (score >= 85) return TEMP_DEEP
-  if (score >= 75) return TEMP_GREEN
-  if (score >= 60) return TEMP_YELLOW
-  if (score >= 40) return TEMP_AMBER
+  if (score >= 80) return TEMP_DEEP
+  if (score >= 65) return TEMP_GREEN
+  if (score >= 50) return TEMP_YELLOW
+  if (score >= 35) return TEMP_AMBER
   return TEMP_RED
 }
 
@@ -58,6 +61,9 @@ function CustomChartTooltip({ active, payload, label }: { active?: boolean; payl
   )
 }
 
+// Current score is the last data point
+const currentScore = sentimentData[sentimentData.length - 1].score
+
 export function BrandSentiment() {
   return (
     <div className="grid gap-4 lg:grid-cols-2">
@@ -72,7 +78,7 @@ export function BrandSentiment() {
               Current Sentiment Score
             </p>
             <div className="flex items-baseline gap-1">
-              <span className="text-4xl font-bold text-foreground">82</span>
+              <span className="text-4xl font-bold text-foreground">{currentScore}</span>
               <span className="text-sm text-muted-foreground">/100</span>
             </div>
             <div className="mt-1 flex items-center gap-1 text-xs text-destructive">
@@ -81,45 +87,21 @@ export function BrandSentiment() {
             </div>
           </div>
 
-          <div className="mb-4">
+          <div>
             <p className="mb-2 text-[10px] uppercase tracking-wider text-muted-foreground">
               Score Position
             </p>
             <div className="relative h-2 w-full rounded-full bg-gradient-to-r from-destructive via-warning to-success">
               <div
                 className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2"
-                style={{ left: "82%" }}
+                style={{ left: `${currentScore}%` }}
               >
                 <div className="size-3.5 rounded-full border-2 border-foreground bg-background" />
               </div>
             </div>
             <p className="mt-1.5 text-right text-xs text-muted-foreground">
-              <span className="font-semibold text-foreground">82.25</span>/100
+              <span className="font-semibold text-foreground">{currentScore}</span>/100
             </p>
-          </div>
-
-          <div>
-            <p className="mb-3 text-[10px] uppercase tracking-wider text-muted-foreground">
-              By Prompt Type
-            </p>
-            <div className="flex flex-col gap-3">
-              {promptTypeData.map((item) => (
-                <div key={item.name} className="flex items-center gap-3">
-                  <span className="w-36 shrink-0 text-xs text-muted-foreground">{item.name}</span>
-                  <div className="relative h-2 flex-1 rounded-full bg-muted">
-                    {item.score !== null && (
-                      <div
-                        className="absolute inset-y-0 left-0 rounded-full bg-success"
-                        style={{ width: `${item.score}%` }}
-                      />
-                    )}
-                  </div>
-                  <span className="w-12 text-right text-xs font-medium text-foreground">
-                    {item.score !== null ? `${item.score}/100` : "-/100"}
-                  </span>
-                </div>
-              ))}
-            </div>
           </div>
         </CardContent>
       </Card>
@@ -134,33 +116,34 @@ export function BrandSentiment() {
         <CardContent>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={sentimentData}>
+              <AreaChart data={sentimentData} margin={{ top: 4, right: 4, bottom: 0, left: -12 }}>
                 <defs>
-                  {/* Vertical gradient for the line stroke: green at top (high scores) -> red at bottom (low scores) */}
+                  {/* Vertical gradient for the line stroke: maps Y position to temperature color */}
                   <linearGradient id="sentimentStrokeGradient" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%"   stopColor={TEMP_DEEP} />
-                    <stop offset="20%"  stopColor={TEMP_GREEN} />
+                    <stop offset="25%"  stopColor={TEMP_GREEN} />
                     <stop offset="50%"  stopColor={TEMP_YELLOW} />
-                    <stop offset="80%"  stopColor={TEMP_AMBER} />
+                    <stop offset="75%"  stopColor={TEMP_AMBER} />
                     <stop offset="100%" stopColor={TEMP_RED} />
                   </linearGradient>
-                  {/* Subtle fill under the line using the same temperature range */}
+                  {/* Fill under the line */}
                   <linearGradient id="sentimentFillGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%"   stopColor={TEMP_DEEP}  stopOpacity={0.18} />
-                    <stop offset="30%"  stopColor={TEMP_GREEN}  stopOpacity={0.12} />
-                    <stop offset="60%"  stopColor={TEMP_YELLOW} stopOpacity={0.08} />
-                    <stop offset="100%" stopColor={TEMP_RED}    stopOpacity={0.03} />
+                    <stop offset="0%"   stopColor={TEMP_DEEP}  stopOpacity={0.22} />
+                    <stop offset="25%"  stopColor={TEMP_GREEN}  stopOpacity={0.14} />
+                    <stop offset="50%"  stopColor={TEMP_YELLOW} stopOpacity={0.08} />
+                    <stop offset="75%"  stopColor={TEMP_AMBER}  stopOpacity={0.05} />
+                    <stop offset="100%" stopColor={TEMP_RED}    stopOpacity={0.02} />
                   </linearGradient>
                   {/* Very subtle full-background temperature wash */}
                   <linearGradient id="sentimentBgGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%"   stopColor={TEMP_DEEP}  stopOpacity={0.06} />
-                    <stop offset="40%"  stopColor={TEMP_GREEN}  stopOpacity={0.04} />
-                    <stop offset="70%"  stopColor={TEMP_AMBER}  stopOpacity={0.03} />
-                    <stop offset="100%" stopColor={TEMP_RED}    stopOpacity={0.06} />
+                    <stop offset="0%"   stopColor={TEMP_DEEP}  stopOpacity={0.05} />
+                    <stop offset="35%"  stopColor={TEMP_GREEN}  stopOpacity={0.03} />
+                    <stop offset="65%"  stopColor={TEMP_AMBER}  stopOpacity={0.03} />
+                    <stop offset="100%" stopColor={TEMP_RED}    stopOpacity={0.05} />
                   </linearGradient>
                 </defs>
 
-                {/* Background temperature wash — a full-height area behind the data */}
+                {/* Background temperature wash */}
                 <Area
                   type="monotone"
                   dataKey={() => 100}
@@ -169,18 +152,24 @@ export function BrandSentiment() {
                   isAnimationActive={false}
                 />
 
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" vertical={false} />
+                {/* Subtle reference zones */}
+                <ReferenceLine y={80} stroke={TEMP_DEEP} strokeOpacity={0.15} strokeDasharray="3 3" />
+                <ReferenceLine y={50} stroke={TEMP_YELLOW} strokeOpacity={0.15} strokeDasharray="3 3" />
+
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" vertical={false} opacity={0.5} />
                 <XAxis
                   dataKey="date"
-                  tick={{ fill: "var(--chart-tick)", fontSize: 11 }}
+                  tick={{ fill: "var(--chart-tick)", fontSize: 10 }}
                   axisLine={{ stroke: "var(--chart-grid)" }}
                   tickLine={false}
+                  interval="preserveStartEnd"
                 />
                 <YAxis
                   domain={[0, 100]}
-                  tick={{ fill: "var(--chart-tick)", fontSize: 11 }}
+                  tick={{ fill: "var(--chart-tick)", fontSize: 10 }}
                   axisLine={false}
                   tickLine={false}
+                  ticks={[0, 25, 50, 75, 100]}
                 />
                 <RechartsTooltip
                   content={<CustomChartTooltip />}
@@ -199,7 +188,7 @@ export function BrandSentiment() {
                         key={`dot-${cx}`}
                         cx={cx}
                         cy={cy}
-                        r={4}
+                        r={3.5}
                         fill={color}
                         stroke="var(--chart-dot-stroke)"
                         strokeWidth={2}
@@ -213,7 +202,7 @@ export function BrandSentiment() {
                         key={`active-${cx}`}
                         cx={cx}
                         cy={cy}
-                        r={6}
+                        r={5.5}
                         fill={color}
                         stroke="var(--chart-dot-stroke)"
                         strokeWidth={2}

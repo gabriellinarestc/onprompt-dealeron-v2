@@ -1,5 +1,6 @@
 import { DashboardSidebar } from "@/components/dashboard/sidebar"
 import { DashboardHeader } from "@/components/dashboard/header"
+import { InsightsBanner } from "@/components/dashboard/insights-banner"
 import { BrandVisibilityCards } from "@/components/dashboard/brand-visibility-cards"
 import { BrandVisibilityChart } from "@/components/dashboard/brand-visibility-chart"
 import { BrandSentiment } from "@/components/dashboard/brand-sentiment"
@@ -18,6 +19,8 @@ export default function DashboardPage() {
         <main className="flex-1 overflow-y-auto">
           <div className="mx-auto max-w-7xl p-6">
             <div className="flex flex-col gap-6">
+              <InsightsBanner />
+
               {/* Brand Visibility Section */}
               <SectionHeader title="Brand Visibility" />
               <BrandVisibilityCards />
