@@ -32,10 +32,23 @@ export function DashboardSidebar() {
   return (
     <aside
       className={cn(
-        "flex h-screen flex-col border-r border-sidebar-border bg-sidebar transition-all duration-300",
+        "relative flex h-screen flex-col border-r border-sidebar-border bg-sidebar transition-all duration-300",
         collapsed ? "w-16" : "w-56"
       )}
     >
+      {/* Floating toggle button on sidebar edge */}
+      <button
+        onClick={() => setCollapsed(!collapsed)}
+        className="absolute -right-3 top-[18px] z-50 flex size-6 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-sm transition-colors hover:bg-accent hover:text-foreground"
+      >
+        <ChevronLeft
+          className={cn(
+            "size-3.5 transition-transform",
+            collapsed && "rotate-180"
+          )}
+        />
+      </button>
+
       <div className="flex h-14 items-center gap-2 border-b border-sidebar-border px-4">
         {!collapsed ? (
           <span className="select-none text-lg tracking-tight">
@@ -47,20 +60,6 @@ export function DashboardSidebar() {
             Op
           </span>
         )}
-        <button
-          onClick={() => setCollapsed(!collapsed)}
-          className={cn(
-            "ml-auto flex size-6 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-foreground",
-            collapsed && "ml-0"
-          )}
-        >
-          <ChevronLeft
-            className={cn(
-              "size-4 transition-transform",
-              collapsed && "rotate-180"
-            )}
-          />
-        </button>
       </div>
 
       <nav className="flex-1 p-2">
