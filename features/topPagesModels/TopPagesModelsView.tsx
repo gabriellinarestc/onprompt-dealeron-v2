@@ -141,20 +141,24 @@ function EmptyState() {
 function ErrorState({ onRetry }: { onRetry?: () => void }) {
   return (
     <div className="grid gap-4 lg:grid-cols-2">
-      <Card className="border-border bg-card border-destructive/40 lg:col-span-2">
-        <CardContent className="py-10">
-          <div className="flex items-center justify-center gap-3">
-            <AlertCircle className="size-5 shrink-0 text-destructive" />
-            <div>
-              <p className="text-sm font-semibold text-foreground">Failed to load pages and models data</p>
-              <p className="text-xs text-muted-foreground">Something went wrong. Please try again.</p>
+      <Card className="border-border bg-card border-destructive/20 lg:col-span-2">
+        <CardContent className="py-12">
+          <div className="flex flex-col items-center justify-center gap-3">
+            <div className="flex size-10 items-center justify-center rounded-full bg-destructive/10">
+              <AlertCircle className="size-5 text-destructive" />
+            </div>
+            <div className="text-center">
+              <p className="text-sm font-semibold text-foreground">Pages &amp; models data unavailable</p>
+              <p className="mt-1 max-w-xs text-xs text-muted-foreground">
+                We couldn&apos;t load this data. This is usually temporary.
+              </p>
             </div>
             {onRetry && (
               <button
                 onClick={onRetry}
-                className="shrink-0 rounded-md px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/10 transition-colors"
+                className="rounded-lg border border-border bg-card px-4 py-2 text-xs font-medium text-foreground shadow-sm transition-colors hover:bg-muted"
               >
-                Retry
+                Try again
               </button>
             )}
           </div>

@@ -58,20 +58,24 @@ function EmptyState() {
 
 function ErrorState({ onRetry }: { onRetry?: () => void }) {
   return (
-    <Card className="border-border bg-card border-destructive/40 h-full">
-      <CardContent className="py-10">
-        <div className="flex items-center justify-center gap-3">
-          <AlertCircle className="size-5 shrink-0 text-destructive" />
-          <div>
-            <p className="text-sm font-semibold text-foreground">Failed to load content gaps</p>
-            <p className="text-xs text-muted-foreground">Something went wrong. Please try again.</p>
+    <Card className="border-border bg-card border-destructive/20 h-full">
+      <CardContent className="py-12">
+        <div className="flex flex-col items-center justify-center gap-3">
+          <div className="flex size-10 items-center justify-center rounded-full bg-destructive/10">
+            <AlertCircle className="size-5 text-destructive" />
+          </div>
+          <div className="text-center">
+            <p className="text-sm font-semibold text-foreground">Content gaps unavailable</p>
+            <p className="mt-1 max-w-[200px] text-xs text-muted-foreground">
+              We couldn&apos;t load the content gap data. This is usually temporary.
+            </p>
           </div>
           {onRetry && (
             <button
               onClick={onRetry}
-              className="shrink-0 rounded-md px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/10 transition-colors"
+              className="rounded-lg border border-border bg-card px-4 py-2 text-xs font-medium text-foreground shadow-sm transition-colors hover:bg-muted"
             >
-              Retry
+              Try again
             </button>
           )}
         </div>
