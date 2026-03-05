@@ -48,9 +48,10 @@ function getTemperatureColor(score: number): string {
   return TEMP_RED
 }
 
-function CustomChartTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number }>; label?: string }) {
-  if (!active || !payload) return null
-  const score = payload[0]?.value ?? 0
+function CustomChartTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number; dataKey?: string | ((entry: Record<string, unknown>) => unknown) }>; label?: string }) {
+  if (!active || !payload?.length) return null
+  const scoreEntry = payload.find((p) => p.dataKey === "score")
+  const score = scoreEntry?.value ?? payload[payload.length - 1]?.value ?? 0
   const color = getTemperatureColor(score)
   return (
     <div className="rounded-lg border border-border bg-popover px-3 py-2 shadow-xl">
