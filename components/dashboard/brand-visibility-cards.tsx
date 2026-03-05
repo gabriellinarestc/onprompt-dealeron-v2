@@ -1,6 +1,7 @@
 "use client"
 
 import { ArrowUpRight } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
 import { MODEL_CONFIG } from "@/lib/models"
 import { useModelFilter } from "./model-filter-context"
 import { HelpTooltip } from "./help-tooltip"
@@ -102,12 +103,9 @@ export function BrandVisibilityCards() {
               Total number of times your brand was mentioned in responses from each AI model. The percentage shows growth compared to the previous period.
             </HelpTooltip>
           </div>
-          <div className="flex items-baseline gap-1.5">
-            <span className="text-2xl font-bold text-foreground">
-              {filteredModelData.reduce((sum, item) => sum + item.mentions, 0)}
-            </span>
-            <span className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">total</span>
-          </div>
+          <Badge variant="secondary" className="h-8 px-3 text-sm font-medium">
+            {filteredModelData.reduce((sum, item) => sum + item.mentions, 0)} mentions
+          </Badge>
         </div>
         <div className="flex flex-1 divide-x divide-border border-t border-border">
           {filteredModelData.map((item) => {
