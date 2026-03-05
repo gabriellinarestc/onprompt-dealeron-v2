@@ -1,6 +1,7 @@
 "use client"
 
 import { ArrowUpRight, AlertTriangle, Clock, CheckCircle2 } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
 import { HelpTooltip } from "./help-tooltip"
 import { TruncatedText } from "./truncated-text"
 import { MODEL_CONFIG } from "@/lib/models"
@@ -84,12 +85,17 @@ export function VisitorAnalytics() {
               Breakdown of how AI crawlers are indexing your site. Successful crawls mean the bot read your page. Blocked pages may be due to robots.txt rules. Pending pages are queued for indexing.
             </HelpTooltip>
           </div>
-          {hasWarning && (
-            <span className="flex items-center gap-1 rounded-full bg-warning/10 px-2 py-0.5 text-[11px] font-semibold text-warning">
-              <AlertTriangle className="size-3" />
-              Action needed
-            </span>
-          )}
+          <div className="flex items-center gap-2">
+            {hasWarning && (
+              <span className="flex items-center gap-1 rounded-full bg-warning/10 px-2 py-0.5 text-[11px] font-semibold text-warning">
+                <AlertTriangle className="size-3" />
+                Action needed
+              </span>
+            )}
+            <Badge variant="secondary" className="h-8 px-3 text-sm font-medium">
+              {crawlerStats.reduce((sum, s) => sum + s.value, 0)} pages
+            </Badge>
+          </div>
         </div>
 
         <div className="flex flex-1 divide-x divide-border border-t border-border">
@@ -114,13 +120,18 @@ export function VisitorAnalytics() {
 
       {/* Visitors by Model — exactly mirrors Mentions by Model */}
       <div className="flex flex-col overflow-hidden rounded-xl border border-border bg-card">
-        <div className="flex items-center gap-1.5 px-5 py-3">
-          <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
-            Visitors by Model
-          </p>
-          <HelpTooltip title="Visitors by Model">
-            Real users who arrived at your site after seeing your brand mentioned in an AI model response. Growth percentages compare to the previous tracking period.
-          </HelpTooltip>
+        <div className="flex items-center justify-between px-5 py-3">
+          <div className="flex items-center gap-1.5">
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+              Visitors by Model
+            </p>
+            <HelpTooltip title="Visitors by Model">
+              Real users who arrived at your site after seeing your brand mentioned in an AI model response. Growth percentages compare to the previous tracking period.
+            </HelpTooltip>
+          </div>
+          <Badge variant="secondary" className="h-8 px-3 text-sm font-medium">
+            {filteredVisitorModels.reduce((sum, item) => sum + item.visitors, 0)} visitors
+          </Badge>
         </div>
         <div className="flex flex-1 divide-x divide-border border-t border-border">
           {filteredVisitorModels.map((item) => {
