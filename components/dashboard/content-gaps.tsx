@@ -58,18 +58,18 @@ export function ContentGaps() {
                 cx={28} cy={28} r={22}
                 strokeWidth={5} fill="none"
                 strokeDasharray={138.23}
-                strokeDashoffset={138.23 - (64 / 100) * 138.23}
+                strokeDashoffset={138.23 - (37 / 100) * 138.23}
                 strokeLinecap="round"
-                className="stroke-chart-3"
+                className="stroke-destructive"
               />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-sm font-bold text-foreground">64%</span>
+              <span className="text-sm font-bold text-foreground">37%</span>
             </div>
           </div>
           <div>
             <p className="text-sm font-semibold text-foreground">Content Coverage</p>
-            <p className="text-xs text-muted-foreground">64% of tracked topics covered</p>
+            <p className="text-xs text-muted-foreground">37% of tracked topics covered</p>
           </div>
         </div>
 

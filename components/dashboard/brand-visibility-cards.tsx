@@ -68,8 +68,8 @@ export function BrandVisibilityCards() {
       {/* Score card */}
       <div className="relative flex overflow-hidden rounded-xl border border-border bg-card">
         {[
-          { value: 72, label: "Visibility" },
-          { value: 64, label: "Content Coverage" },
+          { value: 82, label: "Visibility" },
+          { value: 37, label: "Content Coverage" },
         ].map((item, i) => {
           const color = getScoreColor(item.value)
           return (
