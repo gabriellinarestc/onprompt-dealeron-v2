@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, useMemo } from "react"
 import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import {
@@ -11,11 +12,23 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react"
 import { ChatGPTLogo, ClaudeLogo, GeminiLogo, AIOverviewLogo, PerplexityLogo, CopilotLogo } from "./model-logos"
 import { useModelFilter } from "./model-filter-context"
 import { resolveModelKey } from "@/lib/models"
 import { HelpTooltip } from "./help-tooltip"
+import { cn } from "@/lib/utils"
+
+type SortDirection = "asc" | "desc" | null
+type PageSortField = "visitors" | "crawls"
+type ModelSortField = "visitors" | "crawls"
+
+function parseCrawls(crawls: string): number {
+  const num = parseFloat(crawls.replace(/[^0-9.]/g, ""))
+  if (crawls.includes("k")) return num * 1000
+  if (crawls.includes("M")) return num * 1000000
+  return num
+}
 
 type ModelLogoComponent = React.ComponentType<{ size?: number }>
 
@@ -47,10 +60,59 @@ const topModels = [
 
 export function TopPagesModels() {
   const { isModelActive } = useModelFilter()
+  
+  // Sorting state for Top Pages
+  const [pagesSortField, setPagesSortField] = useState<PageSortField | null>(null)
+  const [pagesSortDir, setPagesSortDir] = useState<SortDirection>(null)
+  
+  // Sorting state for Top Models
+  const [modelsSortField, setModelsSortField] = useState<ModelSortField | null>(null)
+  const [modelsSortDir, setModelsSortDir] = useState<SortDirection>(null)
+
+  const handlePagesSort = (field: PageSortField) => {
+    if (pagesSortField === field) {
+      if (pagesSortDir === "desc") setPagesSortDir("asc")
+      else if (pagesSortDir === "asc") { setPagesSortField(null); setPagesSortDir(null) }
+      else setPagesSortDir("desc")
+    } else {
+      setPagesSortField(field)
+      setPagesSortDir("desc")
+    }
+  }
+
+  const handleModelsSort = (field: ModelSortField) => {
+    if (modelsSortField === field) {
+      if (modelsSortDir === "desc") setModelsSortDir("asc")
+      else if (modelsSortDir === "asc") { setModelsSortField(null); setModelsSortDir(null) }
+      else setModelsSortDir("desc")
+    } else {
+      setModelsSortField(field)
+      setModelsSortDir("desc")
+    }
+  }
+
+  const sortedPages = useMemo(() => {
+    if (!pagesSortField || !pagesSortDir) return topPages
+    return [...topPages].sort((a, b) => {
+      const aVal = pagesSortField === "crawls" ? parseCrawls(a.crawls) : a.visitors
+      const bVal = pagesSortField === "crawls" ? parseCrawls(b.crawls) : b.visitors
+      return pagesSortDir === "desc" ? bVal - aVal : aVal - bVal
+    })
+  }, [pagesSortField, pagesSortDir])
+
   const filteredModels = topModels.filter((item) => {
     const key = resolveModelKey(item.model)
     return key ? isModelActive(key) : true
   })
+
+  const sortedModels = useMemo(() => {
+    if (!modelsSortField || !modelsSortDir) return filteredModels
+    return [...filteredModels].sort((a, b) => {
+      const aVal = modelsSortField === "crawls" ? parseCrawls(a.crawls) : a.visitors
+      const bVal = modelsSortField === "crawls" ? parseCrawls(b.crawls) : b.visitors
+      return modelsSortDir === "desc" ? bVal - aVal : aVal - bVal
+    })
+  }, [filteredModels, modelsSortField, modelsSortDir])
 
   return (
     <div className="grid gap-4 lg:grid-cols-2">
@@ -84,16 +146,42 @@ export function TopPagesModels() {
                 <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
                   Page
                 </TableHead>
-                <TableHead className="text-right text-[10px] uppercase tracking-wider text-primary font-medium">
-                  Visitors
+                <TableHead className="text-right text-[10px] uppercase tracking-wider font-medium p-0">
+                  <button
+                    onClick={() => handlePagesSort("visitors")}
+                    className={cn(
+                      "flex items-center justify-end gap-1 w-full px-3 py-2 hover:bg-muted/50 transition-colors rounded-sm",
+                      pagesSortField === "visitors" ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    Visitors
+                    {pagesSortField === "visitors" ? (
+                      pagesSortDir === "desc" ? <ArrowDown className="size-3" /> : <ArrowUp className="size-3" />
+                    ) : (
+                      <ArrowUpDown className="size-3 opacity-50" />
+                    )}
+                  </button>
                 </TableHead>
-                <TableHead className="text-right text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
-                  Crawls
+                <TableHead className="text-right text-[10px] uppercase tracking-wider font-medium p-0">
+                  <button
+                    onClick={() => handlePagesSort("crawls")}
+                    className={cn(
+                      "flex items-center justify-end gap-1 w-full px-3 py-2 hover:bg-muted/50 transition-colors rounded-sm",
+                      pagesSortField === "crawls" ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    Crawls
+                    {pagesSortField === "crawls" ? (
+                      pagesSortDir === "desc" ? <ArrowDown className="size-3" /> : <ArrowUp className="size-3" />
+                    ) : (
+                      <ArrowUpDown className="size-3 opacity-50" />
+                    )}
+                  </button>
                 </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {topPages.map((item) => (
+              {sortedPages.map((item) => (
                 <TableRow key={item.page} className="border-border">
                   <TableCell className="max-w-[200px] truncate font-mono text-xs text-foreground">
                     {item.page}
@@ -141,16 +229,42 @@ export function TopPagesModels() {
                 <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
                   Model
                 </TableHead>
-                <TableHead className="text-right text-[10px] uppercase tracking-wider text-primary font-medium">
-                  Visitors
+                <TableHead className="text-right text-[10px] uppercase tracking-wider font-medium p-0">
+                  <button
+                    onClick={() => handleModelsSort("visitors")}
+                    className={cn(
+                      "flex items-center justify-end gap-1 w-full px-3 py-2 hover:bg-muted/50 transition-colors rounded-sm",
+                      modelsSortField === "visitors" ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    Visitors
+                    {modelsSortField === "visitors" ? (
+                      modelsSortDir === "desc" ? <ArrowDown className="size-3" /> : <ArrowUp className="size-3" />
+                    ) : (
+                      <ArrowUpDown className="size-3 opacity-50" />
+                    )}
+                  </button>
                 </TableHead>
-                <TableHead className="text-right text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
-                  Crawls
+                <TableHead className="text-right text-[10px] uppercase tracking-wider font-medium p-0">
+                  <button
+                    onClick={() => handleModelsSort("crawls")}
+                    className={cn(
+                      "flex items-center justify-end gap-1 w-full px-3 py-2 hover:bg-muted/50 transition-colors rounded-sm",
+                      modelsSortField === "crawls" ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    Crawls
+                    {modelsSortField === "crawls" ? (
+                      modelsSortDir === "desc" ? <ArrowDown className="size-3" /> : <ArrowUp className="size-3" />
+                    ) : (
+                      <ArrowUpDown className="size-3 opacity-50" />
+                    )}
+                  </button>
                 </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredModels.map((item) => (
+              {sortedModels.map((item) => (
                 <TableRow key={item.model} className="border-border">
                   <TableCell className="text-xs text-foreground">
                     <div className="flex items-center gap-2">
