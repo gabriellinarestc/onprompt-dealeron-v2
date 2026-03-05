@@ -126,7 +126,7 @@ function CustomChartTooltip({
   )
 }
 
-export function BrandVisibilityChart() {
+export function BrandComparison() {
   // View toggle kept for future use - default to list only for MVP
   const [view] = useState<"chart" | "list">("list")
   const { activeModels } = useModelFilter()

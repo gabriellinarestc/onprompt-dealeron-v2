@@ -2,8 +2,8 @@
 
 import { DashboardShell } from "@/components/dashboard/dashboard-shell"
 import { InsightsBanner } from "@/components/dashboard/insights-banner"
-import { BrandVisibilityCards } from "@/components/dashboard/brand-visibility-cards"
-import { BrandVisibilityChart } from "@/components/dashboard/brand-visibility-chart"
+import { MentionsByModel } from "@/components/dashboard/mentions-by-model"
+import { BrandComparison } from "@/components/dashboard/brand-comparison"
 import { BrandSentiment } from "@/components/dashboard/brand-sentiment"
 import { TopPrompts } from "@/components/dashboard/top-prompts"
 import { ContentGaps } from "@/components/dashboard/content-gaps"
@@ -20,8 +20,8 @@ export default function DashboardPage() {
 
               {/* Brand Visibility Section */}
               <SectionHeader title="Brand Visibility" tooltip="How visible your brand is across AI models like ChatGPT, Claude, and Gemini when users ask relevant questions." />
-              <BrandVisibilityCards />
-              <BrandVisibilityChart />
+              <MentionsByModel />
+              <BrandComparison />
 
               {/* Brand Sentiment Section */}
               <SectionHeader title="Brand Sentiment" tooltip="How positively or negatively AI models describe your brand when it appears in their responses." />

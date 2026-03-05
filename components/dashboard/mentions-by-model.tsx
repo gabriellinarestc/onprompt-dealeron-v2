@@ -58,7 +58,7 @@ function Ring({ value, size = 44, stroke = 5 }: { value: number; size?: number; 
   )
 }
 
-export function BrandVisibilityCards() {
+export function MentionsByModel() {
   const { isModelActive, comparePrior } = useModelFilter()
   const filteredModelData = modelData.filter((item) => isModelActive(item.key))
 
