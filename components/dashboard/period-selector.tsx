@@ -12,15 +12,20 @@ import { useModelFilter } from "./model-filter-context"
 const PERIODS = [7, 14, 30, 90] as const
 type Period = (typeof PERIODS)[number]
 
-export function PeriodSelector() {
+export function PeriodSelector({ disabled = false }: { disabled?: boolean }) {
   const [open, setOpen] = useState(false)
   const [days, setDays] = useState<Period>(30)
   const { comparePrior: compare, setComparePrior: setCompare } = useModelFilter()
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={disabled ? false : open} onOpenChange={disabled ? undefined : setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="outline" className="h-9 gap-2 px-3">
+        <Button
+          variant="outline"
+          className={cn("h-9 gap-2 px-3", disabled && "pointer-events-none opacity-40")}
+          tabIndex={disabled ? -1 : 0}
+          aria-disabled={disabled}
+        >
           <CalendarDays className="size-4 text-muted-foreground" />
           <span>Last {days} days</span>
           {compare && (

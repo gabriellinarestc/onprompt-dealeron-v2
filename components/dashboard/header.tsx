@@ -16,9 +16,10 @@ import {
 import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Separator } from "@/components/ui/separator"
-import { Sparkles, ChevronDown, Check } from "lucide-react"
+import { Sparkles, ChevronDown, Check, Info } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
+import { usePathname } from "next/navigation"
 
 const MODEL_LOGOS: Record<ModelKey, React.ComponentType<{ size?: number }>> = {
   chatgpt: ChatGPTLogo,
@@ -29,10 +30,14 @@ const MODEL_LOGOS: Record<ModelKey, React.ComponentType<{ size?: number }>> = {
   perplexity: PerplexityLogo,
 }
 
+const FILTER_ENABLED_ROUTES = ["/"]
+
 export function DashboardHeader() {
   const { activeModels, toggleModel, allModels } = useModelFilter()
   const [open, setOpen] = useState(false)
   const allActive = activeModels.size === allModels.length
+  const pathname = usePathname()
+  const filtersApply = FILTER_ENABLED_ROUTES.includes(pathname)
 
   return (
     <header className="flex h-14 shrink-0 items-center justify-between border-b border-border bg-background px-6">
@@ -40,10 +45,24 @@ export function DashboardHeader() {
         <h1 className="text-base font-semibold text-foreground">DealerOn Dashboard</h1>
       </div>
       <div className="flex items-center gap-2">
+        {!filtersApply && (
+          <span className="flex items-center gap-1.5 text-xs text-muted-foreground mr-1">
+            <Info className="size-3.5" />
+            Filters apply to the dashboard only
+          </span>
+        )}
         {/* Global model filter — styled like PeriodSelector */}
-        <Popover open={open} onOpenChange={setOpen}>
+        <Popover open={filtersApply ? open : false} onOpenChange={filtersApply ? setOpen : undefined}>
           <PopoverTrigger asChild>
-            <Button variant="outline" className="h-9 gap-2 px-3">
+            <Button
+              variant="outline"
+              className={cn(
+                "h-9 gap-2 px-3",
+                !filtersApply && "pointer-events-none opacity-40"
+              )}
+              tabIndex={filtersApply ? 0 : -1}
+              aria-disabled={!filtersApply}
+            >
               <Sparkles className="size-4 text-muted-foreground" />
               <span>{allActive ? "All Models" : `${activeModels.size} Models`}</span>
               {!allActive && (
@@ -108,7 +127,7 @@ export function DashboardHeader() {
           </PopoverContent>
         </Popover>
 
-        <PeriodSelector />
+        <PeriodSelector disabled={!filtersApply} />
         {/* ThemeToggle hidden for MVP - can be re-enabled later */}
         {/* <ThemeToggle /> */}
       </div>
