@@ -167,11 +167,6 @@ export function BrandVisibilityChart() {
     })
 
   const maxTotal = Math.max(...listData.map((d) => d.total), 1)
-  const totalMentions = filteredData.reduce((sum, row) =>
-    sum + CHART_MODELS.filter((m) => activeModels.has(m)).reduce(
-      (s, m) => s + (row[m as keyof typeof row] as number), 0
-    ), 0
-  )
 
   const TYPE_LABELS: Record<BrandType, { label: string; color: string }> = {
     main: { label: "Your Brand", color: "var(--primary)" },
@@ -186,22 +181,18 @@ export function BrandVisibilityChart() {
           <div>
             <div className="flex items-center gap-1.5">
               <CardTitle className="text-sm font-semibold text-foreground">
-                Mentions by Model
+                Brand Comparison
               </CardTitle>
-              <HelpTooltip title="Mentions by Model">
-                Total brand mentions broken down by AI model. Each stacked bar segment represents a different model. The visibility score (0-100) indicates overall discoverability, while mentions show the raw count.
+              <HelpTooltip title="Brand Comparison">
+                Compare how often each brand is mentioned across AI models. The visibility score (0-100) indicates overall discoverability, while mentions show the raw count per model.
               </HelpTooltip>
             </div>
             <CardDescription className="text-xs">
-              How often your brand is mentioned across AI models vs. competitors
+              Compare brand mentions across AI models
             </CardDescription>
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
-            <div className="flex items-baseline gap-1 mr-1">
-              <span className="text-2xl font-bold text-foreground">{totalMentions}</span>
-              <span className="text-xs text-muted-foreground">mentions</span>
-            </div>
 
             {/* Brand type filter - hidden for MVP, kept for later use */}
             {/* <Popover>
@@ -279,8 +270,6 @@ export function BrandVisibilityChart() {
                   tick={({ x, y, payload }: { x: number; y: number; payload: { value: string } }) => {
                     const brand = chartData.find((d) => d.name === payload.value)
                     const isMain = brand?.type === "main"
-                    const tagLabel = isMain ? "You" : brand?.type === "competitor" ? "Comp" : "Partner"
-                    const tagColor = isMain ? "var(--primary)" : brand?.type === "competitor" ? "#d14343" : "#3b82f6"
                     return (
                       <g transform={`translate(${x},${y})`}>
                         <text
@@ -291,16 +280,6 @@ export function BrandVisibilityChart() {
                           fontWeight={isMain ? 600 : 400}
                         >
                           {payload.value}
-                        </text>
-                        <rect x={-16} y={17} width={32} height={14} rx={3} fill={isMain ? tagColor : `${tagColor}18`} />
-                        <text
-                          textAnchor="middle"
-                          dy={27}
-                          fill={isMain ? "#fff" : tagColor}
-                          fontSize={8}
-                          fontWeight={600}
-                        >
-                          {tagLabel}
                         </text>
                       </g>
                     )
@@ -351,15 +330,17 @@ export function BrandVisibilityChart() {
                       <span className={`truncate text-sm font-medium ${isMain ? "text-primary" : "text-foreground"}`}>
                         {row.name}
                       </span>
-                      <span
-                        className="rounded-full px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide"
-                        style={{
-                          backgroundColor: isMain ? "var(--primary)" : row.type === "competitor" ? "oklch(0.55 0.22 25 / 0.12)" : "oklch(0.52 0.2 250 / 0.12)",
-                          color: isMain ? "var(--primary-foreground)" : row.type === "competitor" ? "oklch(0.55 0.22 25)" : "oklch(0.52 0.2 250)",
-                        }}
-                      >
-                        {isMain ? "You" : row.type === "competitor" ? "Comp" : "Partner"}
-                      </span>
+                      {isMain && (
+                        <span
+                          className="rounded-full px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide"
+                          style={{
+                            backgroundColor: "var(--primary)",
+                            color: "var(--primary-foreground)",
+                          }}
+                        >
+                          You
+                        </span>
+                      )}
                     </div>
                     <span className="text-[10px] text-muted-foreground">{row.website}</span>
                     {/* Proportional stacked bar */}

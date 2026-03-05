@@ -90,15 +90,23 @@ export function BrandVisibilityCards() {
         })}
       </div>
 
-      {/* Visibility by Model */}
+      {/* Mentions by Model */}
       <div className="flex flex-col overflow-hidden rounded-xl border border-border bg-card md:col-span-2">
-        <div className="flex items-center gap-1.5 px-5 py-3">
-          <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
-            Visibility by Model
-          </p>
-          <HelpTooltip title="Visibility by Model">
-            Total number of times your brand was mentioned in responses from each AI model. The percentage shows growth compared to the previous period.
-          </HelpTooltip>
+        <div className="flex items-center justify-between px-5 py-3">
+          <div className="flex items-center gap-1.5">
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+              Mentions by Model
+            </p>
+            <HelpTooltip title="Mentions by Model">
+              Total number of times your brand was mentioned in responses from each AI model. The percentage shows growth compared to the previous period.
+            </HelpTooltip>
+          </div>
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-2xl font-bold text-foreground">
+              {filteredModelData.reduce((sum, item) => sum + item.mentions, 0)}
+            </span>
+            <span className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">total</span>
+          </div>
         </div>
         <div className="flex flex-1 divide-x divide-border border-t border-border">
           {filteredModelData.map((item) => {

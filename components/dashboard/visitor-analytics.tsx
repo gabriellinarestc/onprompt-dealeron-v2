@@ -111,7 +111,7 @@ export function VisitorAnalytics() {
         </div>
       </div>
 
-      {/* Visitors by Model — exactly mirrors Visibility by Model */}
+      {/* Visitors by Model — exactly mirrors Mentions by Model */}
       <div className="flex flex-col overflow-hidden rounded-xl border border-border bg-card">
         <div className="flex items-center gap-1.5 px-5 py-3">
           <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
