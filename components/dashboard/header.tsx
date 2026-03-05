@@ -2,7 +2,7 @@
 
 // ThemeToggle hidden for MVP - can be re-enabled later
 // import { ThemeToggle } from "./theme-toggle"
-import { PeriodSelector } from "./period-selector"
+import { PeriodSelector } from "@/components/patterns/period-selector"
 import { useModelFilter } from "./model-filter-context"
 import { MODEL_CONFIG, type ModelKey } from "@/lib/models"
 import {
