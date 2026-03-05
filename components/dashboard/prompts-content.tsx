@@ -403,7 +403,7 @@ export function PromptsContent() {
                   <span className="inline-flex items-center gap-1">
                     Visibility
                     <HelpTooltip title="Visibility">
-                      Measures how often your brand appears in AI model responses for this prompt. Higher is better.
+                      Measures how prominently your brand appears in AI responses, combining mention frequency, citation quality, and positioning.
                     </HelpTooltip>
                   </span>
                 </TableHead>
