@@ -307,11 +307,24 @@ export function BrandVisibilityChart() {
               <span className="w-5 text-center">#</span>
               <span className="flex-1">Brand</span>
               <span className="w-14 text-center">Visibility</span>
-              {CHART_MODELS.filter((m) => activeModels.has(m)).map((key) => (
-                <span key={key} className="w-16 text-center truncate" title={MODEL_CONFIG[key].name}>
-                  {MODEL_CONFIG[key].name}
-                </span>
-              ))}
+              {CHART_MODELS.filter((m) => activeModels.has(m)).map((key) => {
+                const Logo = MODEL_LOGOS[key]
+                return (
+                  <TooltipProvider key={key} delayDuration={200}>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <span className="w-16 text-center truncate cursor-default">
+                          {MODEL_CONFIG[key].name}
+                        </span>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="flex items-center gap-2 bg-popover text-popover-foreground border-border">
+                        <span style={{ color: MODEL_CONFIG[key].hex }}>{Logo && <Logo size={14} />}</span>
+                        <span className="text-xs font-medium">{MODEL_CONFIG[key].name}</span>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                )
+              })}
               <span className="w-14 text-right">Total</span>
             </div>
 
