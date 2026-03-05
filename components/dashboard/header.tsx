@@ -126,16 +126,20 @@ export function DashboardHeader() {
           <TooltipProvider delayDuration={150}>
             <Tooltip>
               <TooltipTrigger asChild>
-                <div className="flex items-center gap-2 cursor-default">
-                  <Button variant="outline" className="h-9 gap-2 px-3 pointer-events-none opacity-40" tabIndex={-1} aria-disabled>
+                <div className="flex items-center gap-2 cursor-default opacity-40">
+                  <Button variant="outline" className="h-9 gap-2 px-3 pointer-events-none" tabIndex={-1}>
                     <Sparkles className="size-4 text-muted-foreground" />
                     <span>{allActive ? "All Models" : `${activeModels.size} Models`}</span>
+                    {!allActive && (
+                      <span className="rounded-md bg-primary/15 px-1.5 py-0.5 text-xs font-medium text-primary">
+                        {activeModels.size}/{allModels.length}
+                      </span>
+                    )}
                     <ChevronDown className="size-4 text-muted-foreground" />
                   </Button>
-                  <Button variant="outline" className="h-9 gap-2 px-3 pointer-events-none opacity-40" tabIndex={-1} aria-disabled>
-                    <span>Last 30d</span>
-                    <ChevronDown className="size-4 text-muted-foreground" />
-                  </Button>
+                  <div className="pointer-events-none">
+                    <PeriodSelector />
+                  </div>
                 </div>
               </TooltipTrigger>
               <TooltipContent side="bottom" className="text-xs">
