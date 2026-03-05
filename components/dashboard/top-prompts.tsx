@@ -152,10 +152,10 @@ export function TopPrompts() {
                 Prompt
               </TableHead>
               <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
-                <span className="inline-flex items-center gap-1">Sentiment <HelpTooltip>How positively the AI model describes your brand for this prompt. 0 = negative, 100 = very positive.</HelpTooltip></span>
+                <span className="inline-flex items-center gap-1">Visibility <HelpTooltip>The percentage of times your brand is mentioned when this prompt is asked across all tracked models.</HelpTooltip></span>
               </TableHead>
               <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
-                <span className="inline-flex items-center gap-1">Visibility <HelpTooltip>The percentage of times your brand is mentioned when this prompt is asked across all tracked models.</HelpTooltip></span>
+                <span className="inline-flex items-center gap-1">Sentiment <HelpTooltip>How positively the AI model describes your brand for this prompt. 0 = negative, 100 = very positive.</HelpTooltip></span>
               </TableHead>
               <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
                 <span className="inline-flex items-center gap-1">
@@ -176,12 +176,12 @@ export function TopPrompts() {
                   </TruncatedText>
                 </TableCell>
                 <TableCell>
-                  <SentimentBar value={item.sentiment} />
-                </TableCell>
-                <TableCell>
                   <span className="text-xs font-semibold tabular-nums" style={{ color: getTemperatureColor(parseInt(item.visibility)) }}>
                     {item.visibility}
                   </span>
+                </TableCell>
+                <TableCell>
+                  <SentimentBar value={item.sentiment} />
                 </TableCell>
                 <TableCell>
                   <TooltipProvider>
