@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react"
+import { ArrowRight, ChevronUp, ChevronDown, ChevronsUpDown } from "lucide-react"
 import { ChatGPTLogo, ClaudeLogo, GeminiLogo, AIOverviewLogo, PerplexityLogo, CopilotLogo } from "./model-logos"
 import { useModelFilter } from "./model-filter-context"
 import { resolveModelKey } from "@/lib/models"
@@ -100,19 +100,18 @@ export function TopPagesModels() {
     })
   }, [pagesSortField, pagesSortDir])
 
-  const filteredModels = topModels.filter((item) => {
-    const key = resolveModelKey(item.model)
-    return key ? isModelActive(key) : true
-  })
-
   const sortedModels = useMemo(() => {
-    if (!modelsSortField || !modelsSortDir) return filteredModels
-    return [...filteredModels].sort((a, b) => {
+    const filtered = topModels.filter((item) => {
+      const key = resolveModelKey(item.model)
+      return key ? isModelActive(key) : true
+    })
+    if (!modelsSortField || !modelsSortDir) return filtered
+    return [...filtered].sort((a, b) => {
       const aVal = modelsSortField === "crawls" ? parseCrawls(a.crawls) : a.visitors
       const bVal = modelsSortField === "crawls" ? parseCrawls(b.crawls) : b.visitors
       return modelsSortDir === "desc" ? bVal - aVal : aVal - bVal
     })
-  }, [filteredModels, modelsSortField, modelsSortDir])
+  }, [isModelActive, modelsSortField, modelsSortDir])
 
   return (
     <div className="grid gap-4 lg:grid-cols-2">
@@ -156,9 +155,9 @@ export function TopPagesModels() {
                   >
                     Visitors
                     {pagesSortField === "visitors" ? (
-                      pagesSortDir === "desc" ? <ArrowDown className="size-3" /> : <ArrowUp className="size-3" />
+                      pagesSortDir === "desc" ? <ChevronDown className="size-3" /> : <ChevronUp className="size-3" />
                     ) : (
-                      <ArrowUpDown className="size-3 opacity-50" />
+                      <ChevronsUpDown className="size-3 opacity-50" />
                     )}
                   </button>
                 </TableHead>
@@ -172,9 +171,9 @@ export function TopPagesModels() {
                   >
                     Crawls
                     {pagesSortField === "crawls" ? (
-                      pagesSortDir === "desc" ? <ArrowDown className="size-3" /> : <ArrowUp className="size-3" />
+                      pagesSortDir === "desc" ? <ChevronDown className="size-3" /> : <ChevronUp className="size-3" />
                     ) : (
-                      <ArrowUpDown className="size-3 opacity-50" />
+                      <ChevronsUpDown className="size-3 opacity-50" />
                     )}
                   </button>
                 </TableHead>
@@ -239,9 +238,9 @@ export function TopPagesModels() {
                   >
                     Visitors
                     {modelsSortField === "visitors" ? (
-                      modelsSortDir === "desc" ? <ArrowDown className="size-3" /> : <ArrowUp className="size-3" />
+                      modelsSortDir === "desc" ? <ChevronDown className="size-3" /> : <ChevronUp className="size-3" />
                     ) : (
-                      <ArrowUpDown className="size-3 opacity-50" />
+                      <ChevronsUpDown className="size-3 opacity-50" />
                     )}
                   </button>
                 </TableHead>
@@ -255,9 +254,9 @@ export function TopPagesModels() {
                   >
                     Crawls
                     {modelsSortField === "crawls" ? (
-                      modelsSortDir === "desc" ? <ArrowDown className="size-3" /> : <ArrowUp className="size-3" />
+                      modelsSortDir === "desc" ? <ChevronDown className="size-3" /> : <ChevronUp className="size-3" />
                     ) : (
-                      <ArrowUpDown className="size-3 opacity-50" />
+                      <ChevronsUpDown className="size-3 opacity-50" />
                     )}
                   </button>
                 </TableHead>
