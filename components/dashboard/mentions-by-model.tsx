@@ -82,7 +82,7 @@ export function MentionsByModel() {
                   <HelpTooltip title={item.label}>
                     {i === 0
                       ? "The Visibility Score measures how prominently your brand appears in AI-generated responses. It combines mention frequency, citation quality, and positioning to give you a comprehensive view of your AI visibility."
-                      : "Percentage of relevant prompts where your brand appears in at least one AI model response. Higher coverage means better discoverability."}
+                      : "Measures how well your website answers the questions that arise from your tracked prompts. We crawl and index your entire website so we can search it to identify content gaps."}
                   </HelpTooltip>
                 </div>
               </div>
