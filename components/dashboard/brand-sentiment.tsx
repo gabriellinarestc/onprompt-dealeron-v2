@@ -138,24 +138,24 @@ export function BrandSentiment() {
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={sentimentData} margin={{ top: 4, right: 4, bottom: 0, left: -12 }}>
                 <defs>
-                  {/* Vertical gradient for the line stroke: maps Y position to temperature color */}
-                  <linearGradient id="sentimentStrokeGradient" x1="0" y1="0" x2="0" y2="1">
+                  {/* Fixed vertical gradient anchored to chart plot area (userSpaceOnUse).
+                      y1=4 (top margin) → score 100 (green), y2=200 (chart height) → score 0 (red).
+                      This makes the color at any Y pixel reflect the score at that height. */}
+                  <linearGradient id="sentimentStrokeGradient" gradientUnits="userSpaceOnUse" x1="0" y1="4" x2="0" y2="200">
                     <stop offset="0%"   stopColor={TEMP_DEEP} />
-                    <stop offset="25%"  stopColor={TEMP_GREEN} />
+                    <stop offset="20%"  stopColor={TEMP_GREEN} />
                     <stop offset="50%"  stopColor={TEMP_YELLOW} />
                     <stop offset="75%"  stopColor={TEMP_AMBER} />
                     <stop offset="100%" stopColor={TEMP_RED} />
                   </linearGradient>
-                  {/* Fill under the line */}
-                  <linearGradient id="sentimentFillGradient" x1="0" y1="0" x2="0" y2="1">
+                  <linearGradient id="sentimentFillGradient" gradientUnits="userSpaceOnUse" x1="0" y1="4" x2="0" y2="200">
                     <stop offset="0%"   stopColor={TEMP_DEEP}  stopOpacity={0.22} />
-                    <stop offset="25%"  stopColor={TEMP_GREEN}  stopOpacity={0.14} />
+                    <stop offset="20%"  stopColor={TEMP_GREEN}  stopOpacity={0.14} />
                     <stop offset="50%"  stopColor={TEMP_YELLOW} stopOpacity={0.08} />
                     <stop offset="75%"  stopColor={TEMP_AMBER}  stopOpacity={0.05} />
                     <stop offset="100%" stopColor={TEMP_RED}    stopOpacity={0.02} />
                   </linearGradient>
-                  {/* Very subtle full-background temperature wash */}
-                  <linearGradient id="sentimentBgGradient" x1="0" y1="0" x2="0" y2="1">
+                  <linearGradient id="sentimentBgGradient" gradientUnits="userSpaceOnUse" x1="0" y1="4" x2="0" y2="200">
                     <stop offset="0%"   stopColor={TEMP_DEEP}  stopOpacity={0.05} />
                     <stop offset="35%"  stopColor={TEMP_GREEN}  stopOpacity={0.03} />
                     <stop offset="65%"  stopColor={TEMP_AMBER}  stopOpacity={0.03} />
