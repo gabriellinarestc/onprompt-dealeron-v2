@@ -408,7 +408,12 @@ export function PromptsContent() {
                   </span>
                 </TableHead>
                 <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
-                  Sentiment
+                  <span className="inline-flex items-center gap-1">
+                    Sentiment
+                    <HelpTooltip title="Sentiment">
+                      How positively AI models describe your brand when responding to this prompt. 0 = negative, 100 = very positive.
+                    </HelpTooltip>
+                  </span>
                 </TableHead>
                 <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
                   <span className="inline-flex items-center gap-1">
@@ -427,7 +432,12 @@ export function PromptsContent() {
                   </span>
                 </TableHead>
                 <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium pr-6">
-                  Brands
+                  <span className="inline-flex items-center gap-1">
+                    Brands
+                    <HelpTooltip title="Brands">
+                      Which tracked brands are mentioned by AI models in response to this prompt.
+                    </HelpTooltip>
+                  </span>
                 </TableHead>
               </TableRow>
             </TableHeader>
