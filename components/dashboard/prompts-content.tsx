@@ -30,6 +30,7 @@ import {
 import { HelpTooltip } from "./help-tooltip"
 import { TruncatedText } from "./truncated-text"
 import { CreatePromptModal } from "./create-prompt-modal"
+import { PromptPreviewSheet } from "./prompt-preview-sheet"
 import { DifficultyTag, getDifficultyLevel } from "@/components/ui/tag"
 
 // Color utilities
@@ -269,6 +270,8 @@ type ResultsPerPage = (typeof RESULTS_PER_PAGE_OPTIONS)[number]
 export function PromptsContent() {
   const [searchQuery, setSearchQuery] = useState("")
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+  const [selectedPrompt, setSelectedPrompt] = useState<PromptData | null>(null)
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false)
   const [prompts, setPrompts] = useState<PromptData[]>(initialPromptsData)
   const [currentPage, setCurrentPage] = useState(1)
   const [resultsPerPage, setResultsPerPage] = useState<ResultsPerPage>(50)
@@ -443,7 +446,14 @@ export function PromptsContent() {
             </TableHeader>
             <TableBody>
               {paginatedPrompts.map((item) => (
-                <TableRow key={item.id} className={`border-border ${item.isAnalyzing ? 'bg-muted/30' : ''}`}>
+                <TableRow
+                  key={item.id}
+                  className={`border-border cursor-pointer ${item.isAnalyzing ? 'bg-muted/30' : 'hover:bg-accent/50'}`}
+                  onClick={() => {
+                    setSelectedPrompt(item)
+                    setIsPreviewOpen(true)
+                  }}
+                >
                   <TableCell className="max-w-[300px] pl-6">
                     <div className="flex items-center gap-2 min-w-0">
                       <TruncatedText className="text-sm text-foreground">
@@ -576,6 +586,13 @@ export function PromptsContent() {
         open={isCreateModalOpen}
         onOpenChange={setIsCreateModalOpen}
         onSubmit={handleCreatePrompt}
+      />
+
+      {/* Prompt Preview Sheet */}
+      <PromptPreviewSheet
+        prompt={selectedPrompt}
+        open={isPreviewOpen}
+        onOpenChange={setIsPreviewOpen}
       />
     </div>
   )
