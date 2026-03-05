@@ -15,10 +15,10 @@ export function InsightsBanner() {
         className="absolute inset-0"
         style={{
           background: `
-            radial-gradient(ellipse 80% 60% at 10% 40%, oklch(0.52 0.24 315 / 0.12), transparent),
-            radial-gradient(ellipse 60% 80% at 90% 20%, oklch(0.55 0.19 155 / 0.10), transparent),
-            radial-gradient(ellipse 50% 50% at 50% 80%, oklch(0.72 0.14 75 / 0.08), transparent),
-            radial-gradient(ellipse 90% 40% at 70% 50%, oklch(0.6 0.17 145 / 0.06), transparent)
+            radial-gradient(ellipse 80% 60% at 10% 40%, oklch(0.65 0.18 55 / 0.15), transparent),
+            radial-gradient(ellipse 60% 80% at 90% 20%, oklch(0.35 0.12 260 / 0.18), transparent),
+            radial-gradient(ellipse 50% 50% at 50% 80%, oklch(0.70 0.15 60 / 0.10), transparent),
+            radial-gradient(ellipse 90% 40% at 70% 50%, oklch(0.30 0.10 255 / 0.08), transparent)
           `,
         }}
       />
