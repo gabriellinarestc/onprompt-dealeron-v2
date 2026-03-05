@@ -41,7 +41,7 @@ export function InsightsBanner() {
             <div className="flex items-start gap-2 flex-1">
               <FileText className="size-3.5 mt-0.5 shrink-0 text-primary" />
               <p className="text-xs text-muted-foreground leading-relaxed">
-                <span className="font-medium text-foreground">Content Coverage</span> tracks which automotive topics AI models associate with DealerOn and identifies gaps where competitors like Dealer Inspire or CDK Global are being recommended instead.
+                <span className="font-medium text-foreground">Content Coverage</span> measures how well your website answers the questions that arise from your tracked prompts. We crawl and index your entire website so we can search it to identify content gaps.
               </p>
             </div>
           </div>
