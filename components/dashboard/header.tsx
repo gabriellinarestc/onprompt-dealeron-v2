@@ -37,6 +37,7 @@ const MODEL_LOGOS: Record<ModelKey, React.ComponentType<{ size?: number }>> = {
 }
 
 const FILTER_ENABLED_ROUTES = ["/"]
+const FILTER_HIDDEN_ROUTES = ["/prompts"]
 
 export function DashboardHeader() {
   const { activeModels, toggleModel, allModels } = useModelFilter()
@@ -44,6 +45,7 @@ export function DashboardHeader() {
   const allActive = activeModels.size === allModels.length
   const pathname = usePathname()
   const filtersApply = FILTER_ENABLED_ROUTES.includes(pathname)
+  const filtersHidden = FILTER_HIDDEN_ROUTES.includes(pathname)
 
   return (
     <header className="flex h-14 shrink-0 items-center justify-between border-b border-border bg-background px-6">
@@ -51,7 +53,7 @@ export function DashboardHeader() {
         <h1 className="text-base font-semibold text-foreground">DealerOn Dashboard</h1>
       </div>
       <div className="flex items-center gap-2">
-        {filtersApply ? (
+        {filtersHidden ? null : filtersApply ? (
           <>
             {/* Global model filter */}
             <Popover open={open} onOpenChange={setOpen}>
