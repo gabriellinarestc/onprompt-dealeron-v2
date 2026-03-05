@@ -13,6 +13,7 @@ import {
 } from "recharts"
 import { ArrowDownRight } from "lucide-react"
 import { HelpTooltip } from "./help-tooltip"
+import { useModelFilter } from "./model-filter-context"
 
 // Realistic growing sentiment data with variations — starts lower, trends upward
 const sentimentData = [
@@ -66,6 +67,7 @@ function CustomChartTooltip({ active, payload, label }: { active?: boolean; payl
 const currentScore = sentimentData[sentimentData.length - 1].score
 
 export function BrandSentiment() {
+  const { comparePrior } = useModelFilter()
   return (
     <div className="grid gap-4 lg:grid-cols-2">
       <Card className="border-border bg-card">
@@ -87,10 +89,17 @@ export function BrandSentiment() {
               <span className="text-4xl font-bold text-foreground">{currentScore}</span>
               <span className="text-sm text-muted-foreground">/100</span>
             </div>
-            <div className="mt-1 flex items-center gap-1 text-xs text-success">
-              <ArrowDownRight className="size-3 rotate-[-90deg]" />
-              <span>+8.9%</span>
-            </div>
+            {comparePrior ? (
+              <div className="mt-1 flex items-center gap-1 text-xs text-success">
+                <ArrowDownRight className="size-3 rotate-[-90deg]" />
+                <span>+8.9%</span>
+              </div>
+            ) : (
+              <div className="invisible mt-1 flex items-center gap-1 text-xs">
+                <ArrowDownRight className="size-3" />
+                <span>—</span>
+              </div>
+            )}
           </div>
 
           <div>

@@ -11,12 +11,15 @@ interface ModelFilterContextValue {
   toggleModel: (key: ModelKey) => void
   isModelActive: (key: ModelKey) => boolean
   allModels: ModelKey[]
+  comparePrior: boolean
+  setComparePrior: (value: boolean) => void
 }
 
 const ModelFilterContext = createContext<ModelFilterContextValue | null>(null)
 
 export function ModelFilterProvider({ children }: { children: ReactNode }) {
   const [activeModels, setActiveModels] = useState<Set<ModelKey>>(new Set(DEFAULT_MODELS))
+  const [comparePrior, setComparePrior] = useState(true)
 
   const toggleModel = useCallback((key: ModelKey) => {
     setActiveModels((prev) => {
@@ -36,7 +39,7 @@ export function ModelFilterProvider({ children }: { children: ReactNode }) {
   )
 
   return (
-    <ModelFilterContext.Provider value={{ activeModels, toggleModel, isModelActive, allModels: ALL_MODELS }}>
+    <ModelFilterContext.Provider value={{ activeModels, toggleModel, isModelActive, allModels: ALL_MODELS, comparePrior, setComparePrior }}>
       {children}
     </ModelFilterContext.Provider>
   )

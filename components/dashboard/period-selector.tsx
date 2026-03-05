@@ -7,6 +7,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Separator } from "@/components/ui/separator"
 import { Switch } from "@/components/ui/switch"
 import { cn } from "@/lib/utils"
+import { useModelFilter } from "./model-filter-context"
 
 const PERIODS = [7, 14, 30, 90] as const
 type Period = (typeof PERIODS)[number]
@@ -14,7 +15,7 @@ type Period = (typeof PERIODS)[number]
 export function PeriodSelector() {
   const [open, setOpen] = useState(false)
   const [days, setDays] = useState<Period>(30)
-  const [compare, setCompare] = useState(true)
+  const { comparePrior: compare, setComparePrior: setCompare } = useModelFilter()
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

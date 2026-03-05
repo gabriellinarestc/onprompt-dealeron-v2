@@ -67,7 +67,7 @@ const statusStyles = {
 }
 
 export function VisitorAnalytics() {
-  const { isModelActive } = useModelFilter()
+  const { isModelActive, comparePrior } = useModelFilter()
   const filteredVisitorModels = visitorModels.filter((item) => isModelActive(item.key))
   const hasWarning = crawlerStats.some((s) => s.status === "warn" && s.value > 0)
 
@@ -147,12 +147,12 @@ export function VisitorAnalytics() {
                 </div>
                 <div className="flex flex-col gap-0.5">
                   <span className="text-2xl font-bold leading-none text-foreground">{item.visitors}</span>
-                  {item.change ? (
+                  {comparePrior && item.change ? (
                     <span className="flex items-center gap-0.5 text-[11px] font-semibold" style={{ color: config.hex }}>
                       <ArrowUpRight className="size-2.5" />{item.change}
                     </span>
                   ) : (
-                    <span className="text-[11px] text-muted-foreground">—</span>
+                    <span className="invisible text-[11px]">—</span>
                   )}
                   <TruncatedText
                     className="max-w-full text-[11px] text-muted-foreground"
