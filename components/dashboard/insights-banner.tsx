@@ -35,7 +35,7 @@ export function InsightsBanner() {
             <div className="flex items-start gap-2 flex-1">
               <TrendingUp className="size-3.5 mt-0.5 shrink-0 text-success" />
               <p className="text-xs text-muted-foreground leading-relaxed">
-                <span className="font-medium text-foreground">Visibility</span> measures how often AI models reference DealerOn when dealers and OEMs ask about website platforms, SEO, and digital advertising solutions.
+                <span className="font-medium text-foreground">Visibility</span> measures how prominently your brand appears in AI-generated responses. It combines mention frequency, citation quality, and positioning to give you a comprehensive view of your AI visibility.
               </p>
             </div>
             <div className="flex items-start gap-2 flex-1">
