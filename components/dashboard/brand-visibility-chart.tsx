@@ -64,13 +64,13 @@ interface BrandEntry {
 }
 
 const chartData: BrandEntry[] = [
-  { name: "DealerOn",       website: "dealeron.com",        type: "main",       visibility: 72, chatgpt: 12, claude: 8,  copilot: 1, gemini: 10, aioverview: 7,  perplexity: 3 },
-  { name: "Dealer Inspire", website: "dealerinspire.com",   type: "competitor", visibility: 68, chatgpt: 8,  claude: 5,  copilot: 0, gemini: 5,  aioverview: 4,  perplexity: 1 },
-  { name: "CDK Global",     website: "cdkglobal.com",       type: "competitor", visibility: 54, chatgpt: 7,  claude: 3,  copilot: 0, gemini: 2,  aioverview: 2,  perplexity: 1 },
-  { name: "Sincro",         website: "sincrodigital.com",   type: "partner",    visibility: 41, chatgpt: 5,  claude: 2,  copilot: 0, gemini: 2,  aioverview: 1,  perplexity: 0 },
-  { name: "Cars.com",       website: "cars.com",            type: "competitor", visibility: 63, chatgpt: 4,  claude: 4,  copilot: 1, gemini: 3,  aioverview: 3,  perplexity: 0 },
-  { name: "Shift Digital",  website: "shiftdigital.com",    type: "partner",    visibility: 35, chatgpt: 3,  claude: 1,  copilot: 0, gemini: 1,  aioverview: 1,  perplexity: 0 },
-  { name: "AutoTrader",     website: "autotrader.com",      type: "competitor", visibility: 58, chatgpt: 3,  claude: 2,  copilot: 0, gemini: 1,  aioverview: 2,  perplexity: 0 },
+  { name: "DealerOn",       website: "dealeron.com",        type: "main",       visibility: 72, chatgpt: 187, claude: 94,  copilot: 22, gemini: 71,  aioverview: 63,  perplexity: 38 },
+  { name: "Dealer Inspire", website: "dealerinspire.com",   type: "competitor", visibility: 65, chatgpt: 142, claude: 78,  copilot: 15, gemini: 54,  aioverview: 47,  perplexity: 29 },
+  { name: "CDK Global",     website: "cdkglobal.com",       type: "competitor", visibility: 58, chatgpt: 118, claude: 52,  copilot: 11, gemini: 39,  aioverview: 35,  perplexity: 18 },
+  { name: "Sincro",         website: "sincrodigital.com",   type: "partner",    visibility: 34, chatgpt: 47,  claude: 21,  copilot: 4,  gemini: 16,  aioverview: 12,  perplexity: 6 },
+  { name: "Cars.com",       website: "cars.com",            type: "competitor", visibility: 61, chatgpt: 156, claude: 67,  copilot: 19, gemini: 48,  aioverview: 52,  perplexity: 31 },
+  { name: "Shift Digital",  website: "shiftdigital.com",    type: "partner",    visibility: 29, chatgpt: 34,  claude: 14,  copilot: 2,  gemini: 11,  aioverview: 8,   perplexity: 3 },
+  { name: "AutoTrader",     website: "autotrader.com",      type: "competitor", visibility: 59, chatgpt: 131, claude: 58,  copilot: 13, gemini: 42,  aioverview: 44,  perplexity: 22 },
 ]
 
 function getVisibilityColor(score: number): string {

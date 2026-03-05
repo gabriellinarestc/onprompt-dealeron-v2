@@ -25,25 +25,25 @@ const MODEL_LOGOS = {
 }
 
 const visitorModels = [
-  { key: "chatgpt" as const, visitors: 21, change: "+950%" },
-  { key: "claude" as const, visitors: 10, change: null },
-  { key: "copilot" as const, visitors: 1, change: null },
-  { key: "gemini" as const, visitors: 5, change: "+400%" },
-  { key: "aioverview" as const, visitors: 3, change: "+200%" },
-  { key: "perplexity" as const, visitors: 2, change: "+100%" },
+  { key: "chatgpt" as const, visitors: 1243, change: "+38%" },
+  { key: "claude" as const, visitors: 587, change: "+24%" },
+  { key: "copilot" as const, visitors: 142, change: "+15%" },
+  { key: "gemini" as const, visitors: 418, change: "+47%" },
+  { key: "aioverview" as const, visitors: 356, change: "+31%" },
+  { key: "perplexity" as const, visitors: 209, change: "+22%" },
 ]
 
 const crawlerStats = [
   {
-    value: 7,
-    total: 10,
+    value: 847,
+    total: 1024,
     label: "Indexed",
     sub: "pages indexed",
     icon: CheckCircle2,
     status: "ok" as const,
   },
   {
-    value: 2,
+    value: 128,
     total: null,
     label: "Blocked",
     sub: "need attention",
@@ -51,7 +51,7 @@ const crawlerStats = [
     status: "warn" as const,
   },
   {
-    value: 1,
+    value: 49,
     total: null,
     label: "Pending",
     sub: "awaiting index",

@@ -16,12 +16,12 @@ import {
 } from "./model-logos"
 
 const modelData = [
-  { key: "chatgpt" as const, mentions: 20, change: "+1,900%" },
-  { key: "claude" as const, mentions: 8, change: "+700%" },
-  { key: "gemini" as const, mentions: 5, change: "+400%" },
-  { key: "aioverview" as const, mentions: 4, change: "+300%" },
-  { key: "perplexity" as const, mentions: 1, change: null },
-  { key: "copilot" as const, mentions: 1, change: null },
+  { key: "chatgpt" as const, mentions: 187, change: "+34%" },
+  { key: "claude" as const, mentions: 94, change: "+28%" },
+  { key: "gemini" as const, mentions: 71, change: "+52%" },
+  { key: "aioverview" as const, mentions: 63, change: "+41%" },
+  { key: "perplexity" as const, mentions: 38, change: "+19%" },
+  { key: "copilot" as const, mentions: 22, change: "+12%" },
 ]
 
 const MODEL_LOGOS = {
@@ -68,8 +68,8 @@ export function BrandVisibilityCards() {
       {/* Score card */}
       <div className="relative flex overflow-hidden rounded-xl border border-border bg-card">
         {[
-          { value: 28, label: "Visibility" },
-          { value: 57, label: "Content Coverage" },
+          { value: 72, label: "Visibility" },
+          { value: 64, label: "Content Coverage" },
         ].map((item, i) => {
           const color = getScoreColor(item.value)
           return (

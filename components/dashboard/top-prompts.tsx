@@ -38,66 +38,67 @@ function getTemperatureGradient(value: number): string {
 }
 
 const brandNames: Record<string, string> = {
-  T: "TechCorp",
-  D: "DataFlow",
-  C: "CloudBase",
-  M: "MetaAI",
+  DO: "DealerOn",
+  DI: "Dealer Inspire",
+  CD: "CDK Global",
+  AT: "AutoTrader",
+  CC: "Cars.com",
 }
 
 const promptsData = [
   {
-    prompt: "best practices for react performance optimization",
+    prompt: "best car dealer website platforms for lead generation",
+    sentiment: 89,
+    visibility: "91%",
+    brands: ["DO", "DI", "CD"],
+  },
+  {
+    prompt: "top automotive SEO companies for dealerships",
     sentiment: 92,
+    visibility: "88%",
+    brands: ["DO", "DI"],
+  },
+  {
+    prompt: "OEM certified website providers for car dealerships",
+    sentiment: 93,
     visibility: "87%",
-    brands: ["T", "D", "C"],
+    brands: ["DO", "DI", "CD"],
   },
   {
-    prompt: "how to use react hooks effectively",
+    prompt: "how to increase car dealership website conversions",
+    sentiment: 87,
+    visibility: "85%",
+    brands: ["DO", "CD"],
+  },
+  {
+    prompt: "how to optimize dealership inventory pages for search",
     sentiment: 88,
-    visibility: "92%",
-    brands: ["T", "D"],
+    visibility: "84%",
+    brands: ["DO", "DI"],
   },
   {
-    prompt: "implement error handling in javascript applications",
-    sentiment: 85,
-    visibility: "74%",
-    brands: ["T"],
+    prompt: "best digital advertising solutions for auto dealers",
+    sentiment: 91,
+    visibility: "82%",
+    brands: ["DO", "DI", "AT"],
   },
   {
-    prompt: "best ai tools for content creators",
-    sentiment: 92,
-    visibility: "65%",
-    brands: ["C", "M"],
-  },
-  {
-    prompt: "web development trends 2025",
-    sentiment: 92,
-    visibility: "78%",
-    brands: ["T", "D", "C"],
-  },
-  {
-    prompt: "how to build scalable node.js applications",
-    sentiment: 79,
-    visibility: "81%",
-    brands: ["T", "D"],
-  },
-  {
-    prompt: "typescript best practices for large codebases",
-    sentiment: 94,
-    visibility: "89%",
-    brands: ["T", "C"],
-  },
-  {
-    prompt: "serverless architecture benefits and drawbacks",
-    sentiment: 76,
-    visibility: "62%",
-    brands: ["D", "M"],
-  },
-  {
-    prompt: "next.js vs remix comparison 2025",
+    prompt: "dealership website ADA compliance requirements",
     sentiment: 83,
-    visibility: "71%",
-    brands: ["T", "D", "C"],
+    visibility: "81%",
+    brands: ["DO", "CD", "DI"],
+  },
+  {
+    prompt: "dealer website providers comparison 2025",
+    sentiment: 84,
+    visibility: "79%",
+    brands: ["DO", "DI", "CD"],
+  },
+  {
+    prompt: "automotive PPC management for multi-rooftop dealers",
+    sentiment: 90,
+    visibility: "78%",
+    brands: ["DO", "DI"],
   },
 ]
 

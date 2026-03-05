@@ -35,13 +35,13 @@ export function InsightsBanner() {
             <div className="flex items-start gap-2 flex-1">
               <TrendingUp className="size-3.5 mt-0.5 shrink-0 text-success" />
               <p className="text-xs text-muted-foreground leading-relaxed">
-                <span className="font-medium text-foreground">Visibility</span> measures how often AI models reference your brand when answering relevant prompts, weighted by model reach and relevance.
+                <span className="font-medium text-foreground">Visibility</span> measures how often AI models reference DealerOn when dealers and OEMs ask about website platforms, SEO, and digital advertising solutions.
               </p>
             </div>
             <div className="flex items-start gap-2 flex-1">
               <FileText className="size-3.5 mt-0.5 shrink-0 text-primary" />
               <p className="text-xs text-muted-foreground leading-relaxed">
-                <span className="font-medium text-foreground">Content Coverage</span> tracks which topics AI models associate with your brand and identifies gaps where competitors are being recommended instead.
+                <span className="font-medium text-foreground">Content Coverage</span> tracks which automotive topics AI models associate with DealerOn and identifies gaps where competitors like Dealer Inspire or CDK Global are being recommended instead.
               </p>
             </div>
           </div>
