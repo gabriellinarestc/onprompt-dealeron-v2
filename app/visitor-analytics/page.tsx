@@ -1,30 +1,11 @@
-"use client"
-
 import { DashboardShell } from "@/components/dashboard/dashboard-shell"
-import {
-  Empty,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-  EmptyDescription,
-} from "@/components/ui/empty"
-import { Users } from "lucide-react"
+import { VisitorAnalyticsShell } from "@/features/visitorAnalytics/VisitorAnalyticsShell"
 
 export default function VisitorAnalyticsPage() {
   return (
     <DashboardShell>
-      <div className="mx-auto max-w-7xl p-6 h-full">
-        <Empty className="h-full border border-border">
-          <EmptyHeader>
-            <EmptyMedia variant="icon">
-              <Users className="size-5" />
-            </EmptyMedia>
-            <EmptyTitle>Visitor Analytics</EmptyTitle>
-            <EmptyDescription>
-              Work in progress. This page will display detailed visitor analytics and insights.
-            </EmptyDescription>
-          </EmptyHeader>
-        </Empty>
+      <div className="mx-auto max-w-7xl p-6">
+        <VisitorAnalyticsShell />
       </div>
     </DashboardShell>
   )
