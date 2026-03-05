@@ -25,7 +25,7 @@ export default function SettingsDevPage() {
       : undefined
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="h-screen overflow-y-auto bg-background">
       <div className="border-b border-border bg-card px-6 py-3">
         <div className="flex items-center justify-between">
           <div>

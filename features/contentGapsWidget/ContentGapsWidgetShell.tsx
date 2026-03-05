@@ -1,12 +1,16 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ContentGapsWidgetView } from "./ContentGapsWidgetView"
 import { mockCoveragePercent, mockRecommendations } from "./mocks"
 import type { WidgetState } from "./types"
 
 export function ContentGapsWidgetShell({ initialState = "ready" }: { initialState?: WidgetState }) {
   const [state, setState] = useState<WidgetState>(initialState)
+
+  useEffect(() => {
+    setState(initialState)
+  }, [initialState])
 
   return (
     <ContentGapsWidgetView

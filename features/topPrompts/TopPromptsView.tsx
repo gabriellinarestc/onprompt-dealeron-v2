@@ -87,9 +87,22 @@ function EmptyState() {
         <h3 className="text-sm font-semibold text-foreground">Top Prompts</h3>
       </div>
       <CardContent className="flex-1 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-sm font-medium text-muted-foreground">No prompt data available</p>
-          <p className="text-xs text-muted-foreground">Start tracking prompts to see results here.</p>
+        <div className="flex flex-col items-center gap-3">
+          <div className="flex flex-col gap-1.5 opacity-25">
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="flex items-center gap-2">
+                <div className="h-3 rounded bg-muted" style={{ width: `${120 - i * 30}px` }} />
+                <div className="h-3 w-8 rounded bg-muted" />
+                <div className="h-2 w-16 rounded-full bg-muted" />
+              </div>
+            ))}
+          </div>
+          <div className="text-center">
+            <p className="text-sm font-semibold text-foreground">No prompts tracked yet</p>
+            <p className="mt-1 max-w-[200px] text-xs text-muted-foreground">
+              Create prompts to see which AI conversations mention your brand.
+            </p>
+          </div>
         </div>
       </CardContent>
     </Card>
@@ -98,20 +111,22 @@ function EmptyState() {
 
 function ErrorState({ onRetry }: { onRetry?: () => void }) {
   return (
-    <Card className="border-border bg-card border-destructive/40 h-full flex flex-col">
+    <Card className="border-border bg-card border-destructive/20 h-full flex flex-col">
       <CardContent className="flex-1 flex items-center justify-center">
-        <div className="flex items-center gap-3">
-          <AlertCircle className="size-5 shrink-0 text-destructive" />
-          <div>
-            <p className="text-sm font-semibold text-foreground">Failed to load prompts</p>
-            <p className="text-xs text-muted-foreground">Something went wrong. Please try again.</p>
+        <div className="flex flex-col items-center gap-3">
+          <div className="flex size-10 items-center justify-center rounded-full bg-destructive/10">
+            <AlertCircle className="size-5 text-destructive" />
+          </div>
+          <div className="text-center">
+            <p className="text-sm font-semibold text-foreground">Couldn&apos;t load prompts</p>
+            <p className="mt-1 max-w-[200px] text-xs text-muted-foreground">This is usually temporary.</p>
           </div>
           {onRetry && (
             <button
               onClick={onRetry}
-              className="shrink-0 rounded-md px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/10 transition-colors"
+              className="rounded-lg border border-border bg-card px-4 py-2 text-xs font-medium text-foreground shadow-sm transition-colors hover:bg-muted"
             >
-              Retry
+              Try again
             </button>
           )}
         </div>

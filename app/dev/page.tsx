@@ -12,7 +12,7 @@ const features = [
 
 export default function DevIndexPage() {
   return (
-    <div className="mx-auto max-w-2xl px-6 py-12">
+    <div className="h-screen overflow-y-auto mx-auto max-w-2xl px-6 py-12">
       <h1 className="text-2xl font-bold text-foreground">Dev Preview Routes</h1>
       <p className="mt-2 text-sm text-muted-foreground">
         Feature preview pages for UI development. Each route runs without a backend using mock data.

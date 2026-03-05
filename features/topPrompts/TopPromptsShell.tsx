@@ -1,12 +1,16 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { TopPromptsView } from "./TopPromptsView"
 import { mockPromptsData, mockBrandNames } from "./mocks"
 import type { WidgetState } from "./types"
 
 export function TopPromptsShell({ initialState = "ready" }: { initialState?: WidgetState }) {
   const [state, setState] = useState<WidgetState>(initialState)
+
+  useEffect(() => {
+    setState(initialState)
+  }, [initialState])
 
   return (
     <TopPromptsView

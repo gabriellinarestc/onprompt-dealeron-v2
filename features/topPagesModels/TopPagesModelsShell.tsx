@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useModelFilter } from "@/components/dashboard/model-filter-context"
 import { resolveModelKey } from "@/lib/models"
 import { TopPagesModelsView } from "./TopPagesModelsView"
@@ -10,6 +10,10 @@ import type { WidgetState } from "./types"
 export function TopPagesModelsShell({ initialState = "ready" }: { initialState?: WidgetState }) {
   const { isModelActive } = useModelFilter()
   const [state, setState] = useState<WidgetState>(initialState)
+
+  useEffect(() => {
+    setState(initialState)
+  }, [initialState])
 
   const filteredModels = mockTopModels.filter((item) => {
     const key = resolveModelKey(item.model)

@@ -58,9 +58,20 @@ function EmptyState() {
   return (
     <div className="grid gap-4 md:grid-cols-2">
       <div className="flex overflow-hidden rounded-xl border border-border bg-card md:col-span-2">
-        <div className="flex flex-1 flex-col items-center justify-center gap-2 px-5 py-10">
-          <p className="text-sm font-medium text-muted-foreground">No visitor analytics data available</p>
-          <p className="text-xs text-muted-foreground">Data will appear once AI models start driving traffic to your site.</p>
+        <div className="flex flex-1 flex-col items-center justify-center gap-3 px-5 py-12">
+          <div className="flex gap-2 opacity-25">
+            {[ChatGPTLogo, ClaudeLogo, GeminiLogo].map((Logo, i) => (
+              <div key={i} className="flex size-8 items-center justify-center rounded-lg bg-muted">
+                <Logo size={16} />
+              </div>
+            ))}
+          </div>
+          <div className="text-center">
+            <p className="text-sm font-semibold text-foreground">No visitor data yet</p>
+            <p className="mt-1 max-w-xs text-xs text-muted-foreground">
+              Traffic from AI models will appear here once crawlers discover and index your site content.
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -70,19 +81,23 @@ function EmptyState() {
 function ErrorState({ onRetry }: { onRetry?: () => void }) {
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      <div className="flex overflow-hidden rounded-xl border border-destructive/40 bg-card md:col-span-2">
-        <div className="flex flex-1 items-center justify-center gap-3 px-5 py-10">
-          <AlertCircle className="size-5 shrink-0 text-destructive" />
-          <div>
-            <p className="text-sm font-semibold text-foreground">Failed to load visitor analytics</p>
-            <p className="text-xs text-muted-foreground">Something went wrong. Please try again.</p>
+      <div className="flex overflow-hidden rounded-xl border border-destructive/20 bg-card md:col-span-2">
+        <div className="flex flex-1 flex-col items-center justify-center gap-3 px-5 py-12">
+          <div className="flex size-10 items-center justify-center rounded-full bg-destructive/10">
+            <AlertCircle className="size-5 text-destructive" />
+          </div>
+          <div className="text-center">
+            <p className="text-sm font-semibold text-foreground">Analytics temporarily unavailable</p>
+            <p className="mt-1 max-w-xs text-xs text-muted-foreground">
+              We couldn&apos;t connect to visitor tracking. This is usually temporary.
+            </p>
           </div>
           {onRetry && (
             <button
               onClick={onRetry}
-              className="shrink-0 rounded-md px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/10 transition-colors"
+              className="rounded-lg border border-border bg-card px-4 py-2 text-xs font-medium text-foreground shadow-sm transition-colors hover:bg-muted"
             >
-              Retry
+              Try again
             </button>
           )}
         </div>

@@ -76,9 +76,20 @@ function EmptyState() {
         <CardTitle className="text-sm font-semibold text-foreground">Brand Comparison</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-col items-center justify-center py-10">
-          <p className="text-sm font-medium text-muted-foreground">No brand comparison data available</p>
-          <p className="text-xs text-muted-foreground">Add competitor brands to see how you compare.</p>
+        <div className="flex flex-col items-center justify-center gap-3 py-10">
+          <div className="flex items-center gap-1">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className={`flex h-16 items-end rounded-md bg-muted ${i === 1 ? "w-8" : i === 2 ? "w-8" : "w-8"}`}>
+                <div className="w-full rounded-md bg-primary/15" style={{ height: `${90 - i * 20}%` }} />
+              </div>
+            ))}
+          </div>
+          <div className="text-center">
+            <p className="text-sm font-semibold text-foreground">No competitors tracked yet</p>
+            <p className="mt-1 max-w-xs text-xs text-muted-foreground">
+              Add competitor brands in Settings to see how your AI visibility compares across models.
+            </p>
+          </div>
         </div>
       </CardContent>
     </Card>
@@ -87,20 +98,24 @@ function EmptyState() {
 
 function ErrorState({ onRetry }: { onRetry?: () => void }) {
   return (
-    <Card className="border-border bg-card border-destructive/40">
+    <Card className="border-border bg-card border-destructive/20">
       <CardContent className="py-10">
-        <div className="flex items-center justify-center gap-3">
-          <AlertCircle className="size-5 shrink-0 text-destructive" />
-          <div>
-            <p className="text-sm font-semibold text-foreground">Failed to load brand comparison</p>
-            <p className="text-xs text-muted-foreground">Something went wrong. Please try again.</p>
+        <div className="flex flex-col items-center justify-center gap-3">
+          <div className="flex size-10 items-center justify-center rounded-full bg-destructive/10">
+            <AlertCircle className="size-5 text-destructive" />
+          </div>
+          <div className="text-center">
+            <p className="text-sm font-semibold text-foreground">Comparison data unavailable</p>
+            <p className="mt-1 max-w-xs text-xs text-muted-foreground">
+              We couldn&apos;t retrieve brand comparison data. This is usually temporary.
+            </p>
           </div>
           {onRetry && (
             <button
               onClick={onRetry}
-              className="shrink-0 rounded-md px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/10 transition-colors"
+              className="rounded-lg border border-border bg-card px-4 py-2 text-xs font-medium text-foreground shadow-sm transition-colors hover:bg-muted"
             >
-              Retry
+              Try again
             </button>
           )}
         </div>
