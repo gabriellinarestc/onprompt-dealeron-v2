@@ -14,6 +14,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox"
 import { BarChart2, List, Filter, Crown } from "lucide-react"
 import { HelpTooltip } from "./help-tooltip"
+import { TruncatedText } from "./truncated-text"
 import {
   BarChart,
   Bar,
@@ -310,19 +311,15 @@ export function BrandVisibilityChart() {
               {CHART_MODELS.filter((m) => activeModels.has(m)).map((key) => {
                 const Logo = MODEL_LOGOS[key]
                 return (
-                  <TooltipProvider key={key} delayDuration={200}>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <span className="w-16 text-center truncate cursor-default">
-                          {MODEL_CONFIG[key].name}
-                        </span>
-                      </TooltipTrigger>
-                      <TooltipContent side="top" className="flex items-center gap-2 bg-popover text-popover-foreground border-border">
-                        <span style={{ color: MODEL_CONFIG[key].hex }}>{Logo && <Logo size={14} />}</span>
-                        <span className="text-xs font-medium">{MODEL_CONFIG[key].name}</span>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  <div key={key} className="w-16 text-center">
+                    <TruncatedText
+                      className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground"
+                      tooltipSide="top"
+                      tooltipIcon={<span style={{ color: MODEL_CONFIG[key].hex }}>{Logo && <Logo size={14} />}</span>}
+                    >
+                      {MODEL_CONFIG[key].name}
+                    </TruncatedText>
+                  </div>
                 )
               })}
               <span className="w-14 text-right">Total</span>

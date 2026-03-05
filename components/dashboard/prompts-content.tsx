@@ -28,6 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { HelpTooltip } from "./help-tooltip"
+import { TruncatedText } from "./truncated-text"
 import { CreatePromptModal } from "./create-prompt-modal"
 import { DifficultyTag, getDifficultyLevel } from "@/components/ui/tag"
 
@@ -402,11 +403,13 @@ export function PromptsContent() {
             <TableBody>
               {paginatedPrompts.map((item) => (
                 <TableRow key={item.id} className={`border-border ${item.isAnalyzing ? 'bg-muted/30' : ''}`}>
-                  <TableCell className="max-w-[300px] text-sm text-foreground pl-6">
-                    <div className="flex items-center gap-2">
-                      {item.prompt}
+                  <TableCell className="max-w-[300px] pl-6">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <TruncatedText className="text-sm text-foreground">
+                        {item.prompt}
+                      </TruncatedText>
                       {item.isAnalyzing && (
-                        <span className="text-xs text-muted-foreground italic">Analyzing — this can take up to 24 hours.</span>
+                        <span className="shrink-0 text-xs text-muted-foreground italic">Analyzing — this can take up to 24 hours.</span>
                       )}
                     </div>
                   </TableCell>

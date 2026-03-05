@@ -2,12 +2,7 @@
 
 import { ArrowUpRight, AlertTriangle, Clock, CheckCircle2 } from "lucide-react"
 import { HelpTooltip } from "./help-tooltip"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
+import { TruncatedText } from "./truncated-text"
 import { MODEL_CONFIG } from "@/lib/models"
 import { useModelFilter } from "./model-filter-context"
 import {
@@ -148,17 +143,12 @@ export function VisitorAnalytics() {
                   ) : (
                     <span className="text-[11px] text-muted-foreground">—</span>
                   )}
-                  <TooltipProvider delayDuration={200}>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <p className="max-w-full truncate text-[11px] text-muted-foreground cursor-default">{config.name}</p>
-                      </TooltipTrigger>
-                      <TooltipContent side="bottom" className="flex items-center gap-2 bg-popover text-popover-foreground border-border">
-                        <span style={{ color: config.hex }}><Logo size={14} /></span>
-                        <span className="text-xs font-medium">{config.name}</span>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  <TruncatedText
+                    className="max-w-full text-[11px] text-muted-foreground"
+                    tooltipIcon={<span style={{ color: config.hex }}><Logo size={14} /></span>}
+                  >
+                    {config.name}
+                  </TruncatedText>
                 </div>
               </div>
             )

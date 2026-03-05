@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/tooltip"
 import { ArrowRight } from "lucide-react"
 import { HelpTooltip } from "./help-tooltip"
+import { TruncatedText } from "./truncated-text"
 
 function getTemperatureColor(value: number): string {
   if (value >= 80) return "oklch(0.55 0.19 155)"  // green
@@ -163,8 +164,10 @@ export function TopPrompts() {
           <TableBody>
             {promptsData.map((item) => (
               <TableRow key={item.prompt} className="border-border">
-                <TableCell className="max-w-[250px] truncate text-xs text-foreground">
-                  {item.prompt}
+                <TableCell className="max-w-[250px]">
+                  <TruncatedText className="text-xs text-foreground">
+                    {item.prompt}
+                  </TruncatedText>
                 </TableCell>
                 <TableCell>
                   <SentimentBar value={item.sentiment} />
