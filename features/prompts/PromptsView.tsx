@@ -250,13 +250,13 @@ export function PromptsView({
       {state === "ready" && data && (
         <Card className="border-border bg-card overflow-hidden">
           <CardContent className="p-0">
-            <Table>
+            <Table className="table-fixed">
               <TableHeader>
                 <TableRow className="border-border hover:bg-transparent">
                   <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium pl-6">
                     Prompt
                   </TableHead>
-                  <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
+                  <TableHead className="w-[130px] text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
                     <span className="inline-flex items-center gap-1">
                       Visibility
                       <HelpTooltip title="Visibility">
@@ -264,7 +264,7 @@ export function PromptsView({
                       </HelpTooltip>
                     </span>
                   </TableHead>
-                  <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
+                  <TableHead className="w-[180px] text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
                     <span className="inline-flex items-center gap-1">
                       Sentiment
                       <HelpTooltip title="Sentiment">
@@ -272,7 +272,7 @@ export function PromptsView({
                       </HelpTooltip>
                     </span>
                   </TableHead>
-                  <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
+                  <TableHead className="w-[140px] text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
                     <span className="inline-flex items-center gap-1">
                       Volume
                       <HelpTooltip title="Volume">
@@ -280,7 +280,7 @@ export function PromptsView({
                       </HelpTooltip>
                     </span>
                   </TableHead>
-                  <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
+                  <TableHead className="w-[130px] text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
                     <span className="inline-flex items-center gap-1">
                       Difficulty
                       <HelpTooltip title="Difficulty">
@@ -288,7 +288,7 @@ export function PromptsView({
                       </HelpTooltip>
                     </span>
                   </TableHead>
-                  <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium pr-6">
+                  <TableHead className="w-[120px] text-[10px] uppercase tracking-wider text-muted-foreground font-medium pr-6">
                     <span className="inline-flex items-center gap-1">
                       Brands
                       <HelpTooltip title="Brands">
@@ -299,13 +299,16 @@ export function PromptsView({
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data.items.map((item) => (
+                {data.items.map((item) => {
+                  const visibleBrands = item.brands.slice(0, 2)
+                  const hiddenBrands = item.brands.slice(2)
+                  return (
                   <TableRow
                     key={item.id}
                     className={`border-border ${item.isAnalyzing ? "bg-muted/30" : ""} ${onRowClick ? "cursor-pointer" : ""}`}
                     onClick={() => onRowClick?.(item.id)}
                   >
-                    <TableCell className="max-w-[300px] pl-6">
+                    <TableCell className="pl-6">
                       <div className="flex items-center gap-2 min-w-0">
                         <TruncatedText className="text-sm text-foreground">
                           {item.prompt}
@@ -366,7 +369,7 @@ export function PromptsView({
                       ) : (
                         <TooltipProvider>
                           <div className="flex gap-1">
-                            {item.brands.map((b) => (
+                            {visibleBrands.map((b) => (
                               <Tooltip key={b}>
                                 <TooltipTrigger asChild>
                                   <Badge
@@ -381,12 +384,32 @@ export function PromptsView({
                                 </TooltipContent>
                               </Tooltip>
                             ))}
+                            {hiddenBrands.length > 0 && (
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <Badge
+                                    variant="outline"
+                                    className="size-6 items-center justify-center rounded-full border-border p-0 text-[10px] text-muted-foreground cursor-pointer hover:bg-muted"
+                                  >
+                                    +{hiddenBrands.length}
+                                  </Badge>
+                                </TooltipTrigger>
+                                <TooltipContent className="bg-popover text-popover-foreground border-border">
+                                  <div className="flex flex-col gap-0.5">
+                                    {hiddenBrands.map((b) => (
+                                      <p key={b} className="text-xs">{brands[b] ?? b}</p>
+                                    ))}
+                                  </div>
+                                </TooltipContent>
+                              </Tooltip>
+                            )}
                           </div>
                         </TooltipProvider>
                       )}
                     </TableCell>
                   </TableRow>
-                ))}
+                  )
+                })}
               </TableBody>
             </Table>
 
