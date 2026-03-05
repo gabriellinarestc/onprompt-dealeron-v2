@@ -15,10 +15,10 @@ export function InsightsBanner() {
         className="absolute inset-0"
         style={{
           background: `
-            radial-gradient(ellipse 80% 60% at 10% 40%, oklch(0.52 0.24 315 / 0.12), transparent),
-            radial-gradient(ellipse 60% 80% at 90% 20%, oklch(0.55 0.19 155 / 0.10), transparent),
-            radial-gradient(ellipse 50% 50% at 50% 80%, oklch(0.72 0.14 75 / 0.08), transparent),
-            radial-gradient(ellipse 90% 40% at 70% 50%, oklch(0.6 0.17 145 / 0.06), transparent)
+            radial-gradient(ellipse 80% 60% at 10% 40%, oklch(0.65 0.18 55 / 0.15), transparent),
+            radial-gradient(ellipse 60% 80% at 90% 20%, oklch(0.35 0.12 260 / 0.18), transparent),
+            radial-gradient(ellipse 50% 50% at 50% 80%, oklch(0.70 0.15 60 / 0.10), transparent),
+            radial-gradient(ellipse 90% 40% at 70% 50%, oklch(0.30 0.10 255 / 0.08), transparent)
           `,
         }}
       />
@@ -35,13 +35,13 @@ export function InsightsBanner() {
             <div className="flex items-start gap-2 flex-1">
               <TrendingUp className="size-3.5 mt-0.5 shrink-0 text-success" />
               <p className="text-xs text-muted-foreground leading-relaxed">
-                <span className="font-medium text-foreground">Visibility</span> measures how often AI models reference your brand when answering relevant prompts, weighted by model reach and relevance.
+                <span className="font-medium text-foreground">Visibility</span> measures how often AI models reference DealerOn when dealers and OEMs ask about website platforms, SEO, and digital advertising solutions.
               </p>
             </div>
             <div className="flex items-start gap-2 flex-1">
               <FileText className="size-3.5 mt-0.5 shrink-0 text-primary" />
               <p className="text-xs text-muted-foreground leading-relaxed">
-                <span className="font-medium text-foreground">Content Coverage</span> tracks which topics AI models associate with your brand and identifies gaps where competitors are being recommended instead.
+                <span className="font-medium text-foreground">Content Coverage</span> tracks which automotive topics AI models associate with DealerOn and identifies gaps where competitors like Dealer Inspire or CDK Global are being recommended instead.
               </p>
             </div>
           </div>

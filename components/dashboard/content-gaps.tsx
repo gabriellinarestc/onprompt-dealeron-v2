@@ -10,21 +10,21 @@ import { HelpTooltip } from "./help-tooltip"
 const recommendations = [
   {
     rank: 1,
-    title: "Advanced TypeScript Patterns",
-    description: "Create a comprehensive guide on Generic types in TypeScript",
-    prompts: 3,
+    title: "EV Inventory Page Optimization",
+    description: "Create dedicated landing pages for electric vehicle inventory with charging info and incentives",
+    prompts: 8,
   },
   {
     rank: 2,
-    title: "Python Async/Await Best Practices",
-    description: "Create guide on async/await error handling strategies",
-    prompts: 3,
+    title: "Service Department Online Scheduling",
+    description: "Publish content around online service booking, recall notifications, and maintenance packages",
+    prompts: 6,
   },
   {
     rank: 3,
-    title: "Machine Learning Model Deployment",
-    description: "Expand edge computing deployment scenarios",
-    prompts: 3,
+    title: "Trade-In Value Tools Comparison",
+    description: "Create comparison guides for trade-in valuation tools and how dealers can offer instant appraisals",
+    prompts: 5,
   },
 ]
 
@@ -58,18 +58,18 @@ export function ContentGaps() {
                 cx={28} cy={28} r={22}
                 strokeWidth={5} fill="none"
                 strokeDasharray={138.23}
-                strokeDashoffset={138.23 - (57 / 100) * 138.23}
+                strokeDashoffset={138.23 - (37 / 100) * 138.23}
                 strokeLinecap="round"
-                className="stroke-chart-3"
+                className="stroke-destructive"
               />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-sm font-bold text-foreground">57%</span>
+              <span className="text-sm font-bold text-foreground">37%</span>
             </div>
           </div>
           <div>
             <p className="text-sm font-semibold text-foreground">Content Coverage</p>
-            <p className="text-xs text-muted-foreground">57% of tracked topics covered</p>
+            <p className="text-xs text-muted-foreground">37% of tracked topics covered</p>
           </div>
         </div>
 

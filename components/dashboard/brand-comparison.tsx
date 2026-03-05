@@ -14,6 +14,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox"
 import { BarChart2, List, Filter, Crown } from "lucide-react"
 import { HelpTooltip } from "./help-tooltip"
+import { TruncatedText } from "./truncated-text"
 import {
   BarChart,
   Bar,
@@ -63,13 +64,13 @@ interface BrandEntry {
 }
 
 const chartData: BrandEntry[] = [
-  { name: "DealerOn",       website: "dealeron.com",        type: "main",       visibility: 72, chatgpt: 12, claude: 8,  copilot: 1, gemini: 10, aioverview: 7,  perplexity: 3 },
-  { name: "Dealer Inspire", website: "dealerinspire.com",   type: "competitor", visibility: 68, chatgpt: 8,  claude: 5,  copilot: 0, gemini: 5,  aioverview: 4,  perplexity: 1 },
-  { name: "CDK Global",     website: "cdkglobal.com",       type: "competitor", visibility: 54, chatgpt: 7,  claude: 3,  copilot: 0, gemini: 2,  aioverview: 2,  perplexity: 1 },
-  { name: "Sincro",         website: "sincrodigital.com",   type: "partner",    visibility: 41, chatgpt: 5,  claude: 2,  copilot: 0, gemini: 2,  aioverview: 1,  perplexity: 0 },
-  { name: "Cars.com",       website: "cars.com",            type: "competitor", visibility: 63, chatgpt: 4,  claude: 4,  copilot: 1, gemini: 3,  aioverview: 3,  perplexity: 0 },
-  { name: "Shift Digital",  website: "shiftdigital.com",    type: "partner",    visibility: 35, chatgpt: 3,  claude: 1,  copilot: 0, gemini: 1,  aioverview: 1,  perplexity: 0 },
-  { name: "AutoTrader",     website: "autotrader.com",      type: "competitor", visibility: 58, chatgpt: 3,  claude: 2,  copilot: 0, gemini: 1,  aioverview: 2,  perplexity: 0 },
+  { name: "DealerOn",       website: "dealeron.com",        type: "main",       visibility: 82, chatgpt: 187, claude: 94,  copilot: 22, gemini: 71,  aioverview: 63,  perplexity: 38 },
+  { name: "Dealer Inspire", website: "dealerinspire.com",   type: "competitor", visibility: 74, chatgpt: 142, claude: 78,  copilot: 15, gemini: 54,  aioverview: 47,  perplexity: 29 },
+  { name: "CDK Global",     website: "cdkglobal.com",       type: "competitor", visibility: 51, chatgpt: 118, claude: 52,  copilot: 11, gemini: 39,  aioverview: 35,  perplexity: 18 },
+  { name: "Sincro",         website: "sincrodigital.com",   type: "partner",    visibility: 28, chatgpt: 47,  claude: 21,  copilot: 4,  gemini: 16,  aioverview: 12,  perplexity: 6 },
+  { name: "Cars.com",       website: "cars.com",            type: "competitor", visibility: 68, chatgpt: 156, claude: 67,  copilot: 19, gemini: 48,  aioverview: 52,  perplexity: 31 },
+  { name: "Shift Digital",  website: "shiftdigital.com",    type: "partner",    visibility: 22, chatgpt: 34,  claude: 14,  copilot: 2,  gemini: 11,  aioverview: 8,   perplexity: 3 },
+  { name: "AutoTrader",     website: "autotrader.com",      type: "competitor", visibility: 63, chatgpt: 131, claude: 58,  copilot: 13, gemini: 42,  aioverview: 44,  perplexity: 22 },
 ]
 
 function getVisibilityColor(score: number): string {
@@ -125,7 +126,7 @@ function CustomChartTooltip({
   )
 }
 
-export function BrandVisibilityChart() {
+export function BrandComparison() {
   // View toggle kept for future use - default to list only for MVP
   const [view] = useState<"chart" | "list">("list")
   const { activeModels } = useModelFilter()
@@ -167,11 +168,6 @@ export function BrandVisibilityChart() {
     })
 
   const maxTotal = Math.max(...listData.map((d) => d.total), 1)
-  const totalMentions = filteredData.reduce((sum, row) =>
-    sum + CHART_MODELS.filter((m) => activeModels.has(m)).reduce(
-      (s, m) => s + (row[m as keyof typeof row] as number), 0
-    ), 0
-  )
 
   const TYPE_LABELS: Record<BrandType, { label: string; color: string }> = {
     main: { label: "Your Brand", color: "var(--primary)" },
@@ -186,22 +182,18 @@ export function BrandVisibilityChart() {
           <div>
             <div className="flex items-center gap-1.5">
               <CardTitle className="text-sm font-semibold text-foreground">
-                Mentions by Model
+                Brand Comparison
               </CardTitle>
-              <HelpTooltip title="Mentions by Model">
-                Total brand mentions broken down by AI model. Each stacked bar segment represents a different model. The visibility score (0-100) indicates overall discoverability, while mentions show the raw count.
+              <HelpTooltip title="Brand Comparison">
+                Compare how often each brand is mentioned across AI models. The visibility score (0-100) indicates overall discoverability, while mentions show the raw count per model.
               </HelpTooltip>
             </div>
             <CardDescription className="text-xs">
-              How often your brand is mentioned across AI models vs. competitors
+              Compare brand mentions across AI models
             </CardDescription>
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
-            <div className="flex items-baseline gap-1 mr-1">
-              <span className="text-2xl font-bold text-foreground">{totalMentions}</span>
-              <span className="text-xs text-muted-foreground">mentions</span>
-            </div>
 
             {/* Brand type filter - hidden for MVP, kept for later use */}
             {/* <Popover>
@@ -279,8 +271,6 @@ export function BrandVisibilityChart() {
                   tick={({ x, y, payload }: { x: number; y: number; payload: { value: string } }) => {
                     const brand = chartData.find((d) => d.name === payload.value)
                     const isMain = brand?.type === "main"
-                    const tagLabel = isMain ? "You" : brand?.type === "competitor" ? "Comp" : "Partner"
-                    const tagColor = isMain ? "var(--primary)" : brand?.type === "competitor" ? "#d14343" : "#3b82f6"
                     return (
                       <g transform={`translate(${x},${y})`}>
                         <text
@@ -291,16 +281,6 @@ export function BrandVisibilityChart() {
                           fontWeight={isMain ? 600 : 400}
                         >
                           {payload.value}
-                        </text>
-                        <rect x={-16} y={17} width={32} height={14} rx={3} fill={isMain ? tagColor : `${tagColor}18`} />
-                        <text
-                          textAnchor="middle"
-                          dy={27}
-                          fill={isMain ? "#fff" : tagColor}
-                          fontSize={8}
-                          fontWeight={600}
-                        >
-                          {tagLabel}
                         </text>
                       </g>
                     )
@@ -328,11 +308,20 @@ export function BrandVisibilityChart() {
               <span className="w-5 text-center">#</span>
               <span className="flex-1">Brand</span>
               <span className="w-14 text-center">Visibility</span>
-              {CHART_MODELS.filter((m) => activeModels.has(m)).map((key) => (
-                <span key={key} className="w-16 text-center truncate" title={MODEL_CONFIG[key].name}>
-                  {MODEL_CONFIG[key].name}
-                </span>
-              ))}
+              {CHART_MODELS.filter((m) => activeModels.has(m)).map((key) => {
+                const Logo = MODEL_LOGOS[key]
+                return (
+                  <div key={key} className="w-16 text-center">
+                    <TruncatedText
+                      className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground"
+                      tooltipSide="top"
+                      tooltipIcon={<span style={{ color: MODEL_CONFIG[key].hex }}>{Logo && <Logo size={14} />}</span>}
+                    >
+                      {MODEL_CONFIG[key].name}
+                    </TruncatedText>
+                  </div>
+                )
+              })}
               <span className="w-14 text-right">Total</span>
             </div>
 
@@ -351,15 +340,17 @@ export function BrandVisibilityChart() {
                       <span className={`truncate text-sm font-medium ${isMain ? "text-primary" : "text-foreground"}`}>
                         {row.name}
                       </span>
-                      <span
-                        className="rounded-full px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide"
-                        style={{
-                          backgroundColor: isMain ? "var(--primary)" : row.type === "competitor" ? "oklch(0.55 0.22 25 / 0.12)" : "oklch(0.52 0.2 250 / 0.12)",
-                          color: isMain ? "var(--primary-foreground)" : row.type === "competitor" ? "oklch(0.55 0.22 25)" : "oklch(0.52 0.2 250)",
-                        }}
-                      >
-                        {isMain ? "You" : row.type === "competitor" ? "Comp" : "Partner"}
-                      </span>
+                      {isMain && (
+                        <span
+                          className="rounded-full px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide"
+                          style={{
+                            backgroundColor: "var(--primary)",
+                            color: "var(--primary-foreground)",
+                          }}
+                        >
+                          You
+                        </span>
+                      )}
                     </div>
                     <span className="text-[10px] text-muted-foreground">{row.website}</span>
                     {/* Proportional stacked bar */}

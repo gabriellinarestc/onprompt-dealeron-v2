@@ -1,7 +1,9 @@
 "use client"
 
 import { ArrowUpRight, AlertTriangle, Clock, CheckCircle2 } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
 import { HelpTooltip } from "./help-tooltip"
+import { TruncatedText } from "./truncated-text"
 import { MODEL_CONFIG } from "@/lib/models"
 import { useModelFilter } from "./model-filter-context"
 import {
@@ -23,25 +25,25 @@ const MODEL_LOGOS = {
 }
 
 const visitorModels = [
-  { key: "chatgpt" as const, visitors: 21, change: "+950%" },
-  { key: "claude" as const, visitors: 10, change: null },
-  { key: "copilot" as const, visitors: 1, change: null },
-  { key: "gemini" as const, visitors: 5, change: "+400%" },
-  { key: "aioverview" as const, visitors: 3, change: "+200%" },
-  { key: "perplexity" as const, visitors: 2, change: "+100%" },
+  { key: "chatgpt" as const, visitors: 1243, change: "+38%" },
+  { key: "claude" as const, visitors: 587, change: "+24%" },
+  { key: "copilot" as const, visitors: 142, change: "+15%" },
+  { key: "gemini" as const, visitors: 418, change: "+47%" },
+  { key: "aioverview" as const, visitors: 356, change: "+31%" },
+  { key: "perplexity" as const, visitors: 209, change: "+22%" },
 ]
 
 const crawlerStats = [
   {
-    value: 7,
-    total: 10,
+    value: 847,
+    total: 1024,
     label: "Indexed",
     sub: "pages indexed",
     icon: CheckCircle2,
     status: "ok" as const,
   },
   {
-    value: 2,
+    value: 128,
     total: null,
     label: "Blocked",
     sub: "need attention",
@@ -49,7 +51,7 @@ const crawlerStats = [
     status: "warn" as const,
   },
   {
-    value: 1,
+    value: 49,
     total: null,
     label: "Pending",
     sub: "awaiting index",
@@ -65,7 +67,7 @@ const statusStyles = {
 }
 
 export function VisitorAnalytics() {
-  const { isModelActive } = useModelFilter()
+  const { isModelActive, comparePrior } = useModelFilter()
   const filteredVisitorModels = visitorModels.filter((item) => isModelActive(item.key))
   const hasWarning = crawlerStats.some((s) => s.status === "warn" && s.value > 0)
 
@@ -83,12 +85,17 @@ export function VisitorAnalytics() {
               Breakdown of how AI crawlers are indexing your site. Successful crawls mean the bot read your page. Blocked pages may be due to robots.txt rules. Pending pages are queued for indexing.
             </HelpTooltip>
           </div>
-          {hasWarning && (
-            <span className="flex items-center gap-1 rounded-full bg-warning/10 px-2 py-0.5 text-[11px] font-semibold text-warning">
-              <AlertTriangle className="size-3" />
-              Action needed
-            </span>
-          )}
+          <div className="flex items-center gap-2">
+            {hasWarning && (
+              <span className="flex items-center gap-1 rounded-full bg-warning/10 px-2 py-0.5 text-[11px] font-semibold text-warning">
+                <AlertTriangle className="size-3" />
+                Action needed
+              </span>
+            )}
+            <Badge variant="secondary" className="h-8 px-3 text-sm font-medium">
+              {crawlerStats.reduce((sum, s) => sum + s.value, 0)} pages
+            </Badge>
+          </div>
         </div>
 
         <div className="flex flex-1 divide-x divide-border border-t border-border">
@@ -111,15 +118,20 @@ export function VisitorAnalytics() {
         </div>
       </div>
 
-      {/* Visitors by Model — exactly mirrors Visibility by Model */}
+      {/* Visitors by Model — exactly mirrors Mentions by Model */}
       <div className="flex flex-col overflow-hidden rounded-xl border border-border bg-card">
-        <div className="flex items-center gap-1.5 px-5 py-3">
-          <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
-            Visitors by Model
-          </p>
-          <HelpTooltip title="Visitors by Model">
-            Real users who arrived at your site after seeing your brand mentioned in an AI model response. Growth percentages compare to the previous tracking period.
-          </HelpTooltip>
+        <div className="flex items-center justify-between px-5 py-3">
+          <div className="flex items-center gap-1.5">
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+              Visitors by Model
+            </p>
+            <HelpTooltip title="Visitors by Model">
+              Real users who arrived at your site after seeing your brand mentioned in an AI model response. Growth percentages compare to the previous tracking period.
+            </HelpTooltip>
+          </div>
+          <Badge variant="secondary" className="h-8 px-3 text-sm font-medium">
+            {filteredVisitorModels.reduce((sum, item) => sum + item.visitors, 0)} visitors
+          </Badge>
         </div>
         <div className="flex flex-1 divide-x divide-border border-t border-border">
           {filteredVisitorModels.map((item) => {
@@ -135,14 +147,19 @@ export function VisitorAnalytics() {
                 </div>
                 <div className="flex flex-col gap-0.5">
                   <span className="text-2xl font-bold leading-none text-foreground">{item.visitors}</span>
-                  {item.change ? (
+                  {comparePrior && item.change ? (
                     <span className="flex items-center gap-0.5 text-[11px] font-semibold" style={{ color: config.hex }}>
                       <ArrowUpRight className="size-2.5" />{item.change}
                     </span>
                   ) : (
-                    <span className="text-[11px] text-muted-foreground">—</span>
+                    <span className="invisible text-[11px]">—</span>
                   )}
-                  <p className="text-[11px] text-muted-foreground">{config.name}</p>
+                  <TruncatedText
+                    className="max-w-full text-[11px] text-muted-foreground"
+                    tooltipIcon={<span style={{ color: config.hex }}><Logo size={14} /></span>}
+                  >
+                    {config.name}
+                  </TruncatedText>
                 </div>
               </div>
             )

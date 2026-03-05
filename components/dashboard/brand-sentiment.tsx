@@ -13,23 +13,24 @@ import {
 } from "recharts"
 import { ArrowDownRight } from "lucide-react"
 import { HelpTooltip } from "./help-tooltip"
+import { useModelFilter } from "./model-filter-context"
 
 // Realistic growing sentiment data with variations — starts lower, trends upward
 const sentimentData = [
-  { date: "Jan 15", score: 38 },
-  { date: "Jan 22", score: 42 },
-  { date: "Jan 29", score: 45 },
-  { date: "Feb 05", score: 51 },
-  { date: "Feb 12", score: 48 },
-  { date: "Feb 19", score: 56 },
-  { date: "Feb 26", score: 62 },
-  { date: "Mar 05", score: 58 },
-  { date: "Mar 12", score: 65 },
-  { date: "Mar 19", score: 71 },
-  { date: "Mar 26", score: 68 },
-  { date: "Apr 02", score: 74 },
-  { date: "Apr 09", score: 78 },
-  { date: "Apr 16", score: 82 },
+  { date: "Jan 15", score: 61 },
+  { date: "Jan 22", score: 64 },
+  { date: "Jan 29", score: 67 },
+  { date: "Feb 05", score: 72 },
+  { date: "Feb 12", score: 69 },
+  { date: "Feb 19", score: 74 },
+  { date: "Feb 26", score: 78 },
+  { date: "Mar 05", score: 75 },
+  { date: "Mar 12", score: 80 },
+  { date: "Mar 19", score: 83 },
+  { date: "Mar 26", score: 79 },
+  { date: "Apr 02", score: 85 },
+  { date: "Apr 09", score: 88 },
+  { date: "Apr 16", score: 86 },
 ]
 
 // Temperature colors
@@ -47,9 +48,10 @@ function getTemperatureColor(score: number): string {
   return TEMP_RED
 }
 
-function CustomChartTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number }>; label?: string }) {
-  if (!active || !payload) return null
-  const score = payload[0]?.value ?? 0
+function CustomChartTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ value: number; dataKey?: string | ((entry: Record<string, unknown>) => unknown) }>; label?: string }) {
+  if (!active || !payload?.length) return null
+  const scoreEntry = payload.find((p) => p.dataKey === "score")
+  const score = scoreEntry?.value ?? payload[payload.length - 1]?.value ?? 0
   const color = getTemperatureColor(score)
   return (
     <div className="rounded-lg border border-border bg-popover px-3 py-2 shadow-xl">
@@ -66,6 +68,7 @@ function CustomChartTooltip({ active, payload, label }: { active?: boolean; payl
 const currentScore = sentimentData[sentimentData.length - 1].score
 
 export function BrandSentiment() {
+  const { comparePrior } = useModelFilter()
   return (
     <div className="grid gap-4 lg:grid-cols-2">
       <Card className="border-border bg-card">
@@ -87,10 +90,17 @@ export function BrandSentiment() {
               <span className="text-4xl font-bold text-foreground">{currentScore}</span>
               <span className="text-sm text-muted-foreground">/100</span>
             </div>
-            <div className="mt-1 flex items-center gap-1 text-xs text-destructive">
-              <ArrowDownRight className="size-3" />
-              <span>-5.8%</span>
-            </div>
+            {comparePrior ? (
+              <div className="mt-1 flex items-center gap-1 text-xs text-success">
+                <ArrowDownRight className="size-3 rotate-[-90deg]" />
+                <span>+8.9%</span>
+              </div>
+            ) : (
+              <div className="invisible mt-1 flex items-center gap-1 text-xs">
+                <ArrowDownRight className="size-3" />
+                <span>—</span>
+              </div>
+            )}
           </div>
 
           <div>
@@ -129,24 +139,24 @@ export function BrandSentiment() {
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={sentimentData} margin={{ top: 4, right: 4, bottom: 0, left: -12 }}>
                 <defs>
-                  {/* Vertical gradient for the line stroke: maps Y position to temperature color */}
-                  <linearGradient id="sentimentStrokeGradient" x1="0" y1="0" x2="0" y2="1">
+                  {/* Fixed vertical gradient anchored to chart plot area (userSpaceOnUse).
+                      y1=4 (top margin) → score 100 (green), y2=200 (chart height) → score 0 (red).
+                      This makes the color at any Y pixel reflect the score at that height. */}
+                  <linearGradient id="sentimentStrokeGradient" gradientUnits="userSpaceOnUse" x1="0" y1="4" x2="0" y2="200">
                     <stop offset="0%"   stopColor={TEMP_DEEP} />
-                    <stop offset="25%"  stopColor={TEMP_GREEN} />
+                    <stop offset="20%"  stopColor={TEMP_GREEN} />
                     <stop offset="50%"  stopColor={TEMP_YELLOW} />
                     <stop offset="75%"  stopColor={TEMP_AMBER} />
                     <stop offset="100%" stopColor={TEMP_RED} />
                   </linearGradient>
-                  {/* Fill under the line */}
-                  <linearGradient id="sentimentFillGradient" x1="0" y1="0" x2="0" y2="1">
+                  <linearGradient id="sentimentFillGradient" gradientUnits="userSpaceOnUse" x1="0" y1="4" x2="0" y2="200">
                     <stop offset="0%"   stopColor={TEMP_DEEP}  stopOpacity={0.22} />
-                    <stop offset="25%"  stopColor={TEMP_GREEN}  stopOpacity={0.14} />
+                    <stop offset="20%"  stopColor={TEMP_GREEN}  stopOpacity={0.14} />
                     <stop offset="50%"  stopColor={TEMP_YELLOW} stopOpacity={0.08} />
                     <stop offset="75%"  stopColor={TEMP_AMBER}  stopOpacity={0.05} />
                     <stop offset="100%" stopColor={TEMP_RED}    stopOpacity={0.02} />
                   </linearGradient>
-                  {/* Very subtle full-background temperature wash */}
-                  <linearGradient id="sentimentBgGradient" x1="0" y1="0" x2="0" y2="1">
+                  <linearGradient id="sentimentBgGradient" gradientUnits="userSpaceOnUse" x1="0" y1="4" x2="0" y2="200">
                     <stop offset="0%"   stopColor={TEMP_DEEP}  stopOpacity={0.05} />
                     <stop offset="35%"  stopColor={TEMP_GREEN}  stopOpacity={0.03} />
                     <stop offset="65%"  stopColor={TEMP_AMBER}  stopOpacity={0.03} />

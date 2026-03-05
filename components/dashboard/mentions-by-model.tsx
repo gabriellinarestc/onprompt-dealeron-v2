@@ -1,9 +1,11 @@
 "use client"
 
 import { ArrowUpRight } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
 import { MODEL_CONFIG } from "@/lib/models"
 import { useModelFilter } from "./model-filter-context"
 import { HelpTooltip } from "./help-tooltip"
+import { TruncatedText } from "./truncated-text"
 import {
   ChatGPTLogo,
   ClaudeLogo,
@@ -14,12 +16,12 @@ import {
 } from "./model-logos"
 
 const modelData = [
-  { key: "chatgpt" as const, mentions: 20, change: "+1,900%" },
-  { key: "claude" as const, mentions: 8, change: "+700%" },
-  { key: "gemini" as const, mentions: 5, change: "+400%" },
-  { key: "aioverview" as const, mentions: 4, change: "+300%" },
-  { key: "perplexity" as const, mentions: 1, change: null },
-  { key: "copilot" as const, mentions: 1, change: null },
+  { key: "chatgpt" as const, mentions: 187, change: "+34%" },
+  { key: "claude" as const, mentions: 94, change: "+28%" },
+  { key: "gemini" as const, mentions: 71, change: "+52%" },
+  { key: "aioverview" as const, mentions: 63, change: "+41%" },
+  { key: "perplexity" as const, mentions: 38, change: "+19%" },
+  { key: "copilot" as const, mentions: 22, change: "+12%" },
 ]
 
 const MODEL_LOGOS = {
@@ -56,8 +58,8 @@ function Ring({ value, size = 44, stroke = 5 }: { value: number; size?: number; 
   )
 }
 
-export function BrandVisibilityCards() {
-  const { isModelActive } = useModelFilter()
+export function MentionsByModel() {
+  const { isModelActive, comparePrior } = useModelFilter()
   const filteredModelData = modelData.filter((item) => isModelActive(item.key))
 
   return (
@@ -66,8 +68,8 @@ export function BrandVisibilityCards() {
       {/* Score card */}
       <div className="relative flex overflow-hidden rounded-xl border border-border bg-card">
         {[
-          { value: 28, label: "Visibility" },
-          { value: 57, label: "Content Coverage" },
+          { value: 82, label: "Visibility" },
+          { value: 37, label: "Content Coverage" },
         ].map((item, i) => {
           const color = getScoreColor(item.value)
           return (
@@ -90,15 +92,20 @@ export function BrandVisibilityCards() {
         })}
       </div>
 
-      {/* Visibility by Model */}
+      {/* Mentions by Model */}
       <div className="flex flex-col overflow-hidden rounded-xl border border-border bg-card md:col-span-2">
-        <div className="flex items-center gap-1.5 px-5 py-3">
-          <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
-            Visibility by Model
-          </p>
-          <HelpTooltip title="Visibility by Model">
-            Total number of times your brand was mentioned in responses from each AI model. The percentage shows growth compared to the previous period.
-          </HelpTooltip>
+        <div className="flex items-center justify-between px-5 py-3">
+          <div className="flex items-center gap-1.5">
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+              Mentions by Model
+            </p>
+            <HelpTooltip title="Mentions by Model">
+              Total number of times your brand was mentioned in responses from each AI model. The percentage shows growth compared to the previous period.
+            </HelpTooltip>
+          </div>
+          <Badge variant="secondary" className="h-8 px-3 text-sm font-medium">
+            {filteredModelData.reduce((sum, item) => sum + item.mentions, 0)} mentions
+          </Badge>
         </div>
         <div className="flex flex-1 divide-x divide-border border-t border-border">
           {filteredModelData.map((item) => {
@@ -114,14 +121,19 @@ export function BrandVisibilityCards() {
                 </div>
                 <div className="flex flex-col gap-0.5">
                   <span className="text-2xl font-bold leading-none text-foreground">{item.mentions}</span>
-                  {item.change ? (
+                  {comparePrior && item.change ? (
                     <span className="flex items-center gap-0.5 text-[11px] font-semibold" style={{ color: config.hex }}>
                       <ArrowUpRight className="size-2.5" />{item.change}
                     </span>
                   ) : (
-                    <span className="text-[11px] text-muted-foreground">—</span>
+                    <span className="invisible text-[11px]">—</span>
                   )}
-                  <p className="text-[11px] text-muted-foreground">{config.name}</p>
+                  <TruncatedText
+                    className="max-w-full text-[11px] text-muted-foreground"
+                    tooltipIcon={<span style={{ color: config.hex }}><Logo size={14} /></span>}
+                  >
+                    {config.name}
+                  </TruncatedText>
                 </div>
               </div>
             )

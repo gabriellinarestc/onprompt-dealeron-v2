@@ -28,6 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { HelpTooltip } from "./help-tooltip"
+import { TruncatedText } from "./truncated-text"
 import { CreatePromptModal } from "./create-prompt-modal"
 import { DifficultyTag, getDifficultyLevel } from "@/components/ui/tag"
 
@@ -102,131 +103,162 @@ interface PromptData {
 }
 
 const brandNames: Record<string, string> = {
-  T: "TechCorp",
-  D: "DataFlow",
-  C: "CloudBase",
-  M: "MetaAI",
+  DO: "DealerOn",
+  DI: "Dealer Inspire",
+  CD: "CDK Global",
+  AT: "AutoTrader",
+  CC: "Cars.com",
 }
 
 const initialPromptsData: PromptData[] = [
   {
     id: 1,
-    prompt: "how to use react hooks",
-    visibilityScore: 92,
-    sentiment: 88,
-    volume: 8900,
-    difficulty: 45,
-    brands: ["T", "D"],
+    prompt: "best car dealer website platforms for lead generation",
+    visibilityScore: 91,
+    sentiment: 89,
+    volume: 18500,
+    difficulty: 52,
+    brands: ["DO", "DI", "CD"],
     isAnalyzing: false,
   },
   {
     id: 2,
-    prompt: "best practices for react performance optimization",
-    visibilityScore: 87,
+    prompt: "top automotive SEO companies for dealerships",
+    visibilityScore: 88,
     sentiment: 92,
-    volume: 12400,
-    difficulty: 72,
-    brands: ["T", "D", "C"],
+    volume: 22400,
+    difficulty: 68,
+    brands: ["DO", "DI"],
     isAnalyzing: false,
   },
   {
     id: 3,
-    prompt: "web development trends 2025",
-    visibilityScore: 78,
+    prompt: "how to increase car dealership website conversions",
+    visibilityScore: 85,
     sentiment: 87,
-    volume: 15600,
-    difficulty: 61,
-    brands: ["T", "D", "C"],
+    volume: 31200,
+    difficulty: 44,
+    brands: ["DO", "CD"],
     isAnalyzing: false,
   },
   {
     id: 4,
-    prompt: "implement error handling in javascript",
-    visibilityScore: 74,
-    sentiment: 85,
-    volume: 5200,
-    difficulty: 88,
-    brands: ["T"],
+    prompt: "best digital advertising solutions for auto dealers",
+    visibilityScore: 82,
+    sentiment: 91,
+    volume: 14800,
+    difficulty: 61,
+    brands: ["DO", "DI", "AT"],
     isAnalyzing: false,
   },
   {
     id: 5,
-    prompt: "best ai tools for content creators",
-    visibilityScore: 65,
-    sentiment: 91,
-    volume: 3800,
-    difficulty: 34,
-    brands: ["C", "M"],
+    prompt: "dealer website providers comparison 2025",
+    visibilityScore: 79,
+    sentiment: 84,
+    volume: 9600,
+    difficulty: 75,
+    brands: ["DO", "DI", "CD"],
     isAnalyzing: false,
   },
   {
     id: 6,
-    prompt: "how to optimize database queries",
-    visibilityScore: 81,
-    sentiment: 79,
-    volume: 6200,
-    difficulty: 55,
-    brands: ["D", "C"],
+    prompt: "automotive digital retailing tools for car dealerships",
+    visibilityScore: 76,
+    sentiment: 86,
+    volume: 27300,
+    difficulty: 38,
+    brands: ["DO", "CD"],
     isAnalyzing: false,
   },
   {
     id: 7,
-    prompt: "best practices for API design",
-    visibilityScore: 76,
-    sentiment: 84,
-    volume: 9100,
-    difficulty: 48,
-    brands: ["T", "D"],
+    prompt: "how to optimize dealership inventory pages for search",
+    visibilityScore: 84,
+    sentiment: 88,
+    volume: 12700,
+    difficulty: 55,
+    brands: ["DO", "DI"],
     isAnalyzing: false,
   },
   {
     id: 8,
-    prompt: "cloud computing fundamentals",
-    visibilityScore: 69,
-    sentiment: 88,
-    volume: 22000,
-    difficulty: 25,
-    brands: ["C"],
+    prompt: "best SRP and VDP design for car dealer websites",
+    visibilityScore: 73,
+    sentiment: 82,
+    volume: 8400,
+    difficulty: 47,
+    brands: ["DO"],
     isAnalyzing: false,
   },
   {
     id: 9,
-    prompt: "machine learning for beginners",
-    visibilityScore: 72,
-    sentiment: 90,
-    volume: 45000,
-    difficulty: 18,
-    brands: ["M", "T"],
+    prompt: "fixed ops marketing strategies for service departments",
+    visibilityScore: 71,
+    sentiment: 79,
+    volume: 15900,
+    difficulty: 33,
+    brands: ["DO", "DI"],
     isAnalyzing: false,
   },
   {
     id: 10,
-    prompt: "cybersecurity best practices",
-    visibilityScore: 84,
-    sentiment: 76,
-    volume: 31000,
-    difficulty: 67,
-    brands: ["T", "D", "C"],
+    prompt: "OEM certified website providers for car dealerships",
+    visibilityScore: 87,
+    sentiment: 93,
+    volume: 11200,
+    difficulty: 82,
+    brands: ["DO", "DI", "CD"],
     isAnalyzing: false,
   },
   {
     id: 11,
-    prompt: "serverless architecture patterns",
-    visibilityScore: 67,
-    sentiment: 82,
-    volume: 4800,
-    difficulty: 73,
-    brands: ["C"],
+    prompt: "how to get more leads from dealership Google Ads",
+    visibilityScore: 68,
+    sentiment: 81,
+    volume: 35600,
+    difficulty: 59,
+    brands: ["DO", "AT"],
     isAnalyzing: false,
   },
   {
     id: 12,
-    prompt: "kubernetes deployment strategies",
-    visibilityScore: 58,
-    sentiment: 78,
-    volume: 7300,
-    difficulty: 85,
-    brands: ["D", "C"],
+    prompt: "car dealer CRM integration with website platform",
+    visibilityScore: 74,
+    sentiment: 85,
+    volume: 19800,
+    difficulty: 71,
+    brands: ["DO", "CD"],
+    isAnalyzing: false,
+  },
+  {
+    id: 13,
+    prompt: "best practices for dealership reputation management online",
+    visibilityScore: 66,
+    sentiment: 77,
+    volume: 24100,
+    difficulty: 42,
+    brands: ["DO", "CC"],
+    isAnalyzing: false,
+  },
+  {
+    id: 14,
+    prompt: "automotive PPC management for multi-rooftop dealers",
+    visibilityScore: 78,
+    sentiment: 90,
+    volume: 7800,
+    difficulty: 66,
+    brands: ["DO", "DI"],
+    isAnalyzing: false,
+  },
+  {
+    id: 15,
+    prompt: "dealership website ADA compliance requirements",
+    visibilityScore: 81,
+    sentiment: 83,
+    volume: 13400,
+    difficulty: 29,
+    brands: ["DO", "CD", "DI"],
     isAnalyzing: false,
   },
 ]
@@ -376,7 +408,12 @@ export function PromptsContent() {
                   </span>
                 </TableHead>
                 <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
-                  Sentiment
+                  <span className="inline-flex items-center gap-1">
+                    Sentiment
+                    <HelpTooltip title="Sentiment">
+                      How positively AI models describe your brand when responding to this prompt. 0 = negative, 100 = very positive.
+                    </HelpTooltip>
+                  </span>
                 </TableHead>
                 <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
                   <span className="inline-flex items-center gap-1">
@@ -395,18 +432,25 @@ export function PromptsContent() {
                   </span>
                 </TableHead>
                 <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium pr-6">
-                  Brands
+                  <span className="inline-flex items-center gap-1">
+                    Brands
+                    <HelpTooltip title="Brands">
+                      Which tracked brands are mentioned by AI models in response to this prompt.
+                    </HelpTooltip>
+                  </span>
                 </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {paginatedPrompts.map((item) => (
                 <TableRow key={item.id} className={`border-border ${item.isAnalyzing ? 'bg-muted/30' : ''}`}>
-                  <TableCell className="max-w-[300px] text-sm text-foreground pl-6">
-                    <div className="flex items-center gap-2">
-                      {item.prompt}
+                  <TableCell className="max-w-[300px] pl-6">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <TruncatedText className="text-sm text-foreground">
+                        {item.prompt}
+                      </TruncatedText>
                       {item.isAnalyzing && (
-                        <span className="text-xs text-muted-foreground italic">Analyzing — this can take up to 24 hours.</span>
+                        <span className="shrink-0 text-xs text-muted-foreground italic">Analyzing — this can take up to 24 hours.</span>
                       )}
                     </div>
                   </TableCell>

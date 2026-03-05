@@ -32,11 +32,24 @@ export function DashboardSidebar() {
   return (
     <aside
       className={cn(
-        "flex h-screen flex-col border-r border-sidebar-border bg-sidebar transition-all duration-300",
+        "relative flex h-screen flex-col border-r border-sidebar-border bg-sidebar transition-all duration-300",
         collapsed ? "w-16" : "w-56"
       )}
     >
-      <div className="flex h-14 items-center gap-2 border-b border-sidebar-border px-4">
+      {/* Floating toggle button on sidebar edge */}
+      <button
+        onClick={() => setCollapsed(!collapsed)}
+        className="absolute -right-3 top-[18px] z-50 flex size-6 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-sm transition-colors hover:bg-accent hover:text-foreground"
+      >
+        <ChevronLeft
+          className={cn(
+            "size-3.5 transition-transform",
+            collapsed && "rotate-180"
+          )}
+        />
+      </button>
+
+      <div className={cn("flex h-14 items-center border-b border-sidebar-border", collapsed ? "justify-center px-0" : "gap-2 px-4")}>
         {!collapsed ? (
           <span className="select-none text-lg tracking-tight">
             <span className="font-light text-foreground">On</span>
@@ -47,20 +60,6 @@ export function DashboardSidebar() {
             Op
           </span>
         )}
-        <button
-          onClick={() => setCollapsed(!collapsed)}
-          className={cn(
-            "ml-auto flex size-6 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-foreground",
-            collapsed && "ml-0"
-          )}
-        >
-          <ChevronLeft
-            className={cn(
-              "size-4 transition-transform",
-              collapsed && "rotate-180"
-            )}
-          />
-        </button>
       </div>
 
       <nav className="flex-1 p-2">
@@ -72,7 +71,8 @@ export function DashboardSidebar() {
                 key={item.label}
                 href={item.href}
                 className={cn(
-                  "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                  "flex items-center rounded-md py-2 text-sm font-medium transition-colors",
+                  collapsed ? "justify-center px-0" : "gap-3 px-3",
                   isActive
                     ? "bg-sidebar-accent text-foreground"
                     : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
@@ -90,7 +90,8 @@ export function DashboardSidebar() {
         <Link
           href="/settings"
           className={cn(
-            "flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
+            "flex w-full items-center rounded-md py-2 text-sm transition-colors",
+            collapsed ? "justify-center px-0" : "gap-3 px-3",
             pathname === "/settings"
               ? "bg-sidebar-accent text-foreground"
               : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
@@ -99,7 +100,12 @@ export function DashboardSidebar() {
           <Settings className="size-4 shrink-0" />
           {!collapsed && <span>Settings</span>}
         </Link>
-        <button className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm text-sidebar-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
+        <button
+          className={cn(
+            "flex w-full items-center rounded-md py-2 text-sm text-sidebar-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+            collapsed ? "justify-center px-0" : "gap-3 px-3"
+          )}
+        >
           <LogOut className="size-4 shrink-0" />
           {!collapsed && <span>Log out</span>}
         </button>
