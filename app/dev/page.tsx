@@ -3,6 +3,7 @@ import Link from "next/link"
 const features = [
   { name: "Dashboard", path: "/dev/dashboard", status: "planned" },
   { name: "Prompts", path: "/dev/prompts", status: "planned" },
+  { name: "Prompt Detail", path: "/dev/prompts/1", status: "planned" },
   { name: "Content Gaps", path: "/dev/content-gaps", status: "planned" },
   { name: "Brands", path: "/dev/brands", status: "planned" },
   { name: "Crawler Logs", path: "/dev/crawler-logs", status: "planned" },

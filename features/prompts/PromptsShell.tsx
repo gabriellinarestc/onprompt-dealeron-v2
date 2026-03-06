@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useMemo, useCallback } from "react"
+import { useRouter } from "next/navigation"
 import { PromptsView } from "./PromptsView"
 import { mockRealistic, brandNames } from "./mocks"
 import { CreatePromptModal } from "@/components/dashboard/create-prompt-modal"
@@ -18,6 +19,7 @@ function formatVolumeRange(volume: number): string {
 }
 
 export function PromptsShell() {
+  const router = useRouter()
   const [searchQuery, setSearchQuery] = useState("")
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [prompts, setPrompts] = useState<PromptItem[]>(mockRealistic.items)
@@ -115,7 +117,7 @@ export function PromptsShell() {
           setPageSize(size)
           setCurrentPage(1)
         }}
-        onRowClick={(id) => console.log("onRowClick", id)}
+        onRowClick={(id) => router.push(`/prompts/${id}`)}
         onRetry={() => {}}
       />
       <CreatePromptModal

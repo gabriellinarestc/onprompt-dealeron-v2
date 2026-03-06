@@ -45,7 +45,7 @@ export function DashboardHeader() {
   const allActive = activeModels.size === allModels.length
   const pathname = usePathname()
   const filtersApply = FILTER_ENABLED_ROUTES.includes(pathname)
-  const filtersHidden = FILTER_HIDDEN_ROUTES.includes(pathname)
+  const filtersHidden = FILTER_HIDDEN_ROUTES.some((r) => pathname === r || pathname.startsWith(r + "/"))
 
   return (
     <header className="flex h-14 shrink-0 items-center justify-between border-b border-border bg-background px-6">
