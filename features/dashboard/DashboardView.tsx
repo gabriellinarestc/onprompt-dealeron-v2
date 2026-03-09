@@ -9,6 +9,7 @@ import { ContentGapsWidgetShell } from "@/features/contentGapsWidget/ContentGaps
 import { VisitorAnalyticsShell } from "@/features/visitorAnalytics/VisitorAnalyticsShell"
 import { TopPagesModelsShell } from "@/features/topPagesModels/TopPagesModelsShell"
 import { SectionHeader } from "@/components/patterns/section-header"
+import { UnmappedPlaceholder } from "./UnmappedPlaceholder"
 import type { WidgetState } from "./types"
 
 export type DashboardViewProps = {
@@ -16,6 +17,10 @@ export type DashboardViewProps = {
 }
 
 export function DashboardView({ widgetState = "ready" }: DashboardViewProps) {
+  if (widgetState === "unmapped") {
+    return <UnmappedPlaceholder />
+  }
+
   return (
     <div className="flex flex-col gap-6">
       <InsightsBannerShell initialState={widgetState} />

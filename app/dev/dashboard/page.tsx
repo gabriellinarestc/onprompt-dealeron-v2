@@ -5,7 +5,7 @@ import { ModelFilterProvider } from "@/components/dashboard/model-filter-context
 import { DashboardView } from "@/features/dashboard/DashboardView"
 import type { WidgetState } from "@/features/dashboard/types"
 
-const STATES: WidgetState[] = ["ready", "loading", "empty", "error"]
+const STATES: WidgetState[] = ["ready", "loading", "empty", "error", "unmapped"]
 
 export default function DevDashboardPage() {
   const [globalState, setGlobalState] = useState<WidgetState>("ready")
