@@ -3,7 +3,6 @@
 import { useState, useMemo } from "react"
 import { ContentGapsView } from "./ContentGapsView"
 import { mockRealistic } from "./mocks"
-import type { ContentGapItem } from "./types"
 
 export function ContentGapsShell() {
   const [searchQuery, setSearchQuery] = useState("")
@@ -14,10 +13,8 @@ export function ContentGapsShell() {
 
   const filteredItems = useMemo(
     () =>
-      items.filter(
-        (item) =>
-          item.topic.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.category.toLowerCase().includes(searchQuery.toLowerCase())
+      items.filter((item) =>
+        item.prompt.toLowerCase().includes(searchQuery.toLowerCase())
       ),
     [items, searchQuery]
   )
@@ -42,7 +39,11 @@ export function ContentGapsShell() {
   return (
     <ContentGapsView
       state={state}
-      data={{ items: paginatedItems, stats: mockRealistic.stats }}
+      data={{
+        items: paginatedItems,
+        stats: mockRealistic.stats,
+        recommendations: mockRealistic.recommendations,
+      }}
       searchQuery={searchQuery}
       pageInfo={{
         page: currentPage,

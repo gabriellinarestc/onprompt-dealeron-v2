@@ -4,6 +4,5 @@ export type ContentGapsEvents = {
   onRowClick?: (id: number) => void
   onPageChange?: (page: number) => void
   onPageSizeChange?: (pageSize: number) => void
-  onPriorityFilter?: (priority: string | null) => void
   onRetry?: () => void
 }

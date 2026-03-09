@@ -1,26 +1,34 @@
 export type ContentGapItem = {
   id: number
-  topic: string
-  category: string
-  coverageStatus: "not-covered" | "partially-covered" | "covered"
-  promptCount: number
-  competitorsCovering: number
-  totalCompetitors: number
-  priority: "high" | "medium" | "low"
-  recommendation: string
+  prompt: string
+  coveragePercent: number
+  citations: number
+  queries: number
+  changePercent: number
+  lastAnalyzed: string
 }
 
 export type CoverageStats = {
   coveragePercent: number
-  totalTopics: number
-  coveredTopics: number
-  partiallyCovered: number
-  notCovered: number
+  changePercent: number
+  promptsCovered: number
+  totalPrompts: number
+  fullCoverage: number
+  partialCoverage: number
+  noCoverage: number
+}
+
+export type ContentRecommendation = {
+  rank: number
+  title: string
+  description: string
+  prompts: number
 }
 
 export type ContentGapsData = {
   items: ContentGapItem[]
   stats: CoverageStats
+  recommendations: ContentRecommendation[]
 }
 
 export type PageInfo = {

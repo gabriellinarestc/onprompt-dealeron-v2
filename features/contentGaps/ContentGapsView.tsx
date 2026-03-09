@@ -1,10 +1,12 @@
 "use client"
 
-import { Download, Search, ChevronLeft, ChevronRight, RefreshCw, FileSearch } from "lucide-react"
+import { Download, Search, ChevronLeft, ChevronRight, ChevronUp, ChevronDown, RefreshCw, FileSearch } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Tag } from "@/components/ui/tag"
+import { Skeleton } from "@/components/ui/skeleton"
 import {
   Table,
   TableBody,
@@ -29,67 +31,175 @@ import {
   EmptyTitle,
   EmptyDescription,
 } from "@/components/ui/empty"
-import type { ContentGapsData, CoverageStats, PageInfo } from "./types"
+import type { ContentGapsData, CoverageStats, ContentRecommendation, PageInfo } from "./types"
 import type { ContentGapsEvents } from "./events"
 
-function getPriorityColor(priority: string) {
-  switch (priority) {
-    case "high": return "bg-destructive/10 text-destructive border-destructive/20"
-    case "medium": return "bg-warning/10 text-warning border-warning/20"
-    case "low": return "bg-muted text-muted-foreground border-border"
-    default: return "bg-muted text-muted-foreground border-border"
-  }
+// ─── Color utilities ─────────────────────────────────────────────────────────
+
+function getCoverageColor(percent: number): string {
+  if (percent >= 70) return "oklch(0.55 0.19 155)"
+  if (percent >= 40) return "oklch(0.7 0.16 75)"
+  return "oklch(0.55 0.22 25)"
 }
 
-function getCoverageColor(status: string) {
-  switch (status) {
-    case "covered": return "oklch(0.55 0.19 155)"
-    case "partially-covered": return "oklch(0.7 0.16 75)"
-    case "not-covered": return "oklch(0.55 0.22 25)"
-    default: return "oklch(0.55 0.22 25)"
-  }
-}
+// ─── Sub-components ──────────────────────────────────────────────────────────
 
-function getCoverageLabel(status: string) {
-  switch (status) {
-    case "covered": return "Covered"
-    case "partially-covered": return "Partial"
-    case "not-covered": return "Not Covered"
-    default: return status
-  }
-}
-
-function CoverageDonut({ stats }: { stats: CoverageStats }) {
-  const circumference = 2 * Math.PI * 22
+function CoverageRing({ percent, size = 100, stroke = 8 }: { percent: number; size?: number; stroke?: number }) {
+  const r = (size - stroke) / 2
+  const circ = 2 * Math.PI * r
+  const color = getCoverageColor(percent)
   return (
-    <div className="flex items-center gap-4 rounded-lg bg-secondary p-4">
-      <div className="relative size-14">
-        <svg className="rotate-[-90deg]" width={56} height={56}>
-          <circle cx={28} cy={28} r={22} strokeWidth={5} fill="none" className="stroke-muted" />
-          <circle
-            cx={28} cy={28} r={22}
-            strokeWidth={5} fill="none"
-            strokeDasharray={circumference}
-            strokeDashoffset={circumference - (stats.coveragePercent / 100) * circumference}
-            strokeLinecap="round"
-            className="stroke-destructive"
-          />
-        </svg>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-sm font-bold text-foreground">{stats.coveragePercent}%</span>
+    <div className="relative" style={{ width: size, height: size }}>
+      <svg className="rotate-[-90deg]" width={size} height={size}>
+        <circle cx={size / 2} cy={size / 2} r={r} strokeWidth={stroke} fill="none" stroke="var(--muted)" />
+        <circle
+          cx={size / 2} cy={size / 2} r={r}
+          strokeWidth={stroke} fill="none"
+          stroke={color}
+          strokeDasharray={circ}
+          strokeDashoffset={circ - (percent / 100) * circ}
+          strokeLinecap="round"
+          className="transition-all duration-700"
+        />
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className="text-2xl font-bold text-foreground">{percent}%</span>
+      </div>
+    </div>
+  )
+}
+
+function CoverageCard({ stats }: { stats: CoverageStats }) {
+  const isPositive = stats.changePercent >= 0
+  return (
+    <Card className="border-border bg-card h-full">
+      <div className="flex items-center justify-between px-6">
+        <div className="flex items-center gap-1.5">
+          <h3 className="text-sm font-semibold text-foreground">Content Coverage</h3>
+          <HelpTooltip title="Content Coverage">
+            Percentage of tracked prompts where your brand appears in AI model responses. Higher coverage means better visibility.
+          </HelpTooltip>
         </div>
       </div>
-      <div>
-        <p className="text-sm font-semibold text-foreground">Content Coverage</p>
-        <p className="text-xs text-muted-foreground">
-          {stats.coveragePercent}% of {stats.totalTopics} tracked topics covered
+      <CardContent>
+        <div className="flex items-center gap-6 rounded-lg bg-secondary p-4">
+          <CoverageRing percent={stats.coveragePercent} />
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-1.5">
+              {isPositive ? (
+                <ChevronUp className="size-3.5 text-success" />
+              ) : (
+                <ChevronDown className="size-3.5 text-destructive" />
+              )}
+              <span className={`text-sm font-semibold ${isPositive ? "text-success" : "text-destructive"}`}>
+                {isPositive ? "+" : ""}{stats.changePercent}% vs last period
+              </span>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              {stats.promptsCovered} of {stats.totalPrompts} prompts covered
+            </p>
+          </div>
+        </div>
+        <div className="mt-4 flex flex-col gap-2.5">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="size-2 rounded-full bg-emerald-500" />
+              <span className="text-xs text-muted-foreground">Full Coverage</span>
+            </div>
+            <span className="text-sm font-semibold text-foreground tabular-nums">{stats.fullCoverage}</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="size-2 rounded-full bg-amber-500" />
+              <span className="text-xs text-muted-foreground">Partial Coverage</span>
+            </div>
+            <span className="text-sm font-semibold text-foreground tabular-nums">{stats.partialCoverage}</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="size-2 rounded-full bg-destructive" />
+              <span className="text-xs text-muted-foreground">No Coverage</span>
+            </div>
+            <span className="text-sm font-semibold text-foreground tabular-nums">{stats.noCoverage}</span>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
+function RecommendationsCard({ recommendations }: { recommendations: ContentRecommendation[] }) {
+  return (
+    <Card className="border-border bg-card h-full">
+      <div className="px-6">
+        <div className="flex items-center gap-1.5">
+          <h3 className="text-sm font-semibold text-foreground">AI Recommendations</h3>
+          <HelpTooltip title="AI Recommendations">
+            Suggested actions to improve your brand coverage in AI model responses.
+          </HelpTooltip>
+        </div>
+        <p className="text-xs text-muted-foreground mt-0.5">
+          Top actions to improve your content coverage
         </p>
-        <div className="mt-1.5 flex gap-3 text-[10px] text-muted-foreground">
-          <span><span className="font-semibold text-foreground">{stats.coveredTopics}</span> covered</span>
-          <span><span className="font-semibold text-foreground">{stats.partiallyCovered}</span> partial</span>
-          <span><span className="font-semibold text-foreground">{stats.notCovered}</span> gaps</span>
-        </div>
       </div>
+      <CardContent>
+        <div className="flex flex-col gap-2">
+          {recommendations.map((item) => (
+            <div
+              key={item.rank}
+              className="flex items-start gap-3 rounded-lg border border-border bg-secondary/50 p-3 transition-colors hover:bg-secondary"
+            >
+              <div className="flex size-6 shrink-0 items-center justify-center rounded-md bg-primary/10 text-xs font-bold text-primary">
+                {item.rank}
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-medium text-foreground">{item.title}</p>
+                <p className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">
+                  {item.description}
+                </p>
+              </div>
+              <Badge variant="secondary" className="shrink-0 bg-primary/10 text-primary text-[10px]">
+                {item.prompts} prompts
+              </Badge>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
+// ─── Skeletons ───────────────────────────────────────────────────────────────
+
+function TopCardsSkeleton() {
+  return (
+    <div className="grid gap-4 lg:grid-cols-5">
+      <Card className="border-border bg-card lg:col-span-2">
+        <div className="px-6"><Skeleton className="h-4 w-32" /></div>
+        <CardContent className="space-y-4">
+          <div className="flex items-center gap-6 rounded-lg bg-secondary p-4">
+            <Skeleton className="size-[100px] rounded-full" />
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-36" />
+              <Skeleton className="h-3 w-44" />
+            </div>
+          </div>
+          <div className="space-y-2.5">
+            <Skeleton className="h-3 w-full" />
+            <Skeleton className="h-3 w-full" />
+            <Skeleton className="h-3 w-full" />
+          </div>
+        </CardContent>
+      </Card>
+      <Card className="border-border bg-card lg:col-span-3">
+        <div className="px-6"><Skeleton className="h-4 w-44" /></div>
+        <CardContent className="space-y-3">
+          <Skeleton className="h-3 w-64" />
+          {[0, 1, 2].map((i) => (
+            <Skeleton key={i} className="h-16 w-full rounded-lg" />
+          ))}
+        </CardContent>
+      </Card>
     </div>
   )
 }
@@ -99,15 +209,16 @@ function TableSkeleton() {
     <Card className="border-border bg-card overflow-hidden">
       <CardContent className="p-0">
         <div className="px-6 py-4 border-b border-border">
-          <div className="h-3 w-32 animate-pulse rounded bg-muted" />
+          <Skeleton className="h-3 w-32" />
         </div>
-        {Array.from({ length: 8 }).map((_, i) => (
+        {Array.from({ length: 6 }).map((_, i) => (
           <div key={i} className="flex items-center gap-4 border-b border-border px-6 py-4">
-            <div className="h-3 flex-1 animate-pulse rounded bg-muted" />
-            <div className="h-3 w-16 animate-pulse rounded bg-muted" />
-            <div className="h-3 w-20 animate-pulse rounded bg-muted" />
-            <div className="h-3 w-12 animate-pulse rounded bg-muted" />
-            <div className="h-5 w-14 animate-pulse rounded bg-muted" />
+            <Skeleton className="h-3 flex-1" />
+            <Skeleton className="h-3 w-16" />
+            <Skeleton className="h-3 w-12" />
+            <Skeleton className="h-3 w-12" />
+            <Skeleton className="h-5 w-14" />
+            <Skeleton className="h-3 w-16" />
           </div>
         ))}
       </CardContent>
@@ -115,18 +226,7 @@ function TableSkeleton() {
   )
 }
 
-function CoverageSkeleton() {
-  return (
-    <div className="flex items-center gap-4 rounded-lg bg-secondary p-4">
-      <div className="size-14 animate-pulse rounded-full bg-muted" />
-      <div className="space-y-1.5">
-        <div className="h-4 w-28 animate-pulse rounded bg-muted" />
-        <div className="h-3 w-40 animate-pulse rounded bg-muted" />
-        <div className="h-3 w-32 animate-pulse rounded bg-muted" />
-      </div>
-    </div>
-  )
-}
+// ─── Main View ───────────────────────────────────────────────────────────────
 
 const RESULTS_PER_PAGE_OPTIONS = [10, 25, 50] as const
 
@@ -156,9 +256,9 @@ export function ContentGapsView({
       {/* Page Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Content Gaps</h1>
+          <h1 className="text-2xl font-bold text-foreground">Content Gap Analysis</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Identify topics where your brand is missing from AI model responses
+            Identify coverage opportunities and track content performance
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -169,27 +269,40 @@ export function ContentGapsView({
         </div>
       </div>
 
-      {/* Coverage Stats */}
-      {state === "loading" && <CoverageSkeleton />}
-      {state === "ready" && data && <CoverageDonut stats={data.stats} />}
-
-      {/* Search Bar */}
-      <div className="flex items-center gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            placeholder="Search by topic or category..."
-            value={searchQuery}
-            onChange={(e) => onSearch?.(e.target.value)}
-            className="h-10 pl-9 bg-card border-border"
-          />
+      {/* Top Cards — dashboard widget style */}
+      {state === "loading" && <TopCardsSkeleton />}
+      {(state === "ready" || state === "no-results") && data && (
+        <div className="grid gap-4 lg:grid-cols-5">
+          <div className="lg:col-span-2">
+            <CoverageCard stats={data.stats} />
+          </div>
+          <div className="lg:col-span-3">
+            {data.recommendations.length > 0 && (
+              <RecommendationsCard recommendations={data.recommendations} />
+            )}
+          </div>
         </div>
-        {pageInfo && (
-          <Badge variant="secondary" className="h-8 px-3 text-sm font-medium">
-            {pageInfo.totalItems} {pageInfo.totalItems === 1 ? "gap" : "gaps"}
-          </Badge>
-        )}
-      </div>
+      )}
+
+      {/* Search Bar — same as Prompts page */}
+      {state !== "loading" && state !== "error" && state !== "empty" && (
+        <div className="flex items-center gap-4">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder="Search content gaps..."
+              value={searchQuery}
+              onChange={(e) => onSearch?.(e.target.value)}
+              className="h-10 pl-9 bg-card border-border"
+            />
+          </div>
+          {pageInfo && (
+            <Badge variant="secondary" className="h-8 px-3 text-sm font-medium">
+              {pageInfo.totalItems} {pageInfo.totalItems === 1 ? "gap" : "gaps"}
+            </Badge>
+          )}
+        </div>
+      )}
 
       {/* States */}
       {state === "loading" && <TableSkeleton />}
@@ -250,6 +363,7 @@ export function ContentGapsView({
         </Card>
       )}
 
+      {/* Table */}
       {state === "ready" && data && (
         <Card className="border-border bg-card overflow-hidden">
           <CardContent className="p-0">
@@ -257,90 +371,85 @@ export function ContentGapsView({
               <TableHeader>
                 <TableRow className="border-border hover:bg-transparent">
                   <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium pl-6">
-                    Topic
+                    Prompt
                   </TableHead>
-                  <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
-                    Category
-                  </TableHead>
-                  <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
+                  <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium w-[120px]">
                     <span className="inline-flex items-center gap-1">
-                      Coverage
-                      <HelpTooltip title="Coverage Status">
-                        Whether your brand appears in AI responses for this topic. &quot;Not Covered&quot; means competitors appear but you don&apos;t.
+                      Coverage %
+                      <HelpTooltip title="Coverage Percentage">
+                        How much of the AI responses for this prompt include your brand. Higher is better.
                       </HelpTooltip>
                     </span>
                   </TableHead>
                   <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
                     <span className="inline-flex items-center gap-1">
-                      Prompts
-                      <HelpTooltip title="Related Prompts">
-                        How many tracked prompts relate to this content gap topic.
+                      Citations
+                      <HelpTooltip title="Citations">
+                        Number of times your brand is cited as a source in AI responses for this prompt.
                       </HelpTooltip>
                     </span>
                   </TableHead>
                   <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
                     <span className="inline-flex items-center gap-1">
-                      Competitors
-                      <HelpTooltip title="Competitor Coverage">
-                        How many of your tracked competitors are covering this topic in AI responses.
+                      Queries
+                      <HelpTooltip title="Related Queries">
+                        Number of related queries AI models generate when processing this prompt.
                       </HelpTooltip>
                     </span>
+                  </TableHead>
+                  <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
+                    % Change
                   </TableHead>
                   <TableHead className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium pr-6">
-                    Priority
+                    Last Analyzed
                   </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data.items.map((item) => (
-                  <TableRow
-                    key={item.id}
-                    className={`border-border ${onRowClick ? "cursor-pointer" : ""}`}
-                    onClick={() => onRowClick?.(item.id)}
-                  >
-                    <TableCell className="max-w-[300px] pl-6">
-                      <div className="flex flex-col gap-0.5">
+                {data.items.map((item) => {
+                  const isPositive = item.changePercent >= 0
+                  return (
+                    <TableRow
+                      key={item.id}
+                      className={`border-border ${onRowClick ? "cursor-pointer" : ""}`}
+                      onClick={() => onRowClick?.(item.id)}
+                    >
+                      <TableCell className="max-w-[300px] pl-6">
                         <TruncatedText className="text-sm font-medium text-foreground">
-                          {item.topic}
+                          {item.prompt}
                         </TruncatedText>
-                        <TruncatedText className="text-[11px] text-muted-foreground">
-                          {item.recommendation}
-                        </TruncatedText>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant="secondary" className="text-[10px] font-medium">
-                        {item.category}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <span
-                        className="text-xs font-semibold"
-                        style={{ color: getCoverageColor(item.coverageStatus) }}
-                      >
-                        {getCoverageLabel(item.coverageStatus)}
-                      </span>
-                    </TableCell>
-                    <TableCell>
-                      <span className="text-sm tabular-nums text-muted-foreground">
-                        {item.promptCount}
-                      </span>
-                    </TableCell>
-                    <TableCell>
-                      <span className="text-sm tabular-nums text-muted-foreground">
-                        {item.competitorsCovering}/{item.totalCompetitors}
-                      </span>
-                    </TableCell>
-                    <TableCell className="pr-6">
-                      <Badge
-                        variant="outline"
-                        className={`text-[10px] font-semibold capitalize ${getPriorityColor(item.priority)}`}
-                      >
-                        {item.priority}
-                      </Badge>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                      </TableCell>
+                      <TableCell>
+                        <span className="text-sm font-semibold tabular-nums" style={{ color: getCoverageColor(item.coveragePercent) }}>
+                          {item.coveragePercent}%
+                        </span>
+                      </TableCell>
+                      <TableCell>
+                        <span className="text-sm font-semibold tabular-nums text-foreground">
+                          {item.citations}
+                        </span>
+                      </TableCell>
+                      <TableCell>
+                        <span className="text-sm tabular-nums text-foreground">
+                          {item.queries}
+                        </span>
+                      </TableCell>
+                      <TableCell>
+                        <Tag variant={isPositive ? "low" : "danger"} className="gap-0.5">
+                          {isPositive ? (
+                            <ChevronUp className="size-3" />
+                          ) : (
+                            <ChevronDown className="size-3" />
+                          )}
+                          {isPositive ? "+" : ""}{item.changePercent}%
+                        </Tag>
+                      </TableCell>
+                      <TableCell className="pr-6">
+                        <span className="text-sm text-muted-foreground">{item.lastAnalyzed}</span>
+                      </TableCell>
+                    </TableRow>
+                  )
+                })}
               </TableBody>
             </Table>
 
