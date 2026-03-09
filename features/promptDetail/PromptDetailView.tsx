@@ -1,6 +1,6 @@
 "use client"
 
-import { ArrowLeft, Eye, Link2, ExternalLink, AlertCircle, ChevronLeft, ChevronRight, ChevronUp } from "lucide-react"
+import { ArrowLeft, Eye, Link2, ExternalLink, AlertCircle, ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react"
 import {
   LineChart,
   Line,
@@ -514,7 +514,7 @@ export function PromptDetailView({
                       </Tag>
                       <p className="flex-1 text-sm text-foreground">{fanout.query}</p>
                       <Tag variant={isHigh ? "moderate" : "high"} className="shrink-0 gap-0.5">
-                        <ChevronUp className="size-3" />
+                        {isHigh ? <ChevronUp className="size-3" /> : <ChevronDown className="size-3" />}
                         +{fanout.visibilityChange}%
                       </Tag>
                       <span className="shrink-0 text-sm text-muted-foreground w-24 text-right">
@@ -580,7 +580,18 @@ export function PromptDetailView({
                           {modelConfig?.name ?? response.model}
                         </span>
                       </div>
-                      <span className="text-[11px] text-muted-foreground">{response.date}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-[11px] text-muted-foreground">{response.date}</span>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => onViewResponseDetail?.(response.id)}
+                          className="h-auto px-2 py-1 text-xs font-semibold"
+                        >
+                          View Details
+                          <ExternalLink className="size-3 ml-1" />
+                        </Button>
+                      </div>
                     </div>
 
                     {/* Metrics row */}
@@ -606,6 +617,11 @@ export function PromptDetailView({
                       </span>
                     </div>
 
+                    {/* Snippet text */}
+                    <TruncatedText lines={2} className="text-xs leading-relaxed text-muted-foreground">
+                      {response.snippet}
+                    </TruncatedText>
+
                     {/* Brand badges */}
                     <div className="flex flex-wrap gap-1.5">
                       {response.brands.slice(0, 3).map((brand) => (
@@ -620,19 +636,7 @@ export function PromptDetailView({
                       )}
                     </div>
 
-                    {/* Snippet text */}
-                    <TruncatedText className="text-xs leading-relaxed text-muted-foreground">
-                      {response.snippet}
-                    </TruncatedText>
 
-                    {/* View Details link */}
-                    <button
-                      onClick={() => onViewResponseDetail?.(response.id)}
-                      className="flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
-                    >
-                      View Details
-                      <ExternalLink className="size-3" />
-                    </button>
                   </div>
                 )
               })}

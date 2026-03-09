@@ -11,6 +11,8 @@ import {
 interface TruncatedTextProps {
   children: string
   className?: string
+  /** Number of lines before truncating. Defaults to 1. */
+  lines?: number
   tooltipIcon?: ReactNode
   tooltipSide?: "top" | "bottom" | "left" | "right"
 }
@@ -18,18 +20,24 @@ interface TruncatedTextProps {
 export function TruncatedText({
   children,
   className = "",
+  lines = 1,
   tooltipIcon,
   tooltipSide = "bottom",
 }: TruncatedTextProps) {
   const textRef = useRef<HTMLParagraphElement>(null)
   const [isTruncated, setIsTruncated] = useState(false)
+  const isMultiLine = lines > 1
 
   const checkTruncation = useCallback(() => {
     const el = textRef.current
     if (el) {
-      setIsTruncated(el.scrollWidth > el.clientWidth)
+      setIsTruncated(
+        isMultiLine
+          ? el.scrollHeight > el.clientHeight
+          : el.scrollWidth > el.clientWidth
+      )
     }
-  }, [])
+  }, [isMultiLine])
 
   useEffect(() => {
     checkTruncation()
@@ -40,9 +48,11 @@ export function TruncatedText({
     return () => observer.disconnect()
   }, [checkTruncation, children])
 
+  const clampClass = isMultiLine ? `line-clamp-${lines}` : "truncate"
+
   if (!isTruncated) {
     return (
-      <p ref={textRef} className={`truncate ${className}`}>
+      <p ref={textRef} className={`${clampClass} ${className}`}>
         {children}
       </p>
     )
@@ -52,13 +62,13 @@ export function TruncatedText({
     <TooltipProvider delayDuration={200}>
       <Tooltip>
         <TooltipTrigger asChild>
-          <p ref={textRef} className={`truncate cursor-default ${className}`}>
+          <p ref={textRef} className={`${clampClass} cursor-default ${className}`}>
             {children}
           </p>
         </TooltipTrigger>
         <TooltipContent
           side={tooltipSide}
-          className="flex items-center gap-2 bg-popover text-popover-foreground border-border"
+          className="block max-w-sm bg-popover text-popover-foreground border-border"
         >
           {tooltipIcon}
           <span className="text-xs font-medium">{children}</span>
