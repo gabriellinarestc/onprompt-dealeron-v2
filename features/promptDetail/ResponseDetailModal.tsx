@@ -259,7 +259,7 @@ export function ResponseDetailModal({
               </div>
             </TabsContent>
 
-            <TabsContent value="citations" className="mt-3">
+            <TabsContent value="citations" className="mt-3 pb-2">
               <div className="flex flex-col gap-2">
                 {detail.citations.map((citation) => (
                   <div
